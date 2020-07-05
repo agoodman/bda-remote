@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_05_191143) do
+ActiveRecord::Schema.define(version: 2020_07_05_200026) do
 
   create_table "records", force: :cascade do |t|
     t.string "player"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2020_07_05_191143) do
     t.string "weapon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "competition_id"
   end
 
 end
