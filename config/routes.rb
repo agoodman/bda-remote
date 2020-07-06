@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :records do
-    collection do
-      post :batch
-    end
+  namespace :records do
+    post :batch
   end
-  resources :competitions do
+  resources :competitions, only: :index do
     resources :records, only: :index
   end
 end
