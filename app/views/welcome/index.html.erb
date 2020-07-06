@@ -1,0 +1,12 @@
+<h1>BDA Scores API</h1>
+<h2>Competitions</h2>
+<h3>/competitions.json</h3>
+<ul>
+<% @competition_ids.each do |e| %>
+<li><%= e %></li>
+<% end %> 
+</ul>
+
+<h2>Records</h2>
+<h3>/competitions/:competition_id/records.json</h3>
+
