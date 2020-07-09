@@ -14,7 +14,7 @@
 <ul>
 <% @longest_hit.each do |r| -%>
 <% next if r.distance.nil? -%>
-<li><%= r.distance %>m with <%= r.weapon %> by <%= r.player %></li>
+<li><%= number_to_human(r.distance, units: {unit: "m", thousand: "km"}) %> with <%= r.weapon %> by <%= r.player %></li>
 <% end -%>
 </ul>
 
