@@ -12,14 +12,15 @@ class RecordsController < ApplicationController
       rp = record_params(p)
       next unless rp
 
-      Record.create_with(
-	hits: rp['hits'], 
-	kills: rp['kills'], 
-	deaths: rp['deaths'],
-	distance: rp['distance'],
-	weapon: rp['weapon']
-	).find_or_create_by(competition_id: rp['competition_id'], player: rp['player'])
+      r = Record.where(competition_id: rp['competition_id'], player: rp['player']).first_or_create
+      r.hits = rp['hits'] 
+      r.kills = rp['kills'] 
+      r.deaths = rp['deaths']
+      r.distance = rp['distance']
+      r.weapon = rp['weapon']
+      r.save
     end
+    head :ok
   end
 
   def record_params(input)
