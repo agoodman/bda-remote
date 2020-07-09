@@ -10,3 +10,11 @@
 <h2>Records</h2>
 <h3>/competitions/:competition_id/records.json</h3>
 
+<h1>Longest Hits - Top 10</h1>
+<ul>
+<% @longest_hit.each do |r| -%>
+<% next if r.distance.nil? -%>
+<li><%= r.distance %>m with <%= r.weapon %> by <%= r.player %></li>
+<% end -%>
+</ul>
+

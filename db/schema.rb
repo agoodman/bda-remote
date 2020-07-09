@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_06_035041) do
+ActiveRecord::Schema.define(version: 2020_07_09_011234) do
 
   create_table "records", force: :cascade do |t|
     t.string "player"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_07_06_035041) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "competition_id"
     t.index ["competition_id", "player"], name: "index_records_on_competition_id_and_player"
+    t.index ["distance"], name: "index_records_on_distance"
   end
 
 end
