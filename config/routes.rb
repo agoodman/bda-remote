@@ -1,11 +1,28 @@
 Rails.application.routes.draw do
-  root to: 'welcome#index'
-  get 'welcome/index'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  namespace :records do
-    post :batch
+  namespace :heats do
+    get 'vessels/index'
   end
-  resources :competitions, only: :index do
-    resources :records, only: :index
+  root to: 'welcome#index'
+
+  get 'welcome/index'
+  
+  # players are top level objects
+  resources :players, only: [:create, :index, :show, :update]
+  
+  # competitions are top level objects
+  resources :competitions, only: [:create, :index, :show, :update] do
+    member do
+      get :generate
+      get :start
+    end
+    resources :vessels, only: [:index, :create, :update]
+    resources :heats, only: [:index, :show] do
+      member do 
+        get :start
+        get :finish
+      end
+      resources :vessels, only: :index, controller: 'heats/vessels'
+      post 'records/batch'
+    end
   end
 end

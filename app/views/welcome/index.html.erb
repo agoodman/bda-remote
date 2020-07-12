@@ -2,8 +2,8 @@
 <h2>Competitions</h2>
 <h3>/competitions.json</h3>
 <ul>
-<% @competition_ids.each do |e| %>
-<li><%= link_to e, competition_records_path(e, format: :json) %></li>
+<% @competitions.each do |e| %>
+<li><%= link_to e.id, competition_records_path(e, format: :json) %></li>
 <% end %> 
 </ul>
 

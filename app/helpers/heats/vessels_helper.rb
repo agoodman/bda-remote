@@ -1,0 +1,2 @@
+module Heats::VesselsHelper
+end

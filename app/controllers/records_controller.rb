@@ -8,13 +8,16 @@ class RecordsController < ApplicationController
     if @records.count > 100
       head :bad_request && return
     end
+    c = Competition.find(params[:competition_id])
+    h = Heat.find(params[:heat_id])
+    return unless c.running? && h.running?
     @records.each do |p|
       rp = record_params(p)
       next unless rp
 
-      r = Record.where(competition_id: rp['competition_id'], player: rp['player']).first_or_create
-      r.hits = rp['hits'] 
-      r.kills = rp['kills'] 
+      r = Record.where(competition_id: params[:competition_id], heat_id: params[:heat_id], vessel_id: rp['vessel_id']).first_or_create
+      r.hits = rp['hits']
+      r.kills = rp['kills']
       r.deaths = rp['deaths']
       r.distance = rp['distance']
       r.weapon = rp['weapon']
@@ -24,7 +27,7 @@ class RecordsController < ApplicationController
   end
 
   def record_params(input)
-    input.permit(:player, :competition_id, :hits, :kills, :deaths, :distance, :weapon)
+    input.permit(:vessel_id, :hits, :kills, :deaths, :distance, :weapon)
   end
 
   def did_assign_collection

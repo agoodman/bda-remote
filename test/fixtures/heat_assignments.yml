@@ -1,13 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  heat_id: 1
   vessel_id: 1
-  hits: 1
-  kills: 1
-  deaths: 1
 
 two:
-  vessel_id: 2
-  hits: 1
-  kills: 1
-  deaths: 1
+  heat_id: 1
+  vessel_id: 1
