@@ -2,5 +2,14 @@
 <%= form_for :vessel, url: batch_competition_vessels_path(params[:competition_id]), html: { multipart: true } do |f| -%>
 <%= file_field_tag :upload %>
 <%= f.submit 'Submit' %>
+<hr/>
+<h2>Required Format</h2>
+<ul>
+<li>player_name,craft_url</li>
+<li>john,url1</li>
+<li>paul,url2</li>
+<li>ringo,url3</li>
+<li>george,url4</li>
+</ul>
 <% end -%>
 
