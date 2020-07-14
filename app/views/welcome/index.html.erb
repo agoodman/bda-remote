@@ -1,11 +1,18 @@
 <h1>BDA Scores API</h1>
 <h2>Competitions</h2>
 <h3>/competitions.json</h3>
+
+<% @competitions.each do |e| -%>
+<h2><%= e.name %></h2>
 <ul>
-<% @competitions.each do |e| %>
-<li><%= link_to e.id, competition_records_path(e, format: :json) %></li>
-<% end %> 
+<% e.heats.order(:order).each do |h| -%>
+<li>Heat <%= h.order %> - 
+<%= link_to 'vessels', competition_heat_vessels_path(e.id, h.id, format: :json) %>
+<%= link_to 'records', competition_heat_records_path(e.id, h.id, format: :json) %>
+</li>
+<% end -%>
 </ul>
+<% end -%>
 
 <h2>Records</h2>
 <h3>/competitions/:competition_id/records.json</h3>
