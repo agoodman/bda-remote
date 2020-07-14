@@ -1,14 +1,6 @@
 Rails.application.routes.draw do
-  namespace :heats do
-    get 'vessels/index'
-  end
   root to: 'welcome#index'
 
-  get 'welcome/index'
-  
-  # players are top level objects
-  resources :players, only: [:create, :index, :show, :update]
-  
   # competitions are top level objects
   resources :competitions, only: [:create, :index, :show, :update] do
     member do
@@ -19,10 +11,17 @@ Rails.application.routes.draw do
     resources :heats, only: [:index, :show] do
       member do 
         get :start
-        get :finish
+        get :stop
       end
       resources :vessels, only: :index, controller: 'heats/vessels'
+      resources :records, only: :index
       post 'records/batch'
     end
   end
+
+  # players are top level objects
+  resources :players, only: [:create, :index, :show, :update]
+
+  # rescue bad routes
+  match '*unmatched', to: 'application#bad_request', via: :all
 end
