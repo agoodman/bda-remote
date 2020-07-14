@@ -7,7 +7,11 @@ Rails.application.routes.draw do
       get :generate
       get :start
     end
-    resources :vessels, only: [:index, :create, :update]
+    resources :vessels, only: [:index, :new] do
+      collection do
+        post :batch
+      end
+    end
     resources :heats, only: [:index, :show] do
       member do 
         get :start
