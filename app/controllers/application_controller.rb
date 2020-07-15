@@ -2,10 +2,10 @@ class ApplicationController < ActionController::Base
 
   def duplicate_record
     attr = duplicate_record_attribute
-    result = { error: attr.humanize + " must be unique" }
+    result = { error: attr.to_s.humanize + " must be unique" }
     respond_to do |format|
-      format.json { render json: result, status: :unprocessible_entity }
-      format.xml { render xml: result, status: :unprocessible_entity }
+      format.json { render json: result, status: :unprocessable_entity }
+      format.xml { render xml: result, status: :unprocessable_entity }
     end
   end
 

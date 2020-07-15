@@ -4,7 +4,7 @@ class PlayersController < ApplicationController
   acts_as_service :player, only: :index
 
   rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
-  rescue_from ActiveModel::ForbiddenAttributesError, with: :bad_request
+#  rescue_from ActiveModel::ForbiddenAttributesError, with: :bad_request
 
   def player_params
     require(:player).permit(:name)
