@@ -25,7 +25,7 @@ class Competition < ApplicationRecord
   end
 
   def assign_initial_status
-    self.status = 0
+    self.status = 0 if status.nil?
   end
 
   def assign_initial_stage
