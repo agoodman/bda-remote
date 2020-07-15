@@ -60,7 +60,6 @@ ActiveRecord::Schema.define(version: 2020_07_12_152348) do
     t.integer "competition_id"
     t.integer "heat_id"
     t.integer "vessel_id"
-    t.index ["competition_id", "heat_id", "vessel_id"], name: "index_records_on_competition_id_and_heat_id_and_vessel_id", unique: true
     t.index ["competition_id"], name: "index_records_on_competition_id_and_player_id"
     t.index ["distance"], name: "index_records_on_distance"
   end
