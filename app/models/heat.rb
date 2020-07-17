@@ -8,18 +8,17 @@ class Heat < ApplicationRecord
 
   def start!
     return unless started_at.nil? && ended_at.nil?
-    self.started_at = Date.new
+    self.started_at = Time.now
     self.save!
   end
 
   def stop!
     return unless !started_at.nil? && ended_at.nil?
-    self.ended_at = Date.new
+    self.ended_at = Time.now
     self.save!
   end
 
   def running?
     !started_at.nil? && ended_at.nil?
   end
-
 end
