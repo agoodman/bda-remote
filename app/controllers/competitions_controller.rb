@@ -1,7 +1,13 @@
 class CompetitionsController < ApplicationController
   include Serviceable
   skip_before_action :verify_authenticity_token
-  acts_as_service :competition, only: [:index, :show], include: :status_label
+  acts_as_service :competition, only: [:index, :show], 
+    index: { 
+      methods: :status_label
+    },
+    show: {
+      include: [:heats, :vessels]
+    }
 
   rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
 
