@@ -9,13 +9,13 @@ class RecordsController < ApplicationController
       head :bad_request && return
     end
     c = Competition.find(params[:competition_id])
-    h = Heat.find(params[:heat_id])
+    h = Heat.where(competition_id: c.id, order: params[:heat_id]).first
     return unless c.running? && h.running?
     @records.each do |p|
       rp = record_params(p)
       next unless rp
 
-      r = Record.where(competition_id: params[:competition_id], heat_id: params[:heat_id], vessel_id: rp['vessel_id']).first_or_create
+      r = Record.where(competition_id: c.id, heat_id: h.id, vessel_id: rp['vessel_id']).first_or_create
       r.hits = rp['hits']
       r.kills = rp['kills']
       r.deaths = rp['deaths']
