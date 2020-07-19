@@ -4,6 +4,7 @@ class Competition < ApplicationRecord
   has_many :records
   has_many :heats
   has_many :vessels
+  has_many :players, through: :vessels
 
   validates :status, presence: true
   validates :stage, presence: true, numericality: { only_integers: true }

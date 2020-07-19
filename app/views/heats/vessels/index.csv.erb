@@ -1,0 +1,5 @@
+<%- headers = ['id','player_id','craft_url'] -%>
+<%= CSV.generate_line headers -%>
+<% @vessels.each do |v| -%>
+<%= CSV.generate_line([v.id, v.player_id, v.craft_url]) -%>
+<%- end -%>

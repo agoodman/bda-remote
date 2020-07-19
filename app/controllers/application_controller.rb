@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.json { render json: result, status: :bad_request }
       format.xml { render xml: result, status: :bad_request }
+      format.csv { head :bad_request }
     end
   end
 

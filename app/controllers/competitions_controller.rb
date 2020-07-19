@@ -1,26 +1,20 @@
 class CompetitionsController < ApplicationController
   include Serviceable
   skip_before_action :verify_authenticity_token
-  acts_as_service :competition, only: [:index, :show], 
-    index: { 
-      methods: :status_label
-    },
-    show: {
-      include: [:heats, :vessels]
-    }
+  acts_as_service :competition, only: [:index, :show]
 
   rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
 
-  def generate
-    # TODO: generate heats for the given competition and vessel roster
-    head :ok
+  def create
+    @competition = Competition.create(params[:competition])
+    redirect_to root_path
   end
 
   def start
     assign_existing_instance
     @instance.start!
     if @instance.started?
-      head :ok
+      redirect_to root_path
     else
       head :bad_request
     end

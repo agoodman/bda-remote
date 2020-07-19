@@ -1,0 +1,5 @@
+<%- headers = ['id','competition_id','stage','order','started_at','ended_at'] -%>
+<%= CSV.generate_line headers -%>
+<% @heats.each do |heat| -%>
+<%= CSV.generate_line([heat.id, heat.competition_id, heat.stage, heat.order, heat.started_at, heat.ended_at]) -%>
+<%- end -%>

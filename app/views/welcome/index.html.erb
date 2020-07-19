@@ -5,7 +5,7 @@
 <% @competitions.each do |e| -%>
 <h2><%= e.name %></h2>
 <% if e.heats.empty? -%>
-<p>Submissions open</p>
+<p>Submissions open (players: <%= e.vessels.count %>)</p>
 <%= link_to 'Upload Player Manifest', new_competition_vessel_path(e.id) %>
 <% if e.vessels.count < 2 -%>
 <p>Add more players to start</p>
@@ -23,6 +23,9 @@
 </ul>
 <% end -%>
 <% end -%>
+
+<%= link_to 'New Competition', new_competition_path %>
+<hr/>
 
 <h1>Longest Hits - Top 10</h1>
 <ul>

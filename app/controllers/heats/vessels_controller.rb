@@ -1,8 +1,11 @@
 class Heats::VesselsController < ApplicationController
-  include Serviceable
-  acts_as_service :vessel, only: :index
+  def index
+    @vessels = Heat.find(params[:heat_id]).vessels
 
-  def assign_collection
-    @collection = HeatAssignment.where(heat_id: params[:heat_id]).map(&:vessel)
+    respond_to do |format|
+      format.json { render json: @vessels }
+      format.xml { render xml: @vessels }
+      format.csv { headers['Content-Type'] ||= 'text/csv' }
+    end
   end
 end

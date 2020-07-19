@@ -1,9 +1,8 @@
 class VesselsController < ApplicationController
-  include Serviceable
   require 'csv'
-
+  include Serviceable
   skip_before_action :verify_authenticity_token
-  acts_as_service :vessel, only: :index
+  acts_as_service :vessel, only: :show
 
   def new
   end

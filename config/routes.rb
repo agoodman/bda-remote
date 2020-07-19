@@ -2,11 +2,12 @@ Rails.application.routes.draw do
   root to: 'welcome#index'
 
   # competitions are top level objects
-  resources :competitions, only: [:create, :index, :show, :update] do
+  resources :competitions, only: [:new, :create, :index, :show, :update] do
     member do
       get :generate
       get :start
     end
+    resources :players, only: :index, controller: 'competitions/players'
     resources :vessels, only: [:index, :new] do
       collection do
         post :batch
