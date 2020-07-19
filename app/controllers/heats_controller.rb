@@ -22,6 +22,11 @@ class HeatsController < ApplicationController
     @instance.stop!
   end
 
+  def reset
+    assign_existing_instance
+    @instance.reset!
+  end
+
   def did_assign_collection
     @collection = @collection.where(competition_id: params[:competition_id])
   end

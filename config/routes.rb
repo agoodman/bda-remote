@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       member do 
         get :start
         get :stop
+        get :reset
       end
       resources :vessels, only: :index, controller: 'heats/vessels'
       resources :records, only: :index
