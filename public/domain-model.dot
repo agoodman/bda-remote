@@ -1,0 +1,15 @@
+digraph DomainModel {
+  c [label="competition"]
+  p [label="player"]
+  r [label="record"]
+  v [label="vessel"]
+  h [label="heat"]
+  a [label="heatAssignment"]
+  
+  c -> { h r v }
+  p -> { v }
+  h -> { r }
+  { v h } -> a
+  v -> r
+}
+
