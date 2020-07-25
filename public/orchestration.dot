@@ -1,0 +1,64 @@
+title BDA Competition Orchestration
+
+participant Competition as C
+participant Player as P
+participant Vessel as V
+participant Heat as H
+participant Assignment as A
+participant Record as R
+participant Orchestrator as O
+
+note right of O: human creates competition manually
+O->+C: POST /competitions
+C->-O: 200 OK
+note right of O: human gathers\nplayer/craft assignments\ninto CSV file
+O->+C: POST /competitions/:id/vessels/batch
+note right of C: process each row of CSV
+loop vessel attributes
+C->+P: find or create
+P->-C:
+C->+V: find or create
+V->-C:
+end
+C->-O: 200 OK
+O->+C: GET /competitions/:id/start
+C->+V: find
+V->-C: 
+note right of C: organize vessels into heats
+loop vessels
+C->+H: create
+H->-C:
+C->+A: create
+A->-C:
+end
+C->-O: 200 OK
+O->+C: GET /competitions/:id/heats.json
+C->+H: find
+H->-C:
+C->-O: 200 OK
+note right of O: select the first heat\nwith null started_at value
+O->+C: GET /competitions/:id/heats/:order/start
+C->+H: find
+H->-C:
+C->-O: 200 OK
+O->+C: GET /competitions/:id/heats/:order/vessels.csv
+C->+A: find
+A->-C:
+C->-O: 200 OK
+note right of O: download craft files
+loop vessels
+O->O: GET craft url
+note right of O: write file to\nAutoSpawn directory
+end
+note right of O: run competition
+O->+C: POST /competitions/:id/heats/:order/records/batch
+loop scores
+C->+R: find or create
+R->-C:
+end
+C->-O: 200 OK
+O->+C: GET /competitions/:id/heats/:order/stop
+C->+H: find
+H->-C:
+C->-O: 200 OK
+
