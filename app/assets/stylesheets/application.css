@@ -13,3 +13,90 @@
  *= require_tree .
  *= require_self
  */
+
+/*
+blue #3e517a
+white #fcf7ff
+green #c4cad0
+gray #a4969b
+red #ff6663
+*/
+
+nav {
+  background-color: #c4cad0;
+}
+
+nav a {
+  padding: 5px;
+  display: block;
+}
+
+section {
+  margin-top: 15px;
+}
+
+section > a {
+  display: block;
+  background-color: #c4cad0;
+  color: black;
+  padding: 10px;
+}
+
+section ul {
+}
+
+section ul li {
+  display: block;
+  background-color: #fcf7ff;
+  border-bottom: 1px solid #3e517a;
+}
+
+section li a {
+  display: block;
+  padding: 10px;
+}
+
+section li a:hover {
+  background-color: white;
+}
+
+section.players li {
+  padding: 10px;
+}
+
+section.heats li {
+  padding: 5px;
+}
+
+* {
+  Font-family: Helvetica Neue;
+  padding: 0;
+  margin: 0;
+  color: black;
+}
+
+h1 {
+  background-color: #3e517a;
+  color: white;
+  padding: 10px;  
+  margin: 0;
+}
+
+h2 {
+  background-color: #a4969b;
+  padding: 10px;  
+  color: white;
+}
+
+td {
+  padding: 5px 10px;
+}
+
+tr {
+  background-color: white;
+}
+
+tr:nth-child(odd) {
+  background-color: #fcf7ff;
+}
+

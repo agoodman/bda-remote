@@ -1,0 +1,57 @@
+<nav>
+<ul>
+<li><%= link_to 'Home', root_path %></li>
+<li><%= link_to 'Competitions', competitions_path %></li>
+</ul>
+</nav>
+
+<h1><%= @instance.name %></h1>
+
+<section>
+<h2>Status: <%= @instance.status_label.humanize %></h2>
+<ul>
+<% if @instance.can_start? -%>
+<li><%= link_to 'Start', start_competition_path(@instance) %></li>
+<% end -%>
+</ul>
+</section>
+
+<section class="players">
+<h2>Players (<%= @instance.vessels.count %>)</h2>
+<ul>
+<% @instance.players.each do |player| -%>
+<li><%= player.name %></li>
+<% end -%>
+</ul>
+</section>
+
+
+<% if @instance.heats.empty? -%>
+<p>Submissions open (players: <%= @instance.vessels.count %>)</p>
+<%= link_to 'Upload Player Manifest', new_competition_vessel_path(@instance.id) %>
+<% if @instance.vessels.count < 2 -%>
+<p>Add more players to start</p>
+<% end -%>
+<% end -%>
+
+<section class="heats">
+<h2>Heats</h2>
+<ul>
+<% @instance.heats.order(:order).each do |h| -%>
+<li><%= h.order %> - <%= h.status %> - 
+<% if h.can_reset? -%>
+<%= link_to 'Reset', reset_competition_heat_path(@instance, h) %>
+<% end -%>
+</li>
+<% end -%>
+</ul>
+
+<table>
+<tr><th>Order</th><th>Players</th></tr>
+<% @instance.heats.each do |h| -%>
+<% h.heat_assignments.each do |a| -%>
+<tr><td><%= h.order %></td><td><%= a.vessel.player.name %></td></tr>
+<% end -%>
+<% end -%>
+</table>
+</section>

@@ -18,7 +18,6 @@ class Competition < ApplicationRecord
   def status_label
     labels = [
       "pending_submissions",
-      "generating_heats",
       "running_heats",
       "complete"
     ]
@@ -46,6 +45,10 @@ class Competition < ApplicationRecord
     self.started_at = Date.new
     self.save!
     generate_heats(self)
+  end
+
+  def can_start?
+    !started? && !running? && vessels.count > 1
   end
 
   def should_generate_heats?

@@ -1,7 +1,25 @@
+<nav>
+<ul>
+<li><%= link_to 'Home', root_path %></li>
+<li><%= link_to 'Competitions', competitions_path %></li>
+</ul>
+</nav>
+
 <h1>New Competition</h1>
+<% if @competition.errors.any? -%>
+<p class="error"><%= @competition.errors %></p>
+<% end -%>
 <%= form_for Competition.new do |f| -%>
+<ul>
+<li>
 <%= f.label :name %>
 <%= f.text_field :name %>
+</li>
+<li>
+<%= f.label :duration %>
+<%= f.number_field :duration %>
+</li>
+</ul>
 <%= f.submit 'Create Competition' -%>
 <% end -%>
 

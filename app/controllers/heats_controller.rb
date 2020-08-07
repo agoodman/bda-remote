@@ -25,6 +25,7 @@ class HeatsController < ApplicationController
   def reset
     assign_existing_instance
     @instance.reset!
+    redirect_to competition_path(params[:competition_id])
   end
 
   def did_assign_collection

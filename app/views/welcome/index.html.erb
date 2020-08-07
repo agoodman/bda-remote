@@ -1,37 +1,14 @@
-<h1>BDA Scores API</h1>
-<h2>Competitions</h2>
-<h3>/competitions.json</h3>
-
-<% @competitions.each do |e| -%>
-<h2><%= e.name %></h2>
-<% if e.heats.empty? -%>
-<p>Submissions open (players: <%= e.vessels.count %>)</p>
-<%= link_to 'Upload Player Manifest', new_competition_vessel_path(e.id) %>
-<% if e.vessels.count < 2 -%>
-<p>Add more players to start</p>
-<% else -%>
-<%= link_to 'Start', start_competition_path(e.id) %>
-<% end -%>
-<% else -%>
+<section>
 <ul>
-<% e.heats.order(:order).each do |h| -%>
-<li>Heat <%= h.order %> - 
-<%= link_to 'vessels', competition_heat_vessels_path(e.id, h.id, format: :json) %>
-<%= link_to 'records', competition_heat_records_path(e.id, h.id, format: :json) %>
-</li>
-<% end -%>
+<li><%= link_to 'Competitions', competitions_path %></li>
 </ul>
-<% end -%>
-<% end -%>
+</section
 
-<%= link_to 'New Competition', new_competition_path %>
-<hr/>
-
-<h1>Longest Hits - Top 10</h1>
-<ul>
-<% @longest_hit.each do |r| -%>
-<% next if r.distance.nil? -%>
-<li><%= number_to_human(r.distance, units: {unit: "m", thousand: "km"}) %> with <%= r.weapon %> by <%= r.player.name %></li>
+<% if @longest_hit.any? -%>
+<section>
+Longest Hits - Top 10
+<% @longest_hit.each do |r| -%> <% next if r.distance.nil? -%>
+<%= number_to_human(r.distance, units: {unit: "m", thousand: "km"}) %> with <%= r.weapon %> by <%= r.player.name %>
+<% end -%> 
+</section>
 <% end -%>
-</ul>
-
