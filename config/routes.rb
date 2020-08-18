@@ -10,8 +10,9 @@ Rails.application.routes.draw do
       get :start
     end
     resources :players, only: :index, controller: 'competitions/players'
-    resources :vessels, only: [:index, :new] do
+    resources :vessels, only: [:index, :new, :create] do
       collection do
+        get :upload
         post :batch
       end
     end
@@ -28,7 +29,7 @@ Rails.application.routes.draw do
   end
 
   # players are top level objects
-  resources :players, only: [:create, :index, :show, :update]
+  resources :players, only: [:index, :show, :edit, :update]
 
   # rescue bad routes
   match '*unmatched', to: 'application#bad_request', via: :all

@@ -8,10 +8,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user.name ||= auth["info"]["name"]
     user.save!
 
+    # auto-generate a player
+    if user.player.nil?
+      Player.create(user_id: user.id, name: user.name)
+    end
+
     user.remember_me = true
     sign_in(:user, user)
 
-    redirect_to after_sign_in_path_for(user)
+    redirect_to player_path
   end
 end
 

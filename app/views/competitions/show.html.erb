@@ -28,7 +28,12 @@
 
 <% if @instance.heats.empty? -%>
 <p>Submissions open (players: <%= @instance.vessels.count %>)</p>
-<%= link_to 'Upload Player Manifest', new_competition_vessel_path(@instance.id) %>
+<% if user_signed_in? -%>
+<% if @instance.vessels.map(&:player_id).contains?(current_user.player.id) -%>
+<p>You uploaded a craft <%= time_ago_in_words(@instance.vessels.where(player_id: current_user.player.id).first.updated_at) %></p>
+<% end -%>
+<% end -%>
+<%= link_to 'Upload Craft', new_competition_vessel_path(@instance.id) %>
 <% if @instance.vessels.count < 2 -%>
 <p>Add more players to start</p>
 <% end -%>

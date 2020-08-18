@@ -1,11 +1,13 @@
 class Competition < ApplicationRecord
   include Armory
 
+  belongs_to :user
   has_many :records
   has_many :heats
   has_many :vessels
   has_many :players, through: :vessels
 
+  validates :user_id, presence: true
   validates :status, presence: true
   validates :stage, presence: true, numericality: { only_integers: true }
   validates :remaining_heats, presence: true, numericality: { only_integers: true }
