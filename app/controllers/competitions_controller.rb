@@ -1,4 +1,4 @@
-class CompetitionsController < ApplicationController
+class CompetitionsController < AuthenticatedController
   include Serviceable
   skip_before_action :verify_authenticity_token
 #  acts_as_service :competition, only: [:index, :show]
