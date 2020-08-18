@@ -1,4 +1,4 @@
-class VesselsController < ApplicationController
+class VesselsController < AuthenticatedController
   require 'csv'
   include Serviceable
   skip_before_action :verify_authenticity_token
