@@ -1,5 +1,8 @@
 class VesselsController < AuthenticatedController
   require 'csv'
+
+  before_action :require_session, only: [:new, :create]
+
   include Serviceable
   skip_before_action :verify_authenticity_token
   acts_as_service :vessel, only: :show

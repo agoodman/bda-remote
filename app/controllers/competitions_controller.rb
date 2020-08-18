@@ -1,9 +1,10 @@
 class CompetitionsController < AuthenticatedController
+  before_action :require_session, only: [:new, :create]
+
   include Serviceable
   skip_before_action :verify_authenticity_token
 #  acts_as_service :competition, only: [:index, :show]
-  skip_before_action :authenticate_user!, only: [:index, :show]
-
+#  skip_before_action :authenticate_user!, only: [:index, :show, :start]
 
   rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
 
