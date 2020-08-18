@@ -83,4 +83,18 @@ class Competition < ApplicationRecord
     max_mod = mods.max
     return possibles[mods.find_index(max_mod)]
   end
+
+  def has_vessel_for(user)
+    return false if user.nil?
+    return false if user.player.nil?
+    return false if vessels.empty?
+    return vessels.where(player_id: user.player.id).empty?
+  end
+
+  def vessel_for(user)
+    return nil if user.nil?
+    return nil if user.player.nil?
+    return vessels.where(player_id: user.player.id).first
+  end
+
 end
