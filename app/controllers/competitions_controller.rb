@@ -32,7 +32,9 @@ class CompetitionsController < AuthenticatedController
   end
 
   def create
-    @competition = Competition.create(params.require(:competition).permit(:name, :duration))
+    @competition = Competition.new(params.require(:competition).permit(:name, :duration))
+    @competition.user_id = current_user.id
+    @competition.save
     redirect_to competition_path(@competition.id)
   end
 
