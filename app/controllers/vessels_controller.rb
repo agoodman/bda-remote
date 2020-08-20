@@ -10,7 +10,7 @@ class VesselsController < AuthenticatedController
   end
 
   def create
-    s3 = Aws::S3::Client.new
+    s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
     bucket = s3.bucket(ENV['S3_BUCKET'])
     redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return if bucket.nil?
 
