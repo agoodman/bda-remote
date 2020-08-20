@@ -17,8 +17,8 @@ class VesselsController < AuthenticatedController
     file = params[:file]
 
     s3obj = bucket.object(file.original_filename)
-    s3obj.write(
-      file: params[:file],
+    s3obj.put(
+      body: params[:file],
       acl: :public_read
     )
     player = current_user.player
