@@ -11,7 +11,7 @@ class VesselsController < AuthenticatedController
 
   def create
     s3 = Aws::S3::Client.new
-    bucket = s3.list_buckets.buckets.find { |e| e.name == ENV['S3_BUCKET'] }.first
+    bucket = s3.list_buckets(bucket: ENV['S3_BUCKET'])
     redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return if bucket.nil?
 
     file = params[:file]
