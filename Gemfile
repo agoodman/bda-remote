@@ -11,7 +11,7 @@ gem 'serviceable'
 gem 'activerecord-import'
 gem 'devise'
 gem 'omniauth-google-oauth2'
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 3'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
