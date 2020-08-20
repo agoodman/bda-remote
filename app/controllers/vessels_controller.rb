@@ -8,10 +8,12 @@ class VesselsController < AuthenticatedController
   acts_as_service :vessel, only: :show
 
   def new
+    @vessel = Vessel.new(competition_id: params[:competition_id], player_id: current_user.player.id)
   end
 
   def create
-    s3obj = Bucket.objects[params[:file].original_filename]
+    file = params.require(:vessel).permit(:file)[:file]
+    s3obj = Bucket.objects[file.original_filename]
     s3obj.write(
       file: params[:file],
       acl: :public_read

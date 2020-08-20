@@ -1,5 +1,5 @@
 <h1>Upload Vessel</h1>
-<%= form_for :vessel, url: competition_vessels_path(params[:competition_id]), html: { multipart: true } do |f| -%>
+<%= form_for @vessel, url: competition_vessels_path(params[:competition_id]), html: { multipart: true } do |f| -%>
 <%= file_field_tag :file %>
 <%= f.submit 'Submit' %>
 <% end -%>
