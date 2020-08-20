@@ -10,12 +10,12 @@ class VesselsController < AuthenticatedController
   end
 
   def create
-    Bucket = Aws::S3::Resource.new.buckets[ENV['S3_BUCKET']]
-    redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return if Bucket.nil?
+    bucket = Aws::S3::Resource.new.buckets[ENV['S3_BUCKET']]
+    redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return if bucket.nil?
 
     file = params[:file]
 
-    s3obj = Bucket.objects[file.original_filename]
+    s3obj = bucket.objects[file.original_filename]
     s3obj.write(
       file: params[:file],
       acl: :public_read
