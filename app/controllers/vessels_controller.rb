@@ -18,8 +18,8 @@ class VesselsController < AuthenticatedController
 
     s3obj = bucket.object(file.original_filename)
     s3obj.put(
-      body: params[:file],
-      acl: :public_read
+      body: file,
+      acl: "public-read"
     )
     player = current_user.player
     @vessel = Vessel.where(competition_id: params[:competition_id], player_id: player.id).first_or_create(craft_url: s3obj.public_url)
