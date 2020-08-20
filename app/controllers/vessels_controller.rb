@@ -3,16 +3,19 @@ class VesselsController < AuthenticatedController
 
   before_action :require_session, only: [:new, :create]
 
-  include Serviceable
+#  include Serviceable
   skip_before_action :verify_authenticity_token
-  acts_as_service :vessel, only: :show
+#  acts_as_service :vessel, only: :show
 
   def new
     @vessel = Vessel.new(competition_id: params[:competition_id], player_id: current_user.player.id)
   end
 
   def create
-    file = params.require(:vessel).permit(:file)[:file]
+    redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return if Bucket.nil?
+
+    file = params[:file]
+
     s3obj = Bucket.objects[file.original_filename]
     s3obj.write(
       file: params[:file],

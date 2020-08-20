@@ -5,5 +5,7 @@ unless ENV['AWS_CLIENT_ID'].nil? || ENV['AWS_CLIENT_SECRET'].nil?
   }) 
 
   Bucket = Aws::S3::Resource.new.buckets[ENV['S3_BUCKET']]
+else
+  Bucket = nil
 end
 
