@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root to: 'welcome#index'
 
+  get '/register' => 'welcome#register'
+
   # competitions are top level objects
   resources :competitions, only: [:new, :create, :index, :show, :update] do
     member do
@@ -29,7 +31,11 @@ Rails.application.routes.draw do
   end
 
   # players are top level objects
-  resources :players, only: [:index, :show, :edit, :update]
+  resources :players, only: [:index, :show, :edit, :update] do
+    collection do
+      get :register
+    end
+  end
 
   # rescue bad routes
   match '*unmatched', to: 'application#bad_request', via: :all

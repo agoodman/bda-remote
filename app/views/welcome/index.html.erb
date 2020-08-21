@@ -2,6 +2,11 @@
 <ul>
 <li><%= link_to 'Competitions', competitions_path %></li>
 <li><%= link_to 'Players', players_path %></li>
+<% if user_signed_in? -%>
+<li><%= link_to 'My Player', player_path(current_user.player) %></li>
+<% else -%>
+<li><%= link_to 'Register', '/register' %></li>
+<% end -%>
 </ul>
 </section
 

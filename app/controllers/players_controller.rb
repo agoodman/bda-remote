@@ -3,7 +3,7 @@ class PlayersController < AuthenticatedController
   skip_before_action :verify_authenticity_token
 #  acts_as_service :player, only: :index
 
-  before_action :require_session, only: [:edit, :update]
+  before_action :require_session, only: [:edit, :update, :register]
   before_action :assign_player, only: [:show, :edit, :update]
 
   rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
@@ -11,6 +11,10 @@ class PlayersController < AuthenticatedController
 
   def player_params
     require(:player).permit(:name)
+  end
+
+  def register
+    @player = Player.new(user_id: current_user.id)
   end
 
   def index

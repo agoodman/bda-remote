@@ -1,0 +1,13 @@
+<section>
+<h1>Register</h1>
+<% if user_signed_in? -%>
+<p>You are already registered as <%= current_user.player.name %>!</p>
+<ul>
+<li><%= link_to 'View Player', player_path(current_user.player) %></li>
+<li><%= link_to 'Edit Player', edit_player_path(current_user.player) %></li>
+</ul>
+<% else -%>
+<%= link_to 'Get Started', user_google_oauth2_omniauth_authorize_path %>
+<% end -%>
+</section>
+
