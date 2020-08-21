@@ -29,8 +29,9 @@
 <% if @instance.heats.empty? -%>
 <p>Submissions open (players: <%= @instance.vessels.count %>)</p>
 <% if user_signed_in? -%>
-<% if @instance.has_vessel_for(current_user) -%>
-<p>You uploaded a craft <%= time_ago_in_words(@instance.vessel_for(current_user).updated_at) %></p>
+<% current_vessel = @instance.vessel_for(current_user) -%>
+<% unless current_vessel.nil? -%>
+<p>You uploaded a craft <%= time_ago_in_words(current_vessel.updated_at) %> ago.</p>
 <% end -%>
 <% end -%>
 <%= link_to 'Upload Craft', new_competition_vessel_path(@instance.id) %>
