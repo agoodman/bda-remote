@@ -10,13 +10,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     # auto-generate a player
     if user.player.nil?
-      Player.create(user_id: user.id, name: user.name)
+      player = Player.create(user_id: user.id, name: user.name)
+    else
+      player = user.player
     end
 
     user.remember_me = true
     sign_in(:user, user)
 
-    redirect_to player_path(user.player)
+    redirect_to player_path(player)
   end
 end
 
