@@ -1,0 +1,15 @@
+<nav>
+<ul>
+<li><%= link_to 'Home', root_path %></li>
+</ul>
+</nav>
+
+<section>
+<h1>Players</h1>
+
+<ul>
+<% @players.each do |e| -%>
+<li><%= link_to e.name, player_path(e) %></li>
+<% end -%>
+</ul>
+</section>

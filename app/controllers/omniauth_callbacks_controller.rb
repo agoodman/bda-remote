@@ -16,7 +16,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user.remember_me = true
     sign_in(:user, user)
 
-    redirect_to player_path
+    redirect_to player_path(user.player)
   end
 end
 

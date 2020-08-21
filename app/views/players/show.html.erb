@@ -1,0 +1,12 @@
+<nav>
+<ul>
+<li><%= link_to 'Home', root_path %></li>
+<li><%= link_to 'Players', players_path %></li>
+</ul>
+</nav>
+
+<section>
+<h1>Player: <%= @player.name %></h1>
+<%= link_to('Edit Player', edit_player_path(@player)) if user_signed_in? && current_user.player.id == @player.id %>
+</section>
+
