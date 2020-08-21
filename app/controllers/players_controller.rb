@@ -5,6 +5,7 @@ class PlayersController < AuthenticatedController
 
   before_action :require_session, only: [:edit, :update, :register]
   before_action :assign_player, only: [:show, :edit, :update]
+  before_action :check_existing, only: :register
 
   rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
 #  rescue_from ActiveModel::ForbiddenAttributesError, with: :bad_request
@@ -15,6 +16,11 @@ class PlayersController < AuthenticatedController
 
   def register
     @player = Player.new(user_id: current_user.id)
+  end
+
+  def create
+    @player = Player.create(user_id: current_user.id, name: params[:player][:name])
+    redirect_to competitions_path
   end
 
   def index
@@ -37,6 +43,10 @@ class PlayersController < AuthenticatedController
 
   def assign_player
     @player = Player.find(params[:id])
+  end
+
+  def check_existing
+    redirect_to player_path(current_user.player) and return unless current_user.player.nil?
   end
 
   def duplicate_record_attribute

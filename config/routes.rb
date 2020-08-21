@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'welcome#index'
 
   get '/register' => 'welcome#register'
+  get '/logout' => 'welcome#logout'
 
   # competitions are top level objects
   resources :competitions, only: [:new, :create, :index, :show, :update] do
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
   end
 
   # players are top level objects
-  resources :players, only: [:index, :show, :edit, :update] do
+  resources :players do
     collection do
       get :register
     end

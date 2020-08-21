@@ -5,4 +5,8 @@ class WelcomeController < ApplicationController
 
   def register
   end
+
+  def logout
+    sign_out and redirect_to root_path
+  end
 end
