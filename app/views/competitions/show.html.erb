@@ -9,11 +9,7 @@
 
 <section>
 <h2>Status: <%= @instance.status_label.humanize %></h2>
-<ul>
-<% if @instance.can_start? -%>
-<li><%= link_to 'Start', start_competition_path(@instance) %></li>
-<% end -%>
-</ul>
+  <%= render partial: 'actions', locals: { competition: @instance } %>
 </section>
 
 <section class="players">

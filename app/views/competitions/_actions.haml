@@ -1,0 +1,7 @@
+%ul
+  - if user_signed_in? && current_user.id == competition.user_id
+    %li= link_to 'Start Competition', start_competition_path(competition)
+  - elsif user_signed_in? && competition.can_start?
+    %li Waiting for Host to Start
+  - else
+    %li No actions
