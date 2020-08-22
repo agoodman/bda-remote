@@ -10,3 +10,9 @@
 <%= link_to('Edit Player', edit_player_path(@player)) if user_signed_in? && current_user.player.id == @player.id %>
 </section>
 
+<% if user_signed_in? && !current_user.player.nil? && current_user.player.id == @player.id -%>
+  <%= render partial: 'available_competitions' %>
+<% end -%>
+
+<%= render partial: 'recent_competitions' %>
+

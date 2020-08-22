@@ -3,4 +3,8 @@ class Player < ApplicationRecord
   has_many :vessels
 
   validates :name, presence: true
+
+  def recent_competitions
+    vessels.order("updated_at desc").limit(10).map(&:competition)
+  end
 end

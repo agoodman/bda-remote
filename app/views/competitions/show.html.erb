@@ -20,7 +20,7 @@
 <h2>Players (<%= @instance.vessels.count %>)</h2>
 <ul>
 <% @instance.players.each do |player| -%>
-<li><%= player.name %></li>
+<li><%= render partial: 'player', locals: { player: player, vessel: @instance.vessels.where(player_id: player.id).first } %></li>
 <% end -%>
 </ul>
 </section>

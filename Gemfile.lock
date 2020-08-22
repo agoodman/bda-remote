@@ -1006,6 +1006,7 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.9.0)
+    erubis (2.7.0)
     faker (2.13.0)
       i18n (>= 1.6, < 2)
     faraday (1.0.1)
@@ -1013,7 +1014,21 @@ GEM
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    haml (5.1.2)
+      temple (>= 0.8.0)
+      tilt
+    haml-rails (2.0.1)
+      actionpack (>= 5.1)
+      activesupport (>= 5.1)
+      haml (>= 4.0.6, < 6.0)
+      html2haml (>= 1.0.1)
+      railties (>= 5.1)
     hashie (4.1.0)
+    html2haml (2.2.0)
+      erubis (~> 2.7.0)
+      haml (>= 4.0, < 6)
+      nokogiri (>= 1.6.0)
+      ruby_parser (~> 3.5)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     jmespath (1.4.0)
@@ -1099,6 +1114,8 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    ruby_parser (3.14.2)
+      sexp_processor (~> 4.9)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -1114,6 +1131,7 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     serviceable (0.7.1)
+    sexp_processor (4.15.0)
     shoulda (4.0.0)
       shoulda-context (~> 2.0)
       shoulda-matchers (~> 4.0)
@@ -1132,6 +1150,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    temple (0.8.2)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -1166,6 +1185,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   devise
   faker
+  haml-rails (~> 2.0)
   listen (~> 3.2)
   newrelic_rpm
   omniauth-google-oauth2

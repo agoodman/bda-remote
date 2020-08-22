@@ -1,0 +1,9 @@
+%section
+  %h1 Available Competitions
+  %ul
+    - comps = Competition.open-@player.recent_competitions
+    - if comps.empty?
+      %li none
+    - else
+      - comps.each do |c|
+        %li= link_to c.name, competition_path(c)

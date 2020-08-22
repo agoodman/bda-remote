@@ -17,6 +17,8 @@ class Competition < ApplicationRecord
   after_initialize :assign_initial_stage
   after_initialize :assign_initial_remaining_heats
 
+  scope :open, -> { where(status: 0) }
+
   def status_label
     labels = [
       "pending_submissions",
