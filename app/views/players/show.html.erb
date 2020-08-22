@@ -7,7 +7,10 @@
 
 <section>
 <h1>Player: <%= @player.name %></h1>
-<%= link_to('Edit Player', edit_player_path(@player)) if user_signed_in? && current_user.player.id == @player.id %>
+<% if user_signed_in? && current_user.player.id == @player.id -%>
+<%= link_to 'Edit Player', edit_player_path(@player) %>
+<%= link_to 'Logout', '/logout' %>
+<% end -%>
 </section>
 
 <% if user_signed_in? && !current_user.player.nil? && current_user.player.id == @player.id -%>
