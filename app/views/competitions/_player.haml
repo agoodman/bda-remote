@@ -1,6 +1,5 @@
-- if user_signed_in?
-  - if current_user.player.id == player.id
-    = link_to player.name, player_path(player)
-    %span= "( #{vessel_file_name_for_player(@instance, player)} )"
+- if user_signed_in? && current_user.player.id == player.id
+  = link_to player.name, player_path(player)
+  %span= "( #{vessel_file_name_for_player(@instance, player)} )"
 - else
   = link_to player.name, player_path(player)
