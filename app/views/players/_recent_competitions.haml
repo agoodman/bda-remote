@@ -3,4 +3,4 @@
   %ul
     - @player.recent_competitions.each do |c|
       %li
-        = link_to "#{c.name} ( #{c.vessels.where(player_id: @player.id).first.craft_url} )", competition_path(c)
+        = link_to "#{c.name} ( #{vessel_file_name_for_player(c, @player)} )", competition_path(c)
