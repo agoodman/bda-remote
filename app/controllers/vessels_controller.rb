@@ -1,5 +1,6 @@
 class VesselsController < AuthenticatedController
   require 'csv'
+  include Craft
 
   before_action :require_session, only: [:new, :create]
 
@@ -18,7 +19,7 @@ class VesselsController < AuthenticatedController
 
     s3obj = bucket.object(file.original_filename)
     s3obj.put(
-      body: file,
+      body: override_vessel_name(file, current_user.player.name),
       acl: "public-read"
     )
     player = current_user.player
