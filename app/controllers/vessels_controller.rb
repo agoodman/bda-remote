@@ -17,9 +17,24 @@ class VesselsController < AuthenticatedController
 
     file = params[:file]
 
+    unless file.original_filename.ends_with?(".craft")
+      flash[:error] = "File must have .craft extension"
+      redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
+    end
+
+    if file.size > 5242880
+      flash[:error] = "File too large (max 4MB)"
+      redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
+    end
+
+    unless is_craft_file_valid?(file)
+      flash[:error] = "You craft file contains invalid parts/modules"
+      redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
+    end
+
     s3obj = bucket.object(file.original_filename)
     s3obj.put(
-      body: override_vessel_name(file, current_user.player.name),
+      body: file,
       acl: "public-read"
     )
     player = current_user.player

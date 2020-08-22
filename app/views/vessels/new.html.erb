@@ -1,4 +1,8 @@
 <h1>Upload Vessel</h1>
+<% if flash[:error] -%>
+<p><%= flash[:error] %></p>
+<% end -%>
+
 <%= form_for :vessel, url: competition_vessels_path(params[:competition_id]), html: { multipart: true } do |f| -%>
 <%= file_field_tag :file %>
 <%= f.submit 'Submit' %>
