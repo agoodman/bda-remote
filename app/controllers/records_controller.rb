@@ -9,7 +9,7 @@ class RecordsController < ApplicationController
       head :bad_request && return
     end
     c = Competition.find(params[:competition_id])
-    h = Heat.find(params[:id])
+    h = Heat.find(params[:heat_id])
     return unless c.running? && h.running?
     @records.each do |p|
       rp = record_params(p)
