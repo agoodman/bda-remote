@@ -10,10 +10,23 @@ class RecordsController < ApplicationController
     end
     c = Competition.find(params[:competition_id])
     h = Heat.find(params[:heat_id])
-    return unless c.running? && h.running?
-    @records.each do |p|
+    unless c.running? && h.running?
+      respond_to do |format|
+        format.json { render json: { error: "Competition not running" }, status: :unprocessable_entity }
+      end
+      return
+    end
+
+    success = true
+    results = @records.map do |p|
       rp = record_params(p)
-      puts "invalid record params: #{rp}" && next unless rp
+      status = {}
+      unless rp
+        status[:success] = false
+        status[:message] = "invalid record params: #{rp}"
+        success = false
+        next
+      end
 
       r = Record.where(competition_id: c.id, heat_id: h.id, vessel_id: rp['vessel_id']).first_or_create
       r.hits = rp['hits']
@@ -22,8 +35,21 @@ class RecordsController < ApplicationController
       r.distance = rp['distance']
       r.weapon = rp['weapon']
       r.save
+
+      if r.errors.any?
+        status[:success] = false
+        status[:message] = r.errors.full_messages
+      else
+        status[:id] = r.id
+        status[:created_at] = r.created_at
+      end
+
+      status
     end
-    head :ok
+
+    respond_to do |format|
+      format.json { render json: results }
+    end
   end
 
   def record_params(input)
