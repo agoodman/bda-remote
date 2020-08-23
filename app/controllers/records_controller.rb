@@ -9,11 +9,11 @@ class RecordsController < ApplicationController
       head :bad_request && return
     end
     c = Competition.find(params[:competition_id])
-    h = Heat.where(competition_id: c.id, order: params[:heat_id]).first
+    h = Heat.find(id: params[:heat_id])
     return unless c.running? && h.running?
     @records.each do |p|
       rp = record_params(p)
-      next unless rp
+      puts "invalid record params: #{rp}" && next unless rp
 
       r = Record.where(competition_id: c.id, heat_id: h.id, vessel_id: rp['vessel_id']).first_or_create
       r.hits = rp['hits']
