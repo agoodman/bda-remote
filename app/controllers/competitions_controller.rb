@@ -1,5 +1,5 @@
 class CompetitionsController < AuthenticatedController
-  before_action :require_session, only: [:new, :create]
+  before_action :require_session, only: [:new, :create, :start]
 
   include Serviceable
   skip_before_action :verify_authenticity_token
@@ -39,7 +39,7 @@ class CompetitionsController < AuthenticatedController
   end
 
   def start
-    assign_existing_instance
+    @instance = Competition.find(params[:id])
     @instance.start!
     if @instance.started?
       redirect_to root_path
