@@ -17,6 +17,7 @@ class Competition < ApplicationRecord
   after_initialize :assign_initial_status
   after_initialize :assign_initial_stage
   after_initialize :assign_initial_remaining_heats
+  after_initialize :assign_initial_remaining_stages
 
   scope :open, -> { where(status: 0) }
 
