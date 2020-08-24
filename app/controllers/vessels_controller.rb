@@ -17,13 +17,19 @@ class VesselsController < AuthenticatedController
 
     file = params[:file]
 
+    comp = Competition.find(params[:competition_id])
+    unless comp.status == 0
+      flash[:error] = "Competition is not accepting players"
+      redirect_to competition_path(comp) and return
+    end
+
     unless file.original_filename.ends_with?(".craft")
       flash[:error] = "File must have .craft extension"
       redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
     end
 
     if file.size > 5242880
-      flash[:error] = "File too large (max 4MB)"
+      flash[:error] = "File too large (max 5MB)"
       redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
     end
 
@@ -32,14 +38,15 @@ class VesselsController < AuthenticatedController
       redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
     end
 
-    s3obj = bucket.object(file.original_filename)
+    player = current_user.player
+    filename = "#{comp.id}/#{player.id}/#{file.original_filename}"
+    s3obj = bucket.object(filename)
     s3obj.put(
       body: file,
       acl: "public-read"
     )
-    player = current_user.player
-    @vessel = Vessel.where(competition_id: params[:competition_id], player_id: player.id).first_or_create(craft_url: s3obj.public_url)
-    redirect_to competition_path(params[:competition_id])
+    @vessel = Vessel.where(competition_id: comp.id, player_id: player.id).first_or_create(craft_url: s3obj.public_url)
+    redirect_to competition_path(comp)
   end
 
   def upload

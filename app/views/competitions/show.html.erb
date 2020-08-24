@@ -51,9 +51,7 @@
 <table>
   <tr><th>Stage</th></th><th>Order</th><th>Players</th></tr>
 <% @instance.heats.each do |h| -%>
-<% h.heat_assignments.each do |a| -%>
-<tr><td><%= h.stage %></td><td><%= h.order %></td><td><%= a.vessel.player.name %></td></tr>
-<% end -%>
+<tr><td><%= h.stage %></td><td><%= h.order %></td><td><%= h.heat_assignments.map(&:vessel).map(&:player).map(&:name).join(", ") %></td></tr>
 <% end -%>
 </table>
 </section>
