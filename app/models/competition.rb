@@ -11,6 +11,7 @@ class Competition < ApplicationRecord
   validates :status, presence: true
   validates :stage, presence: true, numericality: { only_integers: true }
   validates :remaining_heats, presence: true, numericality: { only_integers: true }
+  validates :remaining_stages, presence: true, numericality: { only_integers: true }
   validates :name, presence: true
 
   after_initialize :assign_initial_status
@@ -40,6 +41,10 @@ class Competition < ApplicationRecord
     self.remaining_heats = 0
   end
 
+  def assign_initial_remaining_stages
+    self.remaining_stages = 1
+  end
+
   # business logic
 
   def start!
@@ -48,11 +53,21 @@ class Competition < ApplicationRecord
     self.stage = 0
     self.started_at = Date.new
     self.save!
-    generate_heats(self)
+    (0...self.remaining_stages).each do |k|
+      generate_heats(self, k)
+    end
+    self.remaining_heats = self.heats.for_stage(self.stage).not_started.not_ended.count
   end
 
   def can_start?
     !started? && !running? && vessels.count > 1
+  end
+
+  def extend!
+    last_stage = heats.map(&:stage).max
+    generate_heats(self, last_stage+1, true)
+    self.remaining_stages = self.remaining_stages + 1
+    self.save!
   end
 
   def should_generate_heats?
@@ -84,6 +99,17 @@ class Competition < ApplicationRecord
     end
     max_mod = mods.max
     return possibles[mods.find_index(max_mod)]
+  end
+
+  def has_remaining_heats?(stage)
+    heats.where(stage: stage, started_at: nil, ended_at: nil).any?
+  end
+
+  def next_stage
+    new_stage = self.stage + 1
+    self.stage = new_stage
+    self.remaining_heats = heats.where(stage: new_stage, started_at: nil, ended_at: nil).count
+    self.save!
   end
 
   def has_vessel_for(user)

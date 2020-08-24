@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     member do
       get :generate
       get :start
+      get :extend
+      get :stop
     end
     resources :players, only: :index, controller: 'competitions/players'
     resources :vessels, only: [:index, :new, :create] do

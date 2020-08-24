@@ -6,6 +6,12 @@ class Heat < ApplicationRecord
 
   validates :competition_id, presence: true
 
+  scope :for_stage, ->(stage) { where(stage: stage) }
+  scope :not_started, -> { where(started_at: nil) }
+  scope :started, -> { where("started_at is not null") }
+  scope :not_ended, -> { where(ended_at: nil) }
+  scope :ended, -> { where("ended_at is not null") }
+
   def status
     if started_at.nil?
       "pending"

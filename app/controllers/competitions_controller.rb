@@ -1,12 +1,12 @@
 class CompetitionsController < AuthenticatedController
-  before_action :require_session, only: [:new, :create, :start]
+  before_action :require_session, only: [:new, :create, :start, :extend]
 
   include Serviceable
   skip_before_action :verify_authenticity_token
 #  acts_as_service :competition, only: [:index, :show]
 #  skip_before_action :authenticate_user!, only: [:index, :show, :start]
 
-  rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
+  # rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
 
   def index
     @competitions = Competition.limit(10).order(:updated_at)
@@ -42,8 +42,19 @@ class CompetitionsController < AuthenticatedController
     @instance = Competition.find(params[:id])
     @instance.start!
     if @instance.started?
-      redirect_to root_path
+      redirect_to competition_path(@instance)
     else
+      head :bad_request
+    end
+  end
+
+  def extend
+    @instance = Competition.find(params[:id])
+    if @instance.running?
+      @instance.extend!
+      redirect_to competition_path(@instance)
+    else
+      flash[:error] = "sorry, dave"
       head :bad_request
     end
   end
