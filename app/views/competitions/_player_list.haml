@@ -1,0 +1,8 @@
+%section.players
+  %h2 Players (#{competition.vessels.count})
+  %ul
+    - if competition.players.empty?
+      %li None
+    - else
+      - competition.players.each do |player|
+        %li= render partial: 'player', locals: { player: player, vessel: competition.vessels.where(player_id: player.id).first }

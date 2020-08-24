@@ -1,0 +1,16 @@
+%section.heats
+  %h2 Heats
+  %table
+    %tr
+      %th Stage
+      %th Order
+      %th Status
+      %th Actions
+      %th Players
+    - @instance.heats.each do |h|
+      %tr
+        %td= h.stage
+        %td= h.order
+        %td= h.status
+        %td= link_to 'Reset', reset_competition_heat_path(@instance, h) if h.can_reset?
+        %td= h.heat_assignments.map(&:vessel).map(&:player).map(&:name).join(", ")

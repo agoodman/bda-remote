@@ -9,49 +9,9 @@
 
 <section>
 <h2>Status: <%= @instance.status_label.humanize %></h2>
-  <%= render partial: 'actions', locals: { competition: @instance } %>
+<%= render partial: 'actions', locals: { competition: @instance } %>
 </section>
 
-<section class="players">
-<h2>Players (<%= @instance.vessels.count %>)</h2>
-<ul>
-<% @instance.players.each do |player| -%>
-<li><%= render partial: 'player', locals: { player: player, vessel: @instance.vessels.where(player_id: player.id).first } %></li>
-<% end -%>
-</ul>
-</section>
+<%= render partial: 'player_list', locals: { competition: @instance } %>
 
-
-<% if @instance.heats.empty? -%>
-<p>Submissions open (players: <%= @instance.vessels.count %>)</p>
-<% if user_signed_in? -%>
-<% current_vessel = @instance.vessel_for(current_user) -%>
-<% unless current_vessel.nil? -%>
-<p>You uploaded a craft <%= time_ago_in_words(current_vessel.updated_at) %> ago.</p>
-<% end -%>
-<% end -%>
-<%= link_to 'Upload Craft', new_competition_vessel_path(@instance.id) %>
-<% if @instance.vessels.count < 2 -%>
-<p>Add more players to start</p>
-<% end -%>
-<% end -%>
-
-<section class="heats">
-<h2>Heats</h2>
-<ul>
-<% @instance.heats.order(:order).each do |h| -%>
-<li><%= h.stage %> - <%= h.order %> - <%= h.status %> -
-<% if h.can_reset? -%>
-<%= link_to 'Reset', reset_competition_heat_path(@instance, h) %>
-<% end -%>
-</li>
-<% end -%>
-</ul>
-
-<table>
-  <tr><th>Stage</th></th><th>Order</th><th>Players</th></tr>
-<% @instance.heats.each do |h| -%>
-<tr><td><%= h.stage %></td><td><%= h.order %></td><td><%= h.heat_assignments.map(&:vessel).map(&:player).map(&:name).join(", ") %></td></tr>
-<% end -%>
-</table>
-</section>
+<%= render(partial: 'heats', locals: { competition: @instance }) if @instance.heats.any? %>
