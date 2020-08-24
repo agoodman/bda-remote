@@ -40,7 +40,7 @@
 <h2>Heats</h2>
 <ul>
 <% @instance.heats.order(:order).each do |h| -%>
-<li><%= h.order %> - <%= h.status %> - 
+<li><%= h.stage %> - <%= h.order %> - <%= h.status %> -
 <% if h.can_reset? -%>
 <%= link_to 'Reset', reset_competition_heat_path(@instance, h) %>
 <% end -%>
@@ -49,10 +49,10 @@
 </ul>
 
 <table>
-<tr><th>Order</th><th>Players</th></tr>
+  <tr><th>Stage</th></th><th>Order</th><th>Players</th></tr>
 <% @instance.heats.each do |h| -%>
 <% h.heat_assignments.each do |a| -%>
-<tr><td><%= h.order %></td><td><%= a.vessel.player.name %></td></tr>
+<tr><td><%= h.stage %></td><td><%= h.order %></td><td><%= a.vessel.player.name %></td></tr>
 <% end -%>
 <% end -%>
 </table>
