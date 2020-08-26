@@ -1,0 +1,6 @@
+%section.audit
+  %h2 Audit
+  %ul
+    %li Total kills: #{heat.records.map(&:kills).sum}
+    %li Total deaths: #{heat.records.map(&:deaths).sum}
+    %li Delta: #{heat.records.map(&:kills).sum - heat.records.map(&:deaths).sum}
