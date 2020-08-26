@@ -134,7 +134,7 @@ class Competition < ApplicationRecord
         hits: e.map(&:hits).sum,
         name: (vessels.where(id: k).first.player.name rescue "-")
       }
-    }.sort_by { |e| e[:kills] }.reverse
+    }.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + 0.01*e[:hits] }.reverse
   end
 
 end
