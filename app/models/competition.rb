@@ -132,7 +132,7 @@ class Competition < ApplicationRecord
         kills: e.map(&:kills).sum,
         deaths: e.map(&:deaths).sum,
         hits: e.map(&:hits).sum,
-        name: players.where(id: k).first.name
+        name: (vessels.where(id: k).first.player.name rescue "-")
       }
     }.sort(&:kills)
   end
