@@ -1,0 +1,16 @@
+%section
+  %h1 Leaderboard
+  %table
+    %tr
+      %th Rank
+      %th Kills
+      %th Deaths
+      %th Hits
+      %th Player
+    - competition.leaders.each_with_index do |p, k|
+      %tr
+        %td= k+1
+        %td= p[:kills]
+        %td= p[:deaths]
+        %td= p[:hits]
+        %td= p[:name]

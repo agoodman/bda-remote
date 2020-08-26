@@ -12,6 +12,8 @@
 <%= render partial: 'actions', locals: { competition: @instance } %>
 </section>
 
+<%= render partial: 'leaders', locals: { competition: @instance } %>
+
 <%= render partial: 'player_list', locals: { competition: @instance } %>
 
 <%= render(partial: 'heats', locals: { competition: @instance }) if @instance.heats.any? %>

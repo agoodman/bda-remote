@@ -126,4 +126,15 @@ class Competition < ApplicationRecord
     return vessels.where(player_id: user.player.id).first
   end
 
+  def leaders
+    records.group_by(&:vessel_id).map { |k, e|
+      {
+        kills: e.map(&:kills).sum,
+        deaths: e.map(&:deaths).sum,
+        hits: e.map(&:hits).sum,
+        name: players.where(id: k).first.name
+      }
+    }.sort(&:kills)
+  end
+
 end
