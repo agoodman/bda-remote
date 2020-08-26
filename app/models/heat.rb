@@ -2,6 +2,7 @@ class Heat < ApplicationRecord
   belongs_to :competition
   has_many :heat_assignments
   has_many :vessels, through: :heat_assignments
+  has_many :players, through: :vessels
   has_many :records
 
   validates :competition_id, presence: true
@@ -53,4 +54,16 @@ class Heat < ApplicationRecord
   def running?
     !started_at.nil? && ended_at.nil?
   end
+
+  def leaders
+    records.group_by(&:vessel_id).map { |k, e|
+      {
+          kills: e.map(&:kills).sum,
+          deaths: e.map(&:deaths).sum,
+          hits: e.map(&:hits).sum,
+          name: (vessels.where(id: k).first.player.name rescue "-")
+      }
+    }.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + 0.01*e[:hits] }.reverse
+  end
+
 end

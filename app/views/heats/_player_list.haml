@@ -1,0 +1,8 @@
+%section.players
+  %h2 Players (#{heat.vessels.count})
+  %ul
+    - if heat.players.empty?
+      %li None
+    - else
+      - heat.players.each do |player|
+        %li= player.name

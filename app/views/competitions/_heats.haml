@@ -12,5 +12,7 @@
         %td= h.stage
         %td= h.order
         %td= h.status
-        %td= link_to 'Reset', reset_competition_heat_path(@instance, h) if h.can_reset?
+        %td
+          = link_to 'Reset', reset_competition_heat_path(@instance, h) if h.can_reset?
+          = link_to 'Details', competition_heat_path(@instance, h)
         %td= h.heat_assignments.map(&:vessel).map(&:player).map(&:name).join(", ")

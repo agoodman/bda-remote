@@ -36,6 +36,13 @@ class HeatsController < ApplicationController
     redirect_to competition_path(params[:competition_id])
   end
 
+  def show
+    respond_to do |format|
+      format.json { render json: @instance }
+      format.html
+    end
+  end
+
   def did_assign_collection
     @collection = @collection.where(competition_id: params[:competition_id])
   end

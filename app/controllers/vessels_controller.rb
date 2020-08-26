@@ -63,6 +63,14 @@ class VesselsController < AuthenticatedController
     head :ok
   end
 
+  def detail
+    file = params[:file]
+    @craft = Craft::KspVessel.interpret(file)
+  end
+
+  def evaluate
+  end
+
   def did_assign_collection
     @collection = @collection.where(competition_id: params[:competition_id])
   end

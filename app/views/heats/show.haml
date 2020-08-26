@@ -1,0 +1,10 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to @instance.competition.name, competition_path(@instance.competition)
+%section
+  %h1 Heat Details, Stage: #{@instance.stage}, Order: #{@instance.order}
+  %p= @instance.vessels.map(&:player).map(&:name).join(", ")
+  = render partial: 'leaders', locals: { heat: @instance }
+= render partial: 'player_list', locals: { heat: @instance }
