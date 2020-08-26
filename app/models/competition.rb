@@ -127,14 +127,16 @@ class Competition < ApplicationRecord
   end
 
   def leaders
-    records.group_by(&:vessel_id).map { |k, e|
+    result = records.group_by(&:vessel_id).map { |k, e|
       {
         kills: e.map(&:kills).sum,
         deaths: e.map(&:deaths).sum,
         hits: e.map(&:hits).sum,
         name: (vessels.where(id: k).first.player.name rescue "-")
       }
-    }.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + 0.01*e[:hits] }.reverse
+    }
+    max_hits = result.map { |e| e[:hits] }.max
+    return result.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + 5*e[:hits]/max_hits }.reverse
   end
 
 end
