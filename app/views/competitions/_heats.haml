@@ -7,7 +7,7 @@
       %th Status
       %th Actions
       %th Players
-    - @instance.heats.each do |h|
+    - @instance.heats.order(:stage, :order).each do |h|
       %tr
         %td= h.stage
         %td= h.order
