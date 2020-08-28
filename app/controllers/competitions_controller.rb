@@ -18,7 +18,7 @@ class CompetitionsController < AuthenticatedController
   end
 
   def show
-    query = Competition.includes(heats: { heat_assignments: { vessel: :player } })
+    query = Competition.includes(players: {}, records: {}, vessels: :player, heats: { heat_assignments: { vessel: :player } })
     @instance = query.find(params[:id])
     respond_to do |format|
       format.json { render json: @instance }

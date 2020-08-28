@@ -127,7 +127,7 @@ class Competition < ApplicationRecord
   end
 
   def leaders
-    result = records.group_by(&:vessel_id).map { |k, e|
+    result = records.includes(vessel: :player).group_by(&:vessel_id).map { |k, e|
       {
         kills: e.map(&:kills).sum,
         deaths: e.map(&:deaths).sum,
