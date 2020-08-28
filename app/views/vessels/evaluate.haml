@@ -1,0 +1,7 @@
+%section
+  %h1 Upload Vessel
+  - if flash[:error]
+    %p= flash[:error]
+  = form_for :vessel, url: detail_path, html: { multipart: true } do |f|
+    = file_field_tag :file
+    = f.submit 'Submit'

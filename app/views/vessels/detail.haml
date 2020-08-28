@@ -1,0 +1,6 @@
+%section
+  %h1 Craft Details
+  %h2= @craft.ship
+  %ul
+    - @craft.parts.each do |part, num|
+      %li #{part} (#{num})
