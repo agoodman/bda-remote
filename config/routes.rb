@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   get '/register' => 'welcome#register'
   get '/logout' => 'welcome#logout'
+  get '/evaluate' => 'vessels#evaluate'
+  post '/detail' => 'vessels#detail'
 
   # competitions are top level objects
   resources :competitions, only: [:new, :create, :index, :show, :update] do
@@ -13,6 +15,7 @@ Rails.application.routes.draw do
       get :start
       get :extend
       get :stop
+      get :results
     end
     resources :players, only: :index, controller: 'competitions/players'
     resources :vessels, only: [:index, :new, :create] do

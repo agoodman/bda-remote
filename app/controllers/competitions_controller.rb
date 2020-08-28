@@ -27,6 +27,13 @@ class CompetitionsController < AuthenticatedController
     end
   end
 
+  def results
+    @competition = Competition.includes(records: { vessel: :player }).find(params[:id])
+    respond_to do |format|
+      format.csv
+    end
+  end
+
   def new
     @competition = Competition.new
   end
