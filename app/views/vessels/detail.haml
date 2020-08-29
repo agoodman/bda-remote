@@ -1,6 +1,28 @@
+- ignored_keys = [:modules, :resources, :events, :actions, :partdata, :upgrades, :axis_groups]
 %section
   %h1 Craft Details
-  %h2= @craft.ship
+  %h2= @craft.ship || "??"
+  %h2 Parts #{@craft.parts.count}
   %ul
-    - @craft.parts.each do |part, num|
-      %li #{part} (#{num})
+    - @craft.parts.each do |part|
+      %li
+        %h3 Attributes
+        %ul
+          - (part.keys-ignored_keys).each do |k|
+            %li #{k}: #{part[k]}
+        %h3 Modules
+        %ul
+          - part[:modules].each do |m|
+            %li
+              %h4 Attributes
+              %ul
+              - m.keys.each do |k|
+                %li #{k}: #{m[k]}
+        %h3 Resources
+        %ul
+          - part[:resources].each do |r|
+            %li
+              %h4 Attributes
+              %ul
+                - r.keys.each do |k|
+                  %li #{k}: #{r[k]}
