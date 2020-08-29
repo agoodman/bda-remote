@@ -11,9 +11,9 @@ class VesselsController < AuthenticatedController
   end
 
   def create
-    s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
-    bucket = s3.bucket(ENV['S3_BUCKET'])
-    redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return if bucket.nil?
+    # s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
+    # bucket = s3.bucket(ENV['S3_BUCKET'])
+    # redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return if bucket.nil?
 
     file = params[:file]
 
@@ -33,8 +33,7 @@ class VesselsController < AuthenticatedController
       redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
     end
 
-    unless is_craft_file_valid?(file)
-      flash[:error] = "You craft file contains invalid parts/modules"
+    unless is_craft_file_valid?(file, comp.validation_strategies)
       redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
     end
 

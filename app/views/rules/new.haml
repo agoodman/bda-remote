@@ -1,3 +1,14 @@
+- field_helper = lambda do |e|
+  = e.label :part, 'Part name'
+  = e.text_field :part
+  = e.label :mod, 'Module name'
+  = e.text_field :mod
+  = e.label :key, 'Property key'
+  = e.text_field :key
+  = e.label :op, 'Operator'
+  = e.select :op, options_for_select([:lt, :gt, :lte, :gte, :eq, :neq])
+  = e.label :value, 'Reference value'
+  = e.text_field :value
 %nav
   %ul
     %li= link_to 'Home', root_path
@@ -5,8 +16,15 @@
     %li= link_to @competition.name, competition_path(@competition)
 %h1 New Rule
 - if flash[:error]
-  %p= flash[:error]
+  %ul.errors
+    - flash[:error].each do |e|
+      %li= e
 = form_for @rule, url: competition_rules_path(@competition) do |f|
-  = f.select :strategy, options_for_select(["PartExists", "FloatModulePropertyCondition", "IntModulePropertyCondition", "StringModulePropertyCondition"])
-  = f.text_field :params
+  = f.select :strategy, options_for_select(Rule::strategy_select_options), { include_blank: true }
+  %fieldset#part_exists{style: "display: none"}
+    = f.fields_for :part_exists do |pe|
+      = pe.text_field :part
+  %fieldset#property{style: "display: none"}
+    = f.fields_for :properties, &field_helper
+
   = f.submit "Create Rule"

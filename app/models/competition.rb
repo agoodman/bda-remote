@@ -1,5 +1,6 @@
 class Competition < ApplicationRecord
   include Armory
+  include Validation
 
   belongs_to :user
   has_many :records
@@ -45,6 +46,20 @@ class Competition < ApplicationRecord
 
   def assign_initial_remaining_stages
     self.remaining_stages = 1
+  end
+
+  def validation_strategies
+    results = []
+    rules.each do |rule|
+      Rule::strategies.keys.each do |key|
+        strategy = Rule::strategies[key]
+        if rule.strategy == strategy
+          rule_attrs = eval(rule.params)
+          results.push("Validation::#{strategy}".constantize.new(rule_attrs))
+        end
+      end
+    end
+    return results
   end
 
   # business logic
