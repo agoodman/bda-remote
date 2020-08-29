@@ -62,6 +62,7 @@ module Craft
           "PARTDATA",
           "AXISGROUPS",
           "UPGRADESAPPLIED",
+          "MESH",
           "Log"
       ]
       vessel = { parts: [] }
