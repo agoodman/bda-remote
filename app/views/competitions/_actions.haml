@@ -3,6 +3,7 @@
     %li= link_to 'Upload Craft', new_competition_vessel_path(competition)
   - if user_signed_in? && current_user.id == competition.user_id
     - if competition.can_start?
+      %li= link_to 'Edit Rules', competition_rules_path(competition)
       %li= link_to 'Start Competition', start_competition_path(competition)
     - elsif competition.running?
       %li= link_to 'Extend Competition', extend_competition_path(competition)

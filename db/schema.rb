@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_24_182411) do
+ActiveRecord::Schema.define(version: 2020_08_29_150640) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -65,6 +65,14 @@ ActiveRecord::Schema.define(version: 2020_08_24_182411) do
     t.integer "vessel_id"
     t.index ["competition_id"], name: "index_records_on_competition_id_and_player_id"
     t.index ["distance"], name: "index_records_on_distance"
+  end
+
+  create_table "rules", force: :cascade do |t|
+    t.integer "competition_id"
+    t.string "strategy"
+    t.string "params"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

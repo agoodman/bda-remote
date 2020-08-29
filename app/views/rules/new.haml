@@ -1,0 +1,12 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to @competition.name, competition_path(@competition)
+%h1 New Rule
+- if flash[:error]
+  %p= flash[:error]
+= form_for @rule, url: competition_rules_path(@competition) do |f|
+  = f.select :strategy, options_for_select(["PartExists", "FloatModulePropertyCondition", "IntModulePropertyCondition", "StringModulePropertyCondition"])
+  = f.text_field :params
+  = f.submit "Create Rule"

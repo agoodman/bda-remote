@@ -1,0 +1,17 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to @competition.name, competition_path(@competition)
+%section.rules
+  %h1 Rules
+  %ul
+    - if @rules.any?
+      - @rules.each do |rule|
+        %li
+          #{rule.strategy}(#{rule.params})
+          = link_to 'remove', competition_rule_path(@competition, rule), method: :delete, data: { confirm: "Are you sure?" }
+    - else
+      %li No rules defined
+  %ul
+    %li= link_to 'Add rule', new_competition_rule_path(@competition)

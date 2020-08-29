@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       resources :records, only: :index
       post 'records/batch'
     end
+    resources :rules, only: [:index, :new, :create, :destroy]
   end
 
   # players are top level objects

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  competition_id: 1
+  strategy: MyString
+  params: MyString
+
+two:
+  competition_id: 1
+  strategy: MyString
+  params: MyString

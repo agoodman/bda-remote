@@ -6,6 +6,7 @@ class CompetitionTest < ActiveSupport::TestCase
     should have_many(:records)
     should have_many(:heats)
     should have_many(:vessels)
+    should have_many(:rules)
   end
 
   context "validations" do

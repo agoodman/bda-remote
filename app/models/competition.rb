@@ -6,6 +6,7 @@ class Competition < ApplicationRecord
   has_many :heats
   has_many :vessels
   has_many :players, through: :vessels
+  has_many :rules
 
   validates :user_id, presence: true
   validates :status, presence: true
