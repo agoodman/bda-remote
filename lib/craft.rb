@@ -12,48 +12,6 @@ module Craft
     def modules
       @vessel[:parts].map(:modules).flatten
     end
-    def build_tree_new(lines)
-      debug = true
-      valid_keys = [
-          "PART",
-          "MODULE",
-          "EVENTS",
-          "ACTIONS",
-          "PARTDATA",
-          "AXISGROUPS",
-          "UPGRADESAPPLIED",
-          "ToggleSameVesselInteraction",
-          "SetSameVesselInteraction",
-          "RemoveSameVesselInteraction"
-      ]
-      filtered_lines = lines.map { |line| line.gsub(/\t/, "").gsub(/\n/, "").gsub(/\r/, "") }
-      key_path = ["VESSEL"]
-      attrs = []
-      k = 0
-      while k < filtered_lines.count
-        l = filtered_lines[k]
-        if valid_keys.include?(l)
-          key_path.push(l)
-        elsif l == "{"
-          # no op
-        elsif l == "}"
-          key_path = key_path.pop
-        else
-          matched = l.match /(?<key>.+) = (?<val>.*)/
-          if matched.nil?
-            puts "#{k} skip #{l}" if debug
-          else
-            pk = matched[:key]
-            pv = matched[:val]
-            entry = "#{key_path.join("/")}[#{pk}]=#{pv}"
-            puts "#{k} entry: #{entry}"
-            attrs.push(entry)
-          end
-        end
-
-        k += 1
-      end
-    end
     def build_tree(lines)
       debug = false
       skippable = [
@@ -110,31 +68,6 @@ module Craft
           vessel[:parts].push(active_part)
           active_attrs = active_part
           puts "#{k} init part" if debug
-        # elsif active_event.nil? && l == "EVENTS"
-        #   active_event = {}
-        #   active_attrs = active_event
-        #   active_part[:events].push(active_attrs)
-        #   puts "#{k} init event" if debug
-        # elsif active_actions.nil? && l == "ACTIONS"
-        #   active_actions = {}
-        #   active_attrs = active_actions
-        #   active_part[:actions].push(active_attrs)
-        #   puts "#{k} init actions" if debug
-        # elsif active_partdata.nil? && l == "PARTDATA"
-        #   active_partdata = {}
-        #   active_attrs = active_partdata
-        #   active_part[:partdata].push(active_attrs)
-        #   puts "#{k} init partdata" if debug
-        # elsif active_upgrades.nil? && l == "UPGRADESAPPLIED"
-        #   active_upgrades = {}
-        #   active_attrs = active_upgrades
-        #   active_part[:upgrades].push(active_attrs)
-        #   puts "#{k} init upgrades" if debug
-        # elsif active_axisgroups.nil? && l == "AXISGROUPS"
-        #   active_axisgroups = {}
-        #   active_attrs = active_axisgroups
-        #   active_part[:axis_groups].push(active_attrs)
-        #   puts "#{k} init axisgroups" if debug
         elsif active_module.nil? && l == "MODULE"
           attr_stack.push(active_attrs)
           active_module = {}
@@ -147,52 +80,12 @@ module Craft
           active_attrs = active_resource
           active_part[:resources].push(active_attrs)
           puts "#{k} init resource" if debug
-        # elsif !active_event.nil? && l == "{"
-        #   puts "#{k} starting event" if debug
-        # elsif !active_actions.nil? && l == "{"
-        #   if depth==0
-        #     puts "#{k} starting actions" if debug
-        #   else
-        #     puts "#{k} nesting #{depth+1}"
-        #   end
-        #   depth += 1
-        # elsif !active_partdata.nil? && l == "{"
-        #   puts "#{k} starting partdata" if debug
-        # elsif !active_upgrades.nil? && l == "{"
-        #   puts "#{k} starting upgrades" if debug
-        # elsif !active_axisgroups.nil? && l == "{"
-        #   puts "#{k} starting axisgroups" if debug
         elsif !active_module.nil? && l == "{"
           puts "#{k} starting module" if debug
         elsif !active_resource.nil? && l == "{"
           puts "#{k} starting resource" if debug
         elsif !active_part.nil? && l == "{"
           puts "#{k} starting part" if debug
-        # elsif !active_event.nil? && l == "}"
-        #   active_attrs = nil
-        #   active_event = nil
-        #   puts "#{k} ending event" if debug
-        # elsif !active_actions.nil? && l == "}"
-        #   depth -= 1
-        #   if depth==0
-        #     active_attrs = nil
-        #     active_actions = nil
-        #     puts "#{k} ending actions" if debug
-        #   else
-        #     puts "#{k} un-nest #{depth}"
-        #   end
-        # elsif !active_partdata.nil? && l == "}"
-        #   active_attrs = nil
-        #   active_partdata = nil
-        #   puts "#{k} ending partdata" if debug
-        # elsif !active_upgrades.nil? && l == "}"
-        #   active_attrs = nil
-        #   active_upgrades = nil
-        #   puts "#{k} ending upgrades" if debug
-        # elsif !active_axisgroups.nil? && l == "}"
-        #   active_attrs = nil
-        #   active_axisgroups = nil
-        #   puts "#{k} ending axisgroups" if debug
         elsif !active_module.nil? && l == "}"
           active_attrs = attr_stack.pop rescue nil
           active_module = nil
@@ -235,14 +128,8 @@ module Craft
       # rewind the file so the uploaded doesn't start at the end
       file.tempfile.rewind
 
-      # line = body.lines.first
-      # ship = /ship = (.+)/.match(line)[1]
-      # parts = body.lines.map { |e| /.*part = (.+)(_.+)/.match(e)[1] rescue nil }.compact
-      # part_counts = {}
-      # parts.each { |p| part_counts[p] = (part_counts[p] + 1 rescue 1) }
-      # modules = body.lines.map { |e| /.*name = (.+)/.match(e)[1] rescue nil }.compact
       vessel = KspVessel.new
-      vessel.build_tree(body.lines) #[0..500])
+      vessel.build_tree(body.lines)
       return vessel
     end
   end
