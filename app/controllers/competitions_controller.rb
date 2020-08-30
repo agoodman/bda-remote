@@ -9,7 +9,7 @@ class CompetitionsController < AuthenticatedController
   # rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
 
   def index
-    @competitions = Competition.limit(10).order(:updated_at)
+    @competitions = Competition.limit(10).order(updated_at: :desc)
     respond_to do |format|
       format.json { render json: @collection }
       format.xml { render xml: @collection }
