@@ -74,19 +74,20 @@ module Validation
       @comparator = create_comparator(options[:op], options[:value], before_compare)
     end
     def create_comparator(op, value, transform)
+      op = op.to_sym
       ref = transform.call(value)
       if op == :lt
-        return lambda { |e| e < ref }
+        return lambda { |e| transform.call(e) < ref }
       elsif op == :gt
-        return lambda { |e| e > ref }
+        return lambda { |e| transform.call(e) > ref }
       elsif op == :lte
-        return lambda { |e| e <= ref }
+        return lambda { |e| transform.call(e) < ref }
       elsif op == :gte
-        return lambda { |e| e >= ref }
+        return lambda { |e| transform.call(e) >= ref }
       elsif op == :eq
-        return lambda { |e| e == ref }
+        return lambda { |e| transform.call(e) == ref }
       elsif op == :neq
-        return lambda { |e| e != ref }
+        return lambda { |e| transform.call(e) != ref }
       else
         return lambda { |e| false }
       end
@@ -107,12 +108,25 @@ module Validation
     def apply(craft)
       # search craft parts for one with a module matching the given name
       # and containing a property whose key/value matches the given operation
-      puts "searching for part #{@options["part"]} with module #{@options[:mod]}"
-      found_parts = craft.parts.filter { |e| e["part"] =~ /#{@options[:part]}_.+/ }
+      puts "searching for part #{@part} with module #{@mod}"
+      found_parts = craft.parts.filter { |e| e["part"] =~ /#{@part}_.+/ }
       puts "parts: #{found_parts.map { |e| e["part"] }.join(", ") }"
-      found_modules = found_parts.map { |e| e[:modules] }.flatten.filter { |e| e["name"] =~ /#{@options[:mod]}/ }
+      found_modules = found_parts.map { |e| e[:modules] }.flatten.filter { |e| e["name"] =~ /#{@mod}/ }
       puts "modules: #{found_modules.map { |e| e["name"] }.join(", ") }"
-      result = found_modules.map { |e| e[@options[:key]].to_f }.any? @comparator
+      found_modules.each do |m|
+        has_prop = m.keys.include?(@key)
+        if has_prop
+          v = m[@key]
+          puts "found #{@key} => #{v}"
+          outcome = @comparator.call(v)
+          if outcome
+            puts "true"
+          else
+            puts "false"
+          end
+        end
+      end
+      result = found_modules.map { |e| e[@options[:key]] }.any? @comparator
       return result
     end
     def error_message
