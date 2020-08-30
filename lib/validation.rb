@@ -64,8 +64,36 @@ module Validation
     end
   end
 
-  class ModulePropertyCondition < Strategy
+  class PropertyCondition < Strategy
     @@operations = [:lt, :gt, :lte, :gte, :eq, :neq]
+    def initialize(options, before_compare)
+      @options = options
+      @key = options[:key]
+      @op = options[:op]
+      @value = options[:value]
+      @comparator = create_comparator(options[:op], options[:value], before_compare)
+    end
+    def create_comparator(op, value, transform)
+      ref = transform.call(value)
+      if op == :lt
+        return lambda { |e| e < ref }
+      elsif op == :gt
+        return lambda { |e| e > ref }
+      elsif op == :lte
+        return lambda { |e| e <= ref }
+      elsif op == :gte
+        return lambda { |e| e >= ref }
+      elsif op == :eq
+        return lambda { |e| e == ref }
+      elsif op == :neq
+        return lambda { |e| e != ref }
+      else
+        return lambda { |e| false }
+      end
+    end
+  end
+
+  class ModulePropertyCondition < PropertyCondition
     def initialize(options, before_compare)
       puts "initialize(#{options})"
       @options = options
@@ -91,29 +119,10 @@ module Validation
       puts "options: #{@options}"
       "part must exist (#{@part}) with module (#{@mod}) having property (#{@key}) with value #{@op} #{@value}"
     end
-    def create_comparator(op, value, transform)
-      ref = transform.call(value)
-      if op == :lt
-        return lambda { |e| e < ref }
-      elsif op == :gt
-        return lambda { |e| e > ref }
-      elsif op == :lte
-        return lambda { |e| e <= ref }
-      elsif op == :gte
-        return lambda { |e| e >= ref }
-      elsif op == :eq
-        return lambda { |e| e == ref }
-      elsif op == :neq
-        return lambda { |e| e != ref }
-      else
-        return lambda { |e| false }
-      end
-    end
   end
 
   class FloatModulePropertyCondition < ModulePropertyCondition
     def initialize(options)
-      puts "Float::initialize(#{options})"
       super(options, lambda { |e| e.to_f })
     end
   end
@@ -129,4 +138,32 @@ module Validation
       super(options, lambda { |e| e.to_i })
     end
   end
+
+  class ResourcePropertyCondition < PropertyCondition
+    def initialize(options)
+      @options = options
+      @part = options[:part]
+      @res = options[:res]
+      @key = options[:key]
+      @op = options[:op]
+      @value = options[:value]
+      @comparator = create_comparator(options[:op], options[:value], lambda { |e| e.to_f })
+    end
+    def apply(craft)
+      # search craft parts for one with a module matching the given name
+      # and containing a property whose key/value matches the given operation
+      puts "searching for part #{@options["part"]} with module #{@options[:mod]}"
+      found_parts = craft.parts.filter { |e| e["part"] =~ /#{@options[:part]}_.+/ }
+      puts "parts: #{found_parts.map { |e| e["part"] }.join(", ") }"
+      found_resoruces = found_parts.map { |e| e[:resources] }.flatten.filter { |e| e["name"] =~ /#{@options[:res]}/ }
+      puts "resources: #{found_resources.map { |e| e["name"] }.join(", ") }"
+      result = found_resources.map { |e| e[@options[:key]].to_f }.any? @comparator
+      return result
+    end
+    def error_message
+      puts "options: #{@options}"
+      "part must exist (#{@part}) with resource (#{@res}) having property (#{@key}) with value #{@op} #{@value}"
+    end
+  end
+
 end

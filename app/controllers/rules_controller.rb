@@ -40,7 +40,7 @@ class RulesController < AuthenticatedController
     properties = lambda do |params|
       {
           part: params[:rule][:properties][:part],
-          mod: params[:rule][:properties][:mod],
+          mod: params[:rule][:properties][:name],
           key: params[:rule][:properties][:key],
           op: params[:rule][:properties][:op],
           value: params[:rule][:properties][:value]
@@ -49,10 +49,18 @@ class RulesController < AuthenticatedController
     case strategy.to_sym
     when :part_exists
       return params[:rule][:part_exists]
-    when :float_property, :int_property, :string_property
+    when :float_module_property, :int_module_property, :string_module_property
       return {
           part: params[:rule][:properties][:part],
-          mod: params[:rule][:properties][:mod],
+          mod: params[:rule][:properties][:name],
+          key: params[:rule][:properties][:key],
+          op: params[:rule][:properties][:op],
+          value: params[:rule][:properties][:value]
+      }
+    when :resource_property
+      return {
+          part: params[:rule][:properties][:part],
+          res: params[:rule][:properties][:name],
           key: params[:rule][:properties][:key],
           op: params[:rule][:properties][:op],
           value: params[:rule][:properties][:value]

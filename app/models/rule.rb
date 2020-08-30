@@ -6,9 +6,10 @@ class Rule < ApplicationRecord
 
   @@strategy_map = {
       part_exists: "PartExists",
-      float_property: "FloatModulePropertyCondition",
-      int_property: "IntModulePropertyCondition",
-      string_property: "StringModulePropertyCondition"
+      float_module_property: "FloatModulePropertyCondition",
+      int_module_property: "IntModulePropertyCondition",
+      string_module_property: "StringModulePropertyCondition",
+      resource_property: "ResourcePropertyCondition",
   }
   def self.strategy_keys
     @@strategy_map.keys
