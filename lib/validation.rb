@@ -74,22 +74,25 @@ module Validation
       @comparator = create_comparator(options[:op], options[:value], before_compare)
     end
     def create_comparator(op, value, transform)
-      op = op.to_sym
-      ref = transform.call(value)
-      if op == :lt
-        return lambda { |e| transform.call(e) < ref }
-      elsif op == :gt
-        return lambda { |e| transform.call(e) > ref }
-      elsif op == :lte
-        return lambda { |e| transform.call(e) < ref }
-      elsif op == :gte
-        return lambda { |e| transform.call(e) >= ref }
-      elsif op == :eq
-        return lambda { |e| transform.call(e) == ref }
-      elsif op == :neq
-        return lambda { |e| transform.call(e) != ref }
+      op_lambda = build_operator(op)
+      return lambda { |e| op_lambda.call(transform.call(e), transform.call(value)) }
+    end
+    def build_operator(op)
+      case op.to_sym
+      when :lt
+        return lambda { |a,b| a < b }
+      when :lte
+        return lambda { |a,b| a <= b }
+      when :gt
+        return lambda { |a,b| a > b }
+      when :gte
+        return lambda { |a,b| a >= b }
+      when :eq
+        return lambda { |a,b| a == b }
+      when :neq
+        return lambda { |a,b| a != b }
       else
-        return lambda { |e| false }
+        return lambda { |a,b| false }
       end
     end
   end
