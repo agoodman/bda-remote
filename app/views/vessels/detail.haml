@@ -3,6 +3,11 @@
   %h1 Craft Details
   %h2= @craft.ship || "??"
   %h2 Parts #{@craft.parts.count}
+  %h3 Summary
+  %ul
+    - @craft.parts.map { |e| e["part"] }.map { |e| /(.+)_.+/.match(e)[1] }.each_with_object(Hash.new(0)) { |e,h| h[e] += 1 }.map do |part,count|
+      %li #{part} (#{count})
+  %h3 Detail
   %ul
     - @craft.parts.each do |part|
       %li
