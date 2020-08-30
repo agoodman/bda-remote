@@ -2,8 +2,6 @@
 %section
   %h1 Craft Details
   %h2= @craft.ship || "??"
-  %h2 Has Vulcan? #{Validation::PartExists.new("bahaHiddenVulcan").apply(@craft)}
-  %h2 Vulcan Range < 1000? #{Validation::FloatModulePropertyCondition.new("bahaHiddenVulcan", "ModuleWeapon", "engageRangeMax", :lte, 1000).apply(@craft)}
   %h2 Parts #{@craft.parts.count}
   %ul
     - @craft.parts.each do |part|
