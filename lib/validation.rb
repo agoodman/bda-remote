@@ -155,7 +155,7 @@ module Validation
       puts "searching for part #{@options["part"]} with module #{@options[:mod]}"
       found_parts = craft.parts.filter { |e| e["part"] =~ /#{@options[:part]}_.+/ }
       puts "parts: #{found_parts.map { |e| e["part"] }.join(", ") }"
-      found_resoruces = found_parts.map { |e| e[:resources] }.flatten.filter { |e| e["name"] =~ /#{@options[:res]}/ }
+      found_resources = found_parts.map { |e| e[:resources] }.flatten.filter { |e| e["name"] =~ /#{@options[:res]}/ }
       puts "resources: #{found_resources.map { |e| e["name"] }.join(", ") }"
       result = found_resources.map { |e| e[@options[:key]].to_f }.any? @comparator
       return result
