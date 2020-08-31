@@ -21,7 +21,8 @@ module Craft
           "AXISGROUPS",
           "UPGRADESAPPLIED",
           "MESH",
-          "Log"
+          "Log",
+          "MechJebLocalSettings"
       ]
       vessel = { parts: [] }
       filtered_lines = lines.map { |line| line.gsub(/\t/, "").gsub(/\n/, "").gsub(/\r/, "") }
