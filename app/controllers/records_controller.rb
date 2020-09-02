@@ -17,27 +17,25 @@ class RecordsController < ApplicationController
       return
     end
 
-    success = true
     results = @records.map do |p|
       rp = record_params(p)
       status = {}
       unless rp
         status[:success] = false
         status[:message] = "invalid record params: #{rp}"
-        success = false
         next
       end
 
       r = Record.where(competition_id: c.id, heat_id: h.id, vessel_id: rp['vessel_id']).first_or_create
-      r.hits = rp['hits']
-      r.kills = rp['kills']
-      r.deaths = rp['deaths']
+      r.hits = rp['hits'] rescue 0
+      r.kills = rp['kills'] rescue 0
+      r.deaths = rp['deaths'] rescue 0
+      r.assists = rp['assists'] rescue 0
       r.distance = rp['distance']
       r.weapon = rp['weapon']
       r.save
 
       if r.errors.any?
-        status[:success] = false
         status[:message] = r.errors.full_messages
       else
         status[:id] = r.id
