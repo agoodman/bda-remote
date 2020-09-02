@@ -51,7 +51,7 @@ class RecordsController < ApplicationController
   end
 
   def record_params(input)
-    input.permit(:vessel_id, :hits, :kills, :deaths, :distance, :weapon)
+    input.permit(:vessel_id, :hits, :kills, :deaths, :assists, :distance, :weapon)
   end
 
   def did_assign_collection
