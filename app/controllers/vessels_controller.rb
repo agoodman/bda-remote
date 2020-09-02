@@ -44,8 +44,19 @@ class VesselsController < AuthenticatedController
       body: file,
       acl: "public-read"
     )
+
     @vessel = Vessel.where(competition_id: comp.id, player_id: player.id).first_or_create(craft_url: s3obj.public_url)
-    redirect_to competition_path(comp)
+    if @vessel.craft_url != s3obj.public_url
+      @vessel.craft_url = s3obj.public_url
+      @vessel.save
+    end
+
+    if @vessel.errors.any?
+      flash[:error] = @vessel.errors
+      redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
+    else
+      redirect_to competition_path(comp)
+    end
   end
 
   def upload
