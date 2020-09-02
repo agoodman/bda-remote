@@ -147,12 +147,13 @@ class Competition < ApplicationRecord
       {
         kills: e.map(&:kills).sum,
         deaths: e.map(&:deaths).sum,
+        assists: e.map(&:assists).sum,
         hits: e.map(&:hits).sum,
         name: (vessels.where(id: k).first.player.name rescue "-")
       }
     }
     max_hits = result.map { |e| e[:hits] }.max
-    return result.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + 5*e[:hits]/max_hits }.reverse
+    return result.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + e[:assists] + 5*e[:hits]/max_hits }.reverse
   end
 
 end
