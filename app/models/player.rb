@@ -1,6 +1,7 @@
 class Player < ApplicationRecord
   belongs_to :user
   has_many :vessels
+  has_many :records, through: :vessels
 
   validates :name, presence: true
 

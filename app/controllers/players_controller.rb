@@ -39,6 +39,15 @@ class PlayersController < AuthenticatedController
     redirect_to player_path(@player)
   end
 
+  def chart
+    reference = params[:since] || 0
+    player = current_user.player
+    records = player.records.order("records.updated_at").limit(1000).where("records.updated_at > #{reference}")
+    respond_to do |format|
+      format.json { render json: records }
+    end
+  end
+
   private
 
   def assign_player

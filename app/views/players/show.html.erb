@@ -13,6 +13,8 @@
 <% end -%>
 </section>
 
+<%= render partial: 'chart', locals: { player: @player } %>
+
 <% if user_signed_in? && !current_user.player.nil? && current_user.player.id == @player.id -%>
   <%= render partial: 'available_competitions' %>
 <% end -%>

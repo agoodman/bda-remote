@@ -39,6 +39,9 @@ Rails.application.routes.draw do
 
   # players are top level objects
   resources :players do
+    member do
+      get :chart
+    end
     collection do
       get :register
     end

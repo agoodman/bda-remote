@@ -14,6 +14,7 @@ gem 'omniauth-google-oauth2'
 gem 'aws-sdk', '~> 3'
 gem "haml-rails", "~> 2.0"
 gem 'jquery-rails'
+gem 'chart-js-rails'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
