@@ -6,7 +6,7 @@ function loadBatch(records) {
     var deaths = [];
     var assists = [];
     records.forEach(function(e) {
-        labels.push(e["stage"] + "/" + e["heat"]);
+        labels.push(e["created_at"]);
         hits.push(e["hits"]);
         kills.push(e["kills"]);
         deaths.push(e["deaths"]);
