@@ -41,7 +41,7 @@ class PlayersController < AuthenticatedController
 
   def chart
     reference = Time.at(params[:since] || 0)
-    player = current_user.player
+    player = Player.find(params[:id])
     records = player.records.order("records.updated_at").limit(1000).where(updated_at: reference..)
     respond_to do |format|
       format.json { render json: records }
