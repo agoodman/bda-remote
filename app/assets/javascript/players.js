@@ -26,6 +26,7 @@ function loadBatch(records) {
                 { label: "kills", data: kills },
                 { label: "deaths", data: deaths },
                 { label: "assists", data: assists },
+                { label: "scores", data: scores },
             ]
         }
     });
