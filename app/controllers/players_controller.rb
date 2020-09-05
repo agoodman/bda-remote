@@ -40,7 +40,7 @@ class PlayersController < AuthenticatedController
   end
 
   def chart
-    reference = params[:since] || 0
+    reference = Time.at(params[:since] || 0)
     player = current_user.player
     records = player.records.order("records.updated_at").limit(1000).where(updated_at: reference..)
     respond_to do |format|
