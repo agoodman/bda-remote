@@ -121,7 +121,7 @@ module Validation
     end
   end
 
-  class PartSetExists < Strategy
+  class PartSetContains < Strategy
     def initialize(options)
       @parts = options[:parts].gsub(/\s+/, "").split(",")
       @matcher = options[:matcher]
