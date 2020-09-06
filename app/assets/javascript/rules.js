@@ -11,5 +11,8 @@ $(document).ready(function() {
         else if(strategy.endsWith("contains")) {
             $('#part_set_contains').show();
         }
+        else if(strategy.endsWith("count")) {
+            $('#part_count').show();
+        }
     });
 });

@@ -5,6 +5,7 @@ class Rule < ApplicationRecord
   validates_presence_of :params
 
   @@strategy_map = {
+      part_count: "PartCount",
       part_exists: "PartExists",
       part_not_exists: "PartNotExists",
       part_set_contains: "PartSetContains",

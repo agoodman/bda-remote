@@ -21,6 +21,12 @@
       %li= e
 = form_for @rule, url: competition_rules_path(@competition) do |f|
   = f.select :strategy, options_for_select(Rule::strategy_select_options), { include_blank: true }
+  %fieldset#part_count{style: "display: none"}
+    = f.fields_for :part_count do |pe|
+      = pe.label :op
+      = pe.select :op, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+      = pe.label :value
+      = pe.text_field :value
   %fieldset#part_exists{style: "display: none"}
     = f.fields_for :part_exists do |pe|
       = pe.label :part

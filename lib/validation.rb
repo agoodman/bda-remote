@@ -50,6 +50,49 @@ module Validation
     end
   end
 
+  class PartCount < Strategy
+    def initialize(options)
+      @op = options[:op]
+      @value = options[:value]
+    end
+    def apply(craft)
+      case @op.to_sym
+      when :lt
+        return craft.parts.count < @value
+      when :lte
+        return craft.parts.count <= @value
+      when :gt
+        return craft.parts.count > @value
+      when :gte
+        return craft.parts.count >= @value
+      when :eq
+        return craft.parts.count == @value
+      when :neq
+        return craft.parts.count != @value
+      else
+        return true
+      end
+    end
+    def error_message
+      case @op.to_sym
+      when :lt
+        "too many parts! (< #{@value})"
+      when :lte
+        "too many parts! (≤ #{@value})"
+      when :gt
+        "not enough parts! (> #{@value})"
+      when :gte
+        "not enough parts! (≥ #{@value})"
+      when :eq
+        "wrong number of parts! (= #{@value})"
+      when :neq
+        "wrong number of parts! (!= #{@value})"
+      else
+        "PartCount unknown op #{@op}"
+      end
+    end
+  end
+
   class PartExists < Strategy
     def initialize(options)
       @part = options[:part]

@@ -47,6 +47,11 @@ class RulesController < AuthenticatedController
       }
     end
     case strategy.to_sym
+    when :part_count
+      return {
+          op: params[:rule][:part_count][:op],
+          count: params[:rule][:part_count][:count]
+      }
     when :part_exists
       return {
           part: params[:rule][:part_exists][:part].cleanup
@@ -55,10 +60,10 @@ class RulesController < AuthenticatedController
       return {
           part: params[:rule][:part_exists][:part].cleanup
       }
-    when :part_set_exists
+    when :part_set_contains
       return {
-          parts: params[:rule][:parts],
-          matcher: params[:rule][:matcher]
+          parts: params[:rule][:part_set_contains][:parts],
+          matcher: params[:rule][:part_set_contains][:matcher]
       }
     when :float_module_property, :int_module_property, :string_module_property
       return {

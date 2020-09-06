@@ -138,7 +138,6 @@ module Craft
   def is_craft_file_valid?(file, strategies=[])
     # open the file, search through it, and identify all parts/modules
     craft = KspVessel.interpret(file)
-    return false if craft.parts.count > 100
     result = true
     errors = []
     strategies.each do |s|
