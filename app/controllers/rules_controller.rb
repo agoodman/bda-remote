@@ -50,7 +50,7 @@ class RulesController < AuthenticatedController
     when :part_count
       return {
           op: params[:rule][:part_count][:op],
-          count: params[:rule][:part_count][:count]
+          value: params[:rule][:part_count][:value]
       }
     when :part_exists
       return {
