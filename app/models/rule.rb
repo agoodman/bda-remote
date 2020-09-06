@@ -6,6 +6,8 @@ class Rule < ApplicationRecord
 
   @@strategy_map = {
       part_exists: "PartExists",
+      part_not_exists: "PartNotExists",
+      part_set_contains: "PartSetContains",
       float_module_property: "FloatModulePropertyCondition",
       int_module_property: "IntModulePropertyCondition",
       string_module_property: "StringModulePropertyCondition",

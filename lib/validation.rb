@@ -64,6 +64,60 @@ module Validation
     end
   end
 
+  class PartNotExists < Strategy
+    def initialize(options)
+      @part = options[:part]
+    end
+    def apply(craft)
+      # search craft parts for at least one matching the given name
+      found_parts = craft.parts.any? { |e| e["part"] =~ /#{@part}_.+/ }
+      return !found_parts
+    end
+    def error_message
+      "part must not exist! (#{@part})"
+    end
+  end
+
+  class PartSetExists < Strategy
+    def initialize(options)
+      @parts = options[:parts].gsub(/\s+/, "").split(",")
+      @matcher = options[:matcher]
+    end
+    def apply(craft)
+      case @matcher
+      when :none
+        # search craft parts for any matching the given names, O(m+n)
+        part_map = craft.parts.each_with_object(Hash.new(0)) { |h,e| h[e["part"]] += 1 }
+        return !@parts.any? { |p| part_map.key?(p)  }
+      when :any
+        # search craft parts for any matching the given names, O(m+n)
+        part_map = craft.parts.each_with_object(Hash.new(0)) { |h,e| h[e["part"]] += 1 }
+        return @parts.any? { |p| part_map.key?(p)  }
+      when :all
+        # search craft parts for all matching the given names, O(m+n)
+        part_map = craft.parts.each_with_object(Hash.new(0)) { |h,e| h[e["part"]] += 1 }
+        return @parts.all? { |p| part_map.key?(p)  }
+      else
+        return true
+      end
+      # search craft parts for at least one matching the given name
+      found_parts = craft.parts.any? { |e| e["part"] =~ /#{@part}_.+/ }
+      return found_parts
+    end
+    def error_message
+      case @matcher
+      when :none
+        "parts must not exist! (#{@parts.join(", ")})"
+      when :any
+        "parts must contain at least one of (#{@parts.join(", ")})"
+      when :all
+        "parts must exist! (#{@parts.join(", ")})"
+      else
+        "PartSetExists unknown matcher #{@matcher}"
+      end
+    end
+  end
+
   class PropertyCondition < Strategy
     @@operations = [:lt, :gt, :lte, :gte, :eq, :neq]
     def initialize(options, before_compare)
@@ -114,8 +168,12 @@ module Validation
       puts "searching for part #{@part} with module #{@mod}"
       found_parts = craft.parts.filter { |e| e["part"] =~ /#{@part}_.+/ }
       puts "parts: #{found_parts.map { |e| e["part"] }.join(", ") }"
+      # only apply the condition if the part exists
+      return true if found_parts.empty?
       found_modules = found_parts.map { |e| e[:modules] }.flatten.filter { |e| e["name"] =~ /#{@mod}/ }
       puts "modules: #{found_modules.map { |e| e["name"] }.join(", ") }"
+      # only apply the condition if the module exists
+      return true if found_modules.empty?
       found_modules.each do |m|
         has_prop = m.keys.include?(@key)
         if has_prop
@@ -134,7 +192,7 @@ module Validation
     end
     def error_message
       puts "options: #{@options}"
-      "part must exist (#{@part}) with module (#{@mod}) having property (#{@key}) with value #{@op} #{@value}"
+      "part (#{@part}) with module (#{@mod}) must have property (#{@key}) with value #{@op} #{@value}"
     end
   end
 
@@ -171,15 +229,19 @@ module Validation
       # and containing a property whose key/value matches the given operation
       puts "searching for part #{@options["part"]} with module #{@options[:mod]}"
       found_parts = craft.parts.filter { |e| e["part"] =~ /#{@options[:part]}_.+/ }
+      # only apply the condition if the part exists
+      return true if found_parts.empty?
       puts "parts: #{found_parts.map { |e| e["part"] }.join(", ") }"
       found_resources = found_parts.map { |e| e[:resources] }.flatten.filter { |e| e["name"] =~ /#{@options[:res]}/ }
       puts "resources: #{found_resources.map { |e| e["name"] }.join(", ") }"
+      # only apply the condition if the resource exists
+      return true if found_resources.empty?
       result = found_resources.map { |e| e[@options[:key]].to_f }.any? @comparator
       return result
     end
     def error_message
       puts "options: #{@options}"
-      "part must exist (#{@part}) with resource (#{@res}) having property (#{@key}) with value #{@op} #{@value}"
+      "part (#{@part}) with resource (#{@res}) must have property (#{@key}) with value #{@op} #{@value}"
     end
   end
 

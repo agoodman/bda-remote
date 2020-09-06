@@ -23,7 +23,15 @@
   = f.select :strategy, options_for_select(Rule::strategy_select_options), { include_blank: true }
   %fieldset#part_exists{style: "display: none"}
     = f.fields_for :part_exists do |pe|
+      = pe.label :part
       = pe.text_field :part
+  %fieldset#part_set_contains{style: "display: none"}
+    = f.fields_for :part_set_contains do |pse|
+      = pse.label :parts
+      = pse.text_field :parts
+      %span (comma-delimited names)
+      = pse.label :matcher
+      = pse.select :matcher, options_for_select([:none, :any, :all])
   %fieldset#property{style: "display: none"}
     = f.fields_for :properties, &field_helper
 
