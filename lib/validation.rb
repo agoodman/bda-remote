@@ -124,31 +124,34 @@ module Validation
   class PartSetContains < Strategy
     def initialize(options)
       @parts = options[:parts].gsub(/\s+/, "").split(",")
+      puts "parts: #{@parts.join(", ")}"
       @matcher = options[:matcher]
     end
     def apply(craft)
-      case @matcher
+      puts "PartSetContains #{@matcher} #{@parts.join(", ")}"
+      case @matcher.to_sym
       when :none
         # search craft parts for any matching the given names, O(m+n)
-        part_map = craft.parts.each_with_object(Hash.new(0)) { |h,e| h[e["part"]] += 1 }
-        return !@parts.any? { |p| part_map.key?(p)  }
+        part_map = craft.part_map
+        puts "part map: #{part_map}"
+        puts @parts.map { |p| "#{p} => #{part_map.key?(p)}" }.join(", ")
+        return !@parts.any? { |p| part_map.key?(p) }
       when :any
         # search craft parts for any matching the given names, O(m+n)
-        part_map = craft.parts.each_with_object(Hash.new(0)) { |h,e| h[e["part"]] += 1 }
+        part_map = craft.part_map
+        puts "part map: #{part_map}"
+        puts @parts.map { |p| "#{p} => #{part_map.key?(p)}" }.join(", ")
         return @parts.any? { |p| part_map.key?(p)  }
       when :all
         # search craft parts for all matching the given names, O(m+n)
-        part_map = craft.parts.each_with_object(Hash.new(0)) { |h,e| h[e["part"]] += 1 }
+        part_map = craft.part_map
         return @parts.all? { |p| part_map.key?(p)  }
       else
         return true
       end
-      # search craft parts for at least one matching the given name
-      found_parts = craft.parts.any? { |e| e["part"] =~ /#{@part}_.+/ }
-      return found_parts
     end
     def error_message
-      case @matcher
+      case @matcher.to_sym
       when :none
         "parts must not exist! (#{@parts.join(", ")})"
       when :any

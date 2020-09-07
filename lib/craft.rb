@@ -9,6 +9,9 @@ module Craft
     def parts
       @vessel[:parts]
     end
+    def part_map
+      @vessel[:parts].each_with_object(Hash.new(0)) { |e,h| h[e["part"].gsub(/_.+/, "")] += 1 }
+    end
     def modules
       @vessel[:parts].map(:modules).flatten
     end
