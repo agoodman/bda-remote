@@ -53,7 +53,7 @@ module Validation
   class PartCount < Strategy
     def initialize(options)
       @op = options[:op]
-      @value = options[:value]
+      @value = options[:value].to_i
     end
     def apply(craft)
       case @op.to_sym
