@@ -3,3 +3,4 @@
 //= require rules
 //= require Chart.min
 //= require players
+//= require competitions

@@ -1,0 +1,9 @@
+<section>
+  <h1>Charts</h1>
+  <canvas id="competition_chart" height="100px"></canvas>
+  <script language="JavaScript">
+      $(document).ready(function() {
+          $.getJSON("/competitions/<%= competition.id %>/chart.json", loadCumulative);
+      });
+  </script>
+</section>
