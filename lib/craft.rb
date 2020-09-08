@@ -26,7 +26,9 @@ module Craft
           "MESH",
           "Log",
           "MechJebLocalSettings",
-          "PHYSICMATERIALCOLORS"
+          "PHYSICMATERIALCOLORS",
+          "CONTROLLEDAXES",
+          "CONTROLLEDACTIONS"
       ]
       vessel = { parts: [] }
       filtered_lines = lines.map { |line| line.gsub(/\t/, "").gsub(/\n/, "").gsub(/\r/, "") }
