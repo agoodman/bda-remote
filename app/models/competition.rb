@@ -109,7 +109,7 @@ class Competition < ApplicationRecord
     possibles = Array(5..8)
     vessel_count = vessels.count
     mods = possibles.map { |e| vessel_count % e }
-    zero_index = mods.find_index(0)
+    zero_index = mods.reverse.find_index(0)
     if !zero_index.nil?
       # zero means we can have even heats
       return possibles[zero_index]
