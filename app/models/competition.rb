@@ -112,7 +112,7 @@ class Competition < ApplicationRecord
     zero_index = mods.reverse.find_index(0)
     if !zero_index.nil?
       # zero means we can have even heats
-      return possibles[zero_index]
+      return possibles.reverse[zero_index]
     end
     max_mod = mods.max
     return possibles[mods.find_index(max_mod)]
