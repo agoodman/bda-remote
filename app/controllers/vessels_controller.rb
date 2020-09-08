@@ -4,6 +4,9 @@ class VesselsController < AuthenticatedController
 
   before_action :require_session, only: [:new, :create]
 
+  include Serviceable
+  acts_as_service :vessel, only: :index
+
   skip_before_action :verify_authenticity_token
 
   def new
