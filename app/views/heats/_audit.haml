@@ -3,4 +3,8 @@
   %ul
     %li Total kills: #{heat.records.map(&:kills).sum}
     %li Total deaths: #{heat.records.map(&:deaths).sum}
-    %li Delta: #{heat.records.map(&:kills).sum - heat.records.map(&:deaths).sum}
+    %li Total assists: #{heat.records.map(&:assists).sum}
+    %li Total hits in: #{heat.records.map(&:hits_in).sum}
+    %li Total hits out: #{heat.records.map(&:hits_out).sum}
+    %li Total dmg in: #{heat.records.map(&:dmg_in).sum}
+    %li Total dmg out: #{heat.records.map(&:dmg_out).sum}
