@@ -61,12 +61,15 @@ class Heat < ApplicationRecord
           kills: e.map(&:kills).sum,
           deaths: e.map(&:deaths).sum,
           assists: e.map(&:assists).sum,
-          hits: e.map(&:hits).sum,
+          hits_out: e.map(&:hits_out).sum,
+          hits_in: e.map(&:hits_in).sum,
+          dmg_out: e.map(&:dmg_out).sum,
+          dmg_in: e.map(&:dmg_in).sum,
           name: (vessels.where(id: k).first.player.name rescue "-")
       }
     }
-    max_hits = result.map { |e| e[:hits] }.max
-    return result.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + e[:assists] + 5*e[:hits]/max_hits }.reverse
+    max_hits_out = result.map { |e| e[:hits_out] }.max
+    return result.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + e[:assists] + 5*e[:hits_out]/max_hits_out }.reverse
   end
 
 end

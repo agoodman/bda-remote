@@ -1,5 +1,5 @@
-<%- headers = ['id','vessel_id','heat_id','player_name','stage','order','kills','deaths','hits','distance','weapon','updated_at'] -%>
+<%- headers = ['id','vessel_id','heat_id','player_name','stage','order','kills','deaths','hits_out','hits_in','dmg_out','dmg_in','distance','weapon','updated_at'] -%>
 <%= CSV.generate_line headers -%>
 <% @competition.records.order("records.updated_at").each do |e| -%>
-<%= CSV.generate_line([e.id, e.vessel_id, e.heat_id, e.vessel.player.name, e.heat.stage, e.heat.order, e.kills, e.deaths, e.hits, e.distance, e.weapon, e.updated_at]) -%>
+<%= CSV.generate_line([e.id, e.vessel_id, e.heat_id, e.vessel.player.name, e.heat.stage, e.heat.order, e.kills, e.deaths, e.hits_out, e.hits_in, e.dmg_out, e.dmg_in, e.distance, e.weapon, e.updated_at]) -%>
 <%- end -%>

@@ -22,22 +22,30 @@
 = form_for @rule, url: competition_rules_path(@competition) do |f|
   = f.select :strategy, options_for_select(Rule::strategy_select_options), { include_blank: true }
   %fieldset#part_count{style: "display: none"}
-    = f.fields_for :part_count do |pe|
-      = pe.label :op
-      = pe.select :op, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
-      = pe.label :value
-      = pe.text_field :value
+    = f.fields_for :part_count do |e|
+      = e.label :op
+      = e.select :op, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+      = e.label :value
+      = e.text_field :value
+  %fieldset#part_set_count{style: "display: none"}
+    = f.fields_for :part_set_count do |e|
+      = e.label :parts
+      = e.text_field :parts
+      = e.label :op
+      = e.select :op, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+      = e.label :value
+      = e.text_field :value
   %fieldset#part_exists{style: "display: none"}
-    = f.fields_for :part_exists do |pe|
-      = pe.label :part
-      = pe.text_field :part
+    = f.fields_for :part_exists do |e|
+      = e.label :part
+      = e.text_field :part
   %fieldset#part_set_contains{style: "display: none"}
-    = f.fields_for :part_set_contains do |pse|
-      = pse.label :parts
-      = pse.text_field :parts
+    = f.fields_for :part_set_contains do |e|
+      = e.label :parts
+      = e.text_field :parts
       %span (comma-delimited names)
-      = pse.label :matcher
-      = pse.select :matcher, options_for_select([:none, :any, :all])
+      = e.label :matcher
+      = e.select :matcher, options_for_select([:none, :any, :all])
   %fieldset#property{style: "display: none"}
     = f.fields_for :properties, &field_helper
 

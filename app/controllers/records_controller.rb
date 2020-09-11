@@ -27,7 +27,10 @@ class RecordsController < ApplicationController
       end
 
       r = Record.where(competition_id: c.id, heat_id: h.id, vessel_id: rp['vessel_id']).first_or_create
-      r.hits = rp['hits'] rescue 0
+      r.hits_out = rp['hits_out'] rescue 0
+      r.hits_in = rp['hits_in'] rescue 0
+      r.dmg_out = rp['dmg_out'] rescue 0
+      r.dmg_in = rp['dmg_in'] rescue 0
       r.kills = rp['kills'] rescue 0
       r.deaths = rp['deaths'] rescue 0
       r.assists = rp['assists'] rescue 0
@@ -51,7 +54,7 @@ class RecordsController < ApplicationController
   end
 
   def record_params(input)
-    input.permit(:vessel_id, :hits, :kills, :deaths, :assists, :distance, :weapon)
+    input.permit(:vessel_id, :hits_out, :hits_in, :kills, :deaths, :assists, :distance, :weapon, :dmg_in, :dmg_out)
   end
 
   def did_assign_collection

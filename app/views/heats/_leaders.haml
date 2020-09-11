@@ -6,7 +6,10 @@
       %th Kills
       %th Deaths
       %th Assists
-      %th Hits
+      %th Hits Out
+      %th Hits In
+      %th Dmg Out
+      %th Dmg In
       %th Player
     - heat.leaders.each_with_index do |p, k|
       %tr
@@ -14,5 +17,8 @@
         %td= p[:kills]
         %td= p[:deaths]
         %td= p[:assists]
-        %td= p[:hits]
+        %td= p[:hits_out]
+        %td= p[:hits_in]
+        %td= p[:dmg_out]
+        %td= p[:dmg_in]
         %td= p[:name]
