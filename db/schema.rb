@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_011540) do
+ActiveRecord::Schema.define(version: 2020_09_11_235332) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -44,12 +44,43 @@ ActiveRecord::Schema.define(version: 2020_09_11_011540) do
     t.index ["competition_id", "stage", "order"], name: "index_heats_on_competition_id_and_stage_and_order"
   end
 
+  create_table "metrics", force: :cascade do |t|
+    t.integer "competition_id"
+    t.float "kills"
+    t.float "deaths"
+    t.float "assists"
+    t.float "hits_out"
+    t.float "hits_in"
+    t.float "dmg_out"
+    t.float "dmg_in"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["competition_id"], name: "index_metrics_on_competition_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
     t.index ["name"], name: "index_players_on_name", unique: true
+  end
+
+  create_table "rankings", force: :cascade do |t|
+    t.integer "vessel_id"
+    t.integer "competition_id"
+    t.integer "rank"
+    t.float "score"
+    t.integer "kills"
+    t.integer "deaths"
+    t.integer "assists"
+    t.integer "hits_out"
+    t.integer "hits_in"
+    t.float "dmg_out"
+    t.float "dmg_in"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["competition_id", "vessel_id"], name: "index_rankings_on_competition_id_and_vessel_id"
   end
 
   create_table "records", force: :cascade do |t|

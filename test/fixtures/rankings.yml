@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vessel_id: 1
+  competition_id: 1
+  rank: 1
+  score: 1.5
+  kills: 1
+  deaths: 1
+  assists: 1
+  hits_out: 1
+  hits_in: 1
+  dmg_out: 1.5
+  dmg_in: 1.5
+
+two:
+  vessel_id: 1
+  competition_id: 1
+  rank: 1
+  score: 1.5
+  kills: 1
+  deaths: 1
+  assists: 1
+  hits_out: 1
+  hits_in: 1
+  dmg_out: 1.5
+  dmg_in: 1.5

@@ -4,6 +4,7 @@ class Vessel < ApplicationRecord
   has_many :heat_assignments
   has_many :heats, through: :heat_assignments
   has_many :records
+  has_many :rankings
 
   validates :player_id, presence: true
   validates :competition_id, presence: true

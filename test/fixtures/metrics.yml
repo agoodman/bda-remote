@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  competition_id: 1
+  kills: 1.5
+  deaths: 1.5
+  assists: 1.5
+  hits_out: 1.5
+  hits_in: 1.5
+  dmg_out: 1.5
+  dmg_in: 1.5
+
+two:
+  competition_id: 1
+  kills: 1.5
+  deaths: 1.5
+  assists: 1.5
+  hits_out: 1.5
+  hits_in: 1.5
+  dmg_out: 1.5
+  dmg_in: 1.5

@@ -66,14 +66,6 @@ class CompetitionsController < AuthenticatedController
     end
   end
 
-  def chart
-    @competition = Competition.find(params[:id])
-    records = @competition.records.order("records.updated_at")
-    respond_to do |format|
-      format.json { render json: records }
-    end
-  end
-
   private
 
   def duplicate_record

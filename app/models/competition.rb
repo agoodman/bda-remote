@@ -8,6 +8,8 @@ class Competition < ApplicationRecord
   has_many :vessels
   has_many :players, through: :vessels
   has_many :rules
+  has_many :rankings
+  has_one :metric
 
   validates :user_id, presence: true
   validates :status, presence: true
@@ -20,6 +22,7 @@ class Competition < ApplicationRecord
   after_initialize :assign_initial_stage
   after_initialize :assign_initial_remaining_heats
   after_initialize :assign_initial_remaining_stages
+  after_create :create_default_metric
 
   scope :open, -> { where(status: 0) }
 
@@ -46,6 +49,10 @@ class Competition < ApplicationRecord
 
   def assign_initial_remaining_stages
     self.remaining_stages = 1
+  end
+
+  def create_default_metric
+    Metric.where(competition_id: self.id).first_or_create
   end
 
   def validation_strategies
@@ -143,20 +150,33 @@ class Competition < ApplicationRecord
   end
 
   def leaders
-    result = records.includes(vessel: :player).group_by(&:vessel_id).map { |k, e|
-      {
-        kills: e.map(&:kills).sum,
-        deaths: e.map(&:deaths).sum,
-        assists: e.map(&:assists).sum,
-        hits_out: e.map(&:hits_out).sum,
-        hits_in: e.map(&:hits_in).sum,
-        dmg_out: e.map(&:dmg_out).sum,
-        dmg_in: e.map(&:dmg_in).sum,
-        name: (vessels.where(id: k).first.player.name rescue "-")
-      }
-    }
-    max_hits_out = result.map { |e| e[:hits_out] }.max
-    return result.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + e[:assists] + 5*e[:hits_out]/max_hits_out }.reverse
+    rankings.includes(vessel: :player).order(:rank)
   end
 
+  def update_rankings!
+    unordered_rankings = records.includes(vessel: :player).group_by(&:vessel_id).map do |vessel_id,r|
+      ranking = rankings.where(vessel_id: vessel_id).first
+      if ranking.nil?
+        ranking = Ranking.new
+        ranking.competition_id = id
+        ranking.vessel_id = vessel_id
+      end
+      ranking.kills = r.map(&:kills).sum
+      ranking.deaths = r.map(&:deaths).sum
+      ranking.assists = r.map(&:assists).sum
+      ranking.hits_out = r.map(&:hits_out).sum
+      ranking.hits_in = r.map(&:hits_in).sum
+      ranking.dmg_out = r.map(&:dmg_out).sum
+      ranking.dmg_in = r.map(&:dmg_in).sum
+      ranking.score = metric.score_for_record(ranking)
+      ranking.rank = 0
+      ranking
+    end
+    sorted_rankings = unordered_rankings.sort_by { |e| e.score }.reverse
+    sorted_rankings.each_with_index do |e, k|
+      e.rank = k + 1
+      e.save!
+    end
+    return
+  end
 end

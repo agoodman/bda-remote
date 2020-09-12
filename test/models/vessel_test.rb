@@ -6,6 +6,7 @@ class VesselTest < ActiveSupport::TestCase
     should belong_to(:competition)
     should have_many(:heat_assignments)
     should have_many(:heats)
+    should have_many(:rankings)
   end
 
   context "validations" do
