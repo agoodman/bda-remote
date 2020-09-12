@@ -6,6 +6,8 @@
 </nav>
 
 <h1>New Competition</h1>
+<%= link_to 'Fork Existing', template_competitions_path %>
+
 <% if @competition.errors.any? -%>
 <p class="error"><%= @competition.errors %></p>
 <% end -%>

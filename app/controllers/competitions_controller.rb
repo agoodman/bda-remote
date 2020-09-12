@@ -1,5 +1,5 @@
 class CompetitionsController < AuthenticatedController
-  before_action :require_session, only: [:new, :create, :start, :extend]
+  before_action :require_session, only: [:new, :create, :start, :extend, :template, :duplicate]
 
   include Serviceable
   skip_before_action :verify_authenticity_token
@@ -64,6 +64,29 @@ class CompetitionsController < AuthenticatedController
       flash[:error] = "sorry, dave"
       head :bad_request
     end
+  end
+
+  def template
+    @competitions = Competition.all
+  end
+
+  def duplicate
+    src = Competition.find(params[:competition][:original_id])
+    redirect_to template_competitions_path and return if src.nil?
+    dst = Competition.create(name: params[:competition][:name], user_id: current_user.id)
+    if dst.errors.any?
+      flash[:error] = dst.errors
+      redirect_to template_competitions_path and return
+    end
+    # copy vessels
+    src.vessels.each do |e|
+      dst.vessels.create(player_id: e.player_id, craft_url: e.craft_url)
+    end
+    # copy rules
+    src.rules.each do |e|
+      dst.rules.create(strategy: e.strategy, params: e.params)
+    end
+    redirect_to competition_path(dst)
   end
 
   private

@@ -10,6 +10,10 @@ Rails.application.routes.draw do
 
   # competitions are top level objects
   resources :competitions, only: [:new, :create, :index, :show, :update] do
+    collection do
+      get :template
+      post :duplicate
+    end
     member do
       get :generate
       get :start
