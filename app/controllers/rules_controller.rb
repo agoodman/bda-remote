@@ -60,6 +60,12 @@ class RulesController < AuthenticatedController
       return {
           part: params[:rule][:part_exists][:part].cleanup
       }
+    when :part_set_count
+      return {
+          parts: params[:rule][:part_set_count][:parts],
+          op: params[:rule][:part_set_count][:op],
+          value: params[:rule][:part_set_count][:value]
+      }
     when :part_set_contains
       return {
           parts: params[:rule][:part_set_contains][:parts],

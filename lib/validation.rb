@@ -164,6 +164,56 @@ module Validation
     end
   end
 
+  class PartSetCount < Strategy
+    # validates the total count of parts matching a named set using an operator condition
+    def initialize(options)
+      @parts = options[:parts].gsub(/\s+/, "").split(",")
+      @op = options[:op]
+      @value = options[:value].to_i
+      @comparator = lambda do |craft|
+        # look through part map for counts and sum them
+        total_count = @parts.map { |p| craft.part_map[p] }.reduce(0, :+)
+        case @op.to_sym
+        when :lt
+          return total_count < @value
+        when :lte
+          return total_count <= @value
+        when :gt
+          return total_count > @value
+        when :gte
+          return total_count >= @value
+        when :eq
+          return total_count == @value
+        when :neq
+          return total_count != @value
+        else
+          return true
+        end
+      end
+    end
+    def apply(craft)
+      @comparator.call(craft)
+    end
+    def error_message
+      case @op.to_sym
+      when :lt
+        "too many parts! (< #{@value}) from set (#{@parts.join(", ")})"
+      when :lte
+        "too many parts! (≤ #{@value}) from set (#{@parts.join(", ")})"
+      when :gt
+        "not enough parts! (> #{@value}) from set (#{@parts.join(", ")})"
+      when :gte
+        "not enough parts! (≥ #{@value}) from set (#{@parts.join(", ")})"
+      when :eq
+        "wrong number of parts! (= #{@value}) from set (#{@parts.join(", ")})"
+      when :neq
+        "wrong number of parts! (!= #{@value}) from set (#{@parts.join(", ")})"
+      else
+        "PartSetCount unknown op #{@op} for set (#{@parts.join(", ")})"
+      end
+    end
+  end
+
   class PropertyCondition < Strategy
     @@operations = [:lt, :gt, :lte, :gte, :eq, :neq]
     def initialize(options, before_compare)

@@ -9,6 +9,7 @@ class Rule < ApplicationRecord
       part_exists: "PartExists",
       part_not_exists: "PartNotExists",
       part_set_contains: "PartSetContains",
+      part_set_count: "PartSetCount",
       float_module_property: "FloatModulePropertyCondition",
       int_module_property: "IntModulePropertyCondition",
       string_module_property: "StringModulePropertyCondition",

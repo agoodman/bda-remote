@@ -5,6 +5,9 @@ $(document).ready(function() {
         if(strategy.endsWith("property")) {
             $('#property').show();
         }
+        else if(strategy.endsWith("set_count")) {
+            $('#part_set_count').show();
+        }
         else if(strategy.endsWith("exists")) {
             $('#part_exists').show();
         }
