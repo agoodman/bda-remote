@@ -150,7 +150,9 @@ class Competition < ApplicationRecord
   end
 
   def leaders
-    rankings.includes(vessel: :player).order(:rank)
+    Rails.cache.fetch("rankings-#{id}") do
+      rankings.includes(vessel: :player).order(:rank)
+    end
   end
 
   def update_rankings!
