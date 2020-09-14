@@ -1,26 +1,28 @@
 %section
   %h1 Leaderboard
-  %table
-    %tr
-      %th Rank
-      %th Player
-      %th Score
-      %th Kills
-      %th Deaths
-      %th Assists
-      %th Hits Out
-      %th Dmg Out
-      %th Hits In
-      %th Dmg In
-    - competition.leaders.each_with_index do |p, k|
+  %table.sortable.searchable
+    %thead
       %tr
-        %td= k+1
-        %td= p.vessel.player.name
-        %td= p[:score]
-        %td= p[:kills]
-        %td= p[:deaths]
-        %td= p[:assists]
-        %td= p[:hits_out]
-        %td= p[:dmg_out]
-        %td= p[:hits_in]
-        %td= p[:dmg_in]
+        %th Rank
+        %th Player
+        %th Score
+        %th Kills
+        %th Deaths
+        %th Assists
+        %th Hits Out
+        %th Dmg Out
+        %th Hits In
+        %th Dmg In
+    %tbody
+      - competition.leaders.each_with_index do |p, k|
+        %tr
+          %td= k+1
+          %td= p.vessel.player.name
+          %td= p[:score]
+          %td= p[:kills]
+          %td= p[:deaths]
+          %td= p[:assists]
+          %td= p[:hits_out]
+          %td= p[:dmg_out]
+          %td= p[:hits_in]
+          %td= p[:dmg_in]
