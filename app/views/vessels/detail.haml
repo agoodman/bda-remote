@@ -1,4 +1,4 @@
-- part_keys = ["part", "resPri"]
+- part_keys = ["part", "resPri", "link", "surfN", "attN"]
 %section
   %h1 Craft Details
   %h2= @craft.ship || "??"
@@ -7,6 +7,12 @@
   %ul
     - @craft.parts.map { |e| e["part"] }.map { |e| /(.+)_.+/.match(e)[1] }.each_with_object(Hash.new(0)) { |e,h| h[e] += 1 }.map do |part,count|
       %li #{part} (#{count})
+  %h3 Stats
+  %ul
+    %li Root part links: #{@craft.parts.first["link"].nil? ? 0 : (@craft.parts.first["link"].kind_of?(String) ? 1 : @craft.parts.first["link"].count)}
+    %li Avg links per part: #{@craft.parts.map { |e| e["link"].nil? ? 0 : (e["link"].kind_of?(String) ? 1 : e["link"].count)}.reduce(0, :+).to_f / @craft.parts.count}
+    %li Parts with zero links: #{@craft.parts.map { |e| e["link"].nil? ? 1 : 0}.reduce(0, :+)}
+    %li Stackiness: #{@craft.stackiness}
   %h3 Detail
   %ul
     - @craft.parts.each do |part|
@@ -14,7 +20,8 @@
         %h3 Attributes
         %ul
           - part_keys.each do |k|
-            %li #{k}: #{part[k]}
+            - if part[k]
+              %li #{k}: #{part[k]}
         %h3 Modules
         %ul
           - part[:modules].each do |m|

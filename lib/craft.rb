@@ -114,7 +114,15 @@ module Craft
           else
             pk = matched[:key]
             pv = matched[:val]
-            active_attrs[pk] = pv
+            if active_attrs[pk].nil?
+              active_attrs[pk] = pv
+            else
+              if active_attrs[pk].kind_of?(Array)
+                active_attrs[pk].push(pv)
+              else
+                active_attrs[pk] = [active_attrs[pk], pv]
+              end
+            end
             puts "#{k} parse #{pk} => #{pv}" if debug
           end
         else
@@ -123,6 +131,7 @@ module Craft
         k += 1
       end
       @vessel = vessel
+      @part_dict = @vessel[:parts].each_with_object(Hash.new(0)) { |e,h| h[e["part"]] = e }
     end
     def self.interpret(file)
       # read contents into memory
@@ -138,6 +147,23 @@ module Craft
       vessel = KspVessel.new
       vessel.build_tree(body.lines)
       return vessel
+    end
+    def stackiness
+      depth = 0
+      determine_stack_value(@vessel[:parts].first["part"], depth+1, 0)
+    end
+    def determine_stack_value(part_name, depth, total)
+      part = @part_dict[part_name]
+      return 0 unless part.kind_of?(Hash)
+      links = part["link"]
+      result = 0
+      if !links.kind_of?(Array)
+        links = [links]
+      end
+      links.each do |link_name|
+        result += determine_stack_value(link_name, depth+1, 0)
+      end
+      return depth * links.count + total + result
     end
   end
 
