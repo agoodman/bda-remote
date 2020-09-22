@@ -12,6 +12,9 @@ module Craft
     def part_map
       @vessel[:parts].each_with_object(Hash.new(0)) { |e,h| h[e["part"].gsub(/_.+/, "")] += 1 }
     end
+    def part_dict
+      @part_dict
+    end
     def modules
       @vessel[:parts].map(:modules).flatten
     end
@@ -28,7 +31,8 @@ module Craft
           "MechJebLocalSettings",
           "PHYSICMATERIALCOLORS",
           "CONTROLLEDAXES",
-          "CONTROLLEDACTIONS"
+          "CONTROLLEDACTIONS",
+          "XSECTION"
       ]
       vessel = { parts: [] }
       filtered_lines = lines.map { |line| line.gsub(/\t/, "").gsub(/\n/, "").gsub(/\r/, "") }
