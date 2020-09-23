@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     member do
       get :generate
       get :start
+      get :unstart
       get :extend
       get :stop
       get :results

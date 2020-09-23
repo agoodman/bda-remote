@@ -1,5 +1,5 @@
 class CompetitionsController < AuthenticatedController
-  before_action :require_session, only: [:new, :create, :start, :extend, :template, :duplicate]
+  before_action :require_session, only: [:new, :create, :start, :unstart, :extend, :template, :duplicate]
 
   include Serviceable
   skip_before_action :verify_authenticity_token
@@ -60,6 +60,13 @@ class CompetitionsController < AuthenticatedController
     else
       head :bad_request
     end
+  end
+
+  def unstart
+    @instance = Competition.find(params[:id])
+    redirect_to competition_path(@instance) and return if @instance.records.any? || current_user != @instance.user
+    @instance.unstart!
+    redirect_to competition_path(@instance)
   end
 
   def extend

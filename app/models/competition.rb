@@ -87,6 +87,13 @@ class Competition < ApplicationRecord
     !started? && !running? && vessels.count > 1
   end
 
+  def unstart!
+    return unless status == 1
+    self.status = 0
+    self.started_at = nil
+    self.save!
+  end
+
   def extend!
     last_stage = heats.map(&:stage).max
     generate_heats(self, last_stage+1, true)
