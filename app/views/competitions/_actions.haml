@@ -1,11 +1,13 @@
 %ul
   - if user_signed_in? && competition.status == 0
     %li= link_to 'Upload Craft', new_competition_vessel_path(competition)
-  - if user_signed_in? && current_user.id == competition.user_id
+  - if user_signed_in? && current_user == competition.user
+    %li= link_to 'Edit Competition', edit_competition_path(competition)
     - if competition.can_start?
       %li= link_to 'Edit Rules', competition_rules_path(competition)
       %li= link_to 'Start Competition', start_competition_path(competition)
     - elsif competition.running?
+      %li= link_to 'Un-Start Competition', unstart_competition_path(competition)
       %li= link_to 'Extend Competition', extend_competition_path(competition)
   - elsif user_signed_in? && competition.can_start?
     %li Waiting for Host to Start

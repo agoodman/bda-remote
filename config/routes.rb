@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'metrics/show'
+  get 'metrics/update'
   devise_for :users, controllers: {omniauth_callbacks: "omniauth_callbacks"}
 
   root to: 'welcome#index'
@@ -9,7 +11,7 @@ Rails.application.routes.draw do
   post '/detail' => 'vessels#detail'
 
   # competitions are top level objects
-  resources :competitions, only: [:new, :create, :index, :show, :update] do
+  resources :competitions, only: [:new, :create, :index, :show, :edit, :update] do
     collection do
       get :template
       post :duplicate
@@ -40,6 +42,7 @@ Rails.application.routes.draw do
       post 'records/batch'
     end
     resources :rules, only: [:index, :new, :create, :destroy]
+    resource :metric, only: [:edit, :update]
   end
 
   # players are top level objects

@@ -1,0 +1,18 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to 'Back', competition_path(@competition)
+
+%h1 Edit Competition
+%ul
+  %li= link_to 'Edit Scoring', edit_competition_metric_path(@competition)
+
+- if flash[:error]
+  %p.error= flash[:error]
+= form_for @competition do |f|
+  %ul
+    %li
+      = f.label :name
+      = f.text_field :name
+  = f.submit 'Save Competition'

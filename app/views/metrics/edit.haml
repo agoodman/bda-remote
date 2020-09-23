@@ -1,0 +1,31 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to @competition.name, competition_path(@competition)
+    %li= link_to 'Back', edit_competition_path(@competition)
+
+%h1 Adjust Scoring Metric
+= form_for [@competition, @competition.metric] do |f|
+  %li
+    = f.label :kills
+    = f.text_field :kills
+  %li
+    = f.label :deaths
+    = f.text_field :deaths
+  %li
+    = f.label :assists
+    = f.text_field :assists
+  %li
+    = f.label :hits_out
+    = f.text_field :hits_out
+  %li
+    = f.label :dmg_out
+    = f.text_field :dmg_out
+  %li
+    = f.label :hits_in
+    = f.text_field :hits_in
+  %li
+    = f.label :dmg_in
+    = f.text_field :dmg_in
+  %li= f.submit 'Save'

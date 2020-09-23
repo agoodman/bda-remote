@@ -1,5 +1,5 @@
 class CompetitionsController < AuthenticatedController
-  before_action :require_session, only: [:new, :create, :start, :unstart, :extend, :template, :duplicate]
+  before_action :require_session, only: [:new, :create, :edit, :start, :unstart, :extend, :template, :duplicate]
 
   include Serviceable
   skip_before_action :verify_authenticity_token
@@ -32,6 +32,11 @@ class CompetitionsController < AuthenticatedController
       format.xml { render xml: @instance }
       format.html
     end
+  end
+
+  def edit
+    @competition = Competition.find(params[:id])
+    redirect_to competition_path(@competition) unless current_user == @competition.user
   end
 
   def results
