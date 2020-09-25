@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_235332) do
+ActiveRecord::Schema.define(version: 2020_09_25_001758) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -55,6 +55,12 @@ ActiveRecord::Schema.define(version: 2020_09_11_235332) do
     t.float "dmg_in"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "ram_parts_in"
+    t.float "ram_parts_out"
+    t.float "mis_parts_in"
+    t.float "mis_parts_out"
+    t.float "mis_dmg_in"
+    t.float "mis_dmg_out"
     t.index ["competition_id"], name: "index_metrics_on_competition_id"
   end
 
@@ -80,6 +86,12 @@ ActiveRecord::Schema.define(version: 2020_09_11_235332) do
     t.float "dmg_in"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "ram_parts_in"
+    t.integer "ram_parts_out"
+    t.integer "mis_parts_in"
+    t.integer "mis_parts_out"
+    t.float "mis_dmg_in"
+    t.float "mis_dmg_out"
     t.index ["competition_id", "vessel_id"], name: "index_rankings_on_competition_id_and_vessel_id"
   end
 
@@ -99,6 +111,12 @@ ActiveRecord::Schema.define(version: 2020_09_11_235332) do
     t.integer "wins"
     t.integer "dmg_in"
     t.integer "dmg_out"
+    t.integer "ram_parts_in"
+    t.integer "ram_parts_out"
+    t.integer "mis_parts_in"
+    t.integer "mis_parts_out"
+    t.float "mis_dmg_in"
+    t.float "mis_dmg_out"
     t.index ["competition_id"], name: "index_records_on_competition_id_and_player_id"
     t.index ["distance"], name: "index_records_on_distance"
   end

@@ -34,6 +34,12 @@ class RecordsController < ApplicationController
       r.kills = rp['kills'] rescue 0
       r.deaths = rp['deaths'] rescue 0
       r.assists = rp['assists'] rescue 0
+      r.mis_dmg_out = rp['mis_dmg_out'] rescue 0
+      r.mis_dmg_in = rp['mis_dmg_in'] rescue 0
+      r.mis_parts_out = rp['mis_parts_out'] rescue 0
+      r.mis_parts_in = rp['mis_parts_in'] rescue 0
+      r.ram_parts_out = rp['ram_parts_out'] rescue 0
+      r.ram_parts_in = rp['ram_parts_in'] rescue 0
       r.distance = rp['distance']
       r.weapon = rp['weapon']
       r.save
