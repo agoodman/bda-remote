@@ -177,6 +177,12 @@ class Competition < ApplicationRecord
       ranking.hits_in = r.map(&:hits_in).sum
       ranking.dmg_out = r.map(&:dmg_out).sum
       ranking.dmg_in = r.map(&:dmg_in).sum
+      ranking.mis_dmg_out = r.map(&:mis_dmg_out).sum
+      ranking.mis_dmg_in = r.map(&:mis_dmg_in).sum
+      ranking.mis_parts_out = r.map(&:mis_parts_out).sum
+      ranking.mis_parts_in = r.map(&:mis_parts_in).sum
+      ranking.ram_parts_out = r.map(&:ram_parts_out).sum
+      ranking.ram_parts_in = r.map(&:ram_parts_in).sum
       ranking.score = metric.score_for_record(ranking)
       ranking.rank = 0
       ranking
