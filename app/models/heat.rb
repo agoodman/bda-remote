@@ -65,6 +65,12 @@ class Heat < ApplicationRecord
           hits_in: e.map(&:hits_in).sum,
           dmg_out: e.map(&:dmg_out).sum,
           dmg_in: e.map(&:dmg_in).sum,
+          mis_dmg_out: e.map(&:mis_dmg_out).sum,
+          mis_dmg_in: e.map(&:mis_dmg_in).sum,
+          mis_parts_out: e.map(&:mis_parts_out).sum,
+          mis_parts_in: e.map(&:mis_parts_in).sum,
+          ram_parts_out: e.map(&:ram_parts_out).sum,
+          ram_parts_in: e.map(&:ram_parts_in).sum,
           name: (vessels.where(id: k).first.player.name rescue "-")
       }
     }

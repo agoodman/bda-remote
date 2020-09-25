@@ -21,7 +21,7 @@
     - heat.leaders.each_with_index do |p, k|
       %tr
         %td= k+1
-        %td= p.vessel.player.name
+        %td= p[:name]
         %td= p[:score]
         %td= p[:kills]
         %td= p[:deaths]
