@@ -3,6 +3,8 @@ class RecordsController < ApplicationController
   skip_before_action :verify_authenticity_token
   acts_as_service :record, only: :index
 
+  before_action :check_authorization, only: :batch
+
   def batch
     @records = params['records']
     if @records.count > 100
@@ -82,6 +84,18 @@ class RecordsController < ApplicationController
 
   def did_assign_collection
     @collection = @collection.where(competition_id: params[:competition_id])
+  end
+
+  def check_authorization
+    reject_request and return if params[:client_secret].nil? || params[:client_secret] != ENV['CLIENT_SECRET']
+  end
+
+  def reject_request
+    response = { error: "Unauthorized" }
+    respond_to do |format|
+      format.json { render json: response, status: :unauthorized }
+      format.all { render nothing: true, status: :unauthorized }
+    end
   end
 
 end
