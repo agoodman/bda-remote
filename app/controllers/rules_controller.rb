@@ -87,6 +87,15 @@ class RulesController < AuthenticatedController
           op: params[:rule][:properties][:op].cleanup,
           value: params[:rule][:properties][:value].cleanup
       }
+    when :ship_size
+      return {
+          opx: params[:rule][:ship_size][:opx],
+          x: params[:rule][:ship_size][:x],
+          opy: params[:rule][:ship_size][:opy],
+          y: params[:rule][:ship_size][:y],
+          opz: params[:rule][:ship_size][:opz],
+          z: params[:rule][:ship_size][:z]
+      }
     else
       puts "UNK: #{strategy}"
       return {}
