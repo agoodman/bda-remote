@@ -50,6 +50,45 @@ module Validation
     end
   end
 
+  class ShipSizeCondition < Strategy
+    def initialize(options)
+      @x = options[:x]
+      @opx = options[:opx]
+      @y = options[:y]
+      @opy = options[:opy]
+      @z = options[:z]
+      @opz = options[:opz]
+    end
+    def apply(craft)
+      size = craft.ship_size
+      return false unless condition_result(size[0], @x.to_f, @opx)
+      return false unless condition_result(size[1], @y.to_f, @opy)
+      return false unless condition_result(size[2], @z.to_f, @opz)
+      return true
+    end
+    def condition_result(value, ref, op)
+      case op.to_sym
+      when :lt
+        return value < ref
+      when :lte
+        return value <= ref
+      when :gt
+        return value > ref
+      when :gte
+        return value >= ref
+      when :eq
+        return value == ref
+      when :neq
+        return value != ref
+      else
+        return true
+      end
+    end
+    def error_message
+      "Craft size out of bounds"
+    end
+  end
+
   class PartCount < Strategy
     def initialize(options)
       @op = options[:op]

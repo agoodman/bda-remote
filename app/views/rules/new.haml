@@ -49,5 +49,19 @@
       = e.select :matcher, options_for_select([:none, :any, :all])
   %fieldset#property{style: "display: none"}
     = f.fields_for :properties, &field_helper
-
+  %fieldset#ship_size{style: "display: none"}
+    %ul
+    = f.fields_for :ship_size do |e|
+      %li
+        = e.label :x
+        = e.select :opx, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+        = e.text_field :x
+      %li
+        = e.label :y
+        = e.select :opy, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+        = e.text_field :y
+      %li
+        = e.label :z
+        = e.select :opz, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+        = e.text_field :z
   = f.submit "Create Rule"

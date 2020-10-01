@@ -17,5 +17,8 @@ $(document).ready(function() {
         else if(strategy.endsWith("count")) {
             $('#part_count').show();
         }
+        else if(strategy.endsWith("ship_size")) {
+            $('#ship_size').show();
+        }
     });
 });
