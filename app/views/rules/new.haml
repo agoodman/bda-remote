@@ -49,6 +49,10 @@
       = e.select :matcher, options_for_select([:none, :any, :all])
   %fieldset#property{style: "display: none"}
     = f.fields_for :properties, &field_helper
+  %fieldset#ship_type{style: "display: none"}
+    = f.fields_for :ship_type do |e|
+      = e.label :type
+      = e.select :type, options_for_select([:sph, :vab])
   %fieldset#ship_size{style: "display: none"}
     %ul
     = f.fields_for :ship_size do |e|

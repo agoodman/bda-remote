@@ -50,6 +50,32 @@ module Validation
     end
   end
 
+  class ShipTypeCondition < Strategy
+    def initialize(options)
+      @type = options[:type]
+    end
+    def apply(craft)
+      case @type.to_sym
+      when :sph
+        return craft.ship_type == "SPH"
+      when :vab
+        return craft.ship_type == "VAB"
+      else
+        return false
+      end
+    end
+    def error_message
+      case @type.to_sym
+      when :sph
+        return "Craft must be saved in the SPH"
+      when :vab
+        return "Craft must be saved in the VAB"
+      else
+        return "Unknown wrong ship type"
+      end
+    end
+  end
+
   class ShipSizeCondition < Strategy
     def initialize(options)
       @x = options[:x]

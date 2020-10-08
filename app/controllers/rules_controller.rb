@@ -96,6 +96,10 @@ class RulesController < AuthenticatedController
           opz: params[:rule][:ship_size][:opz],
           z: params[:rule][:ship_size][:z]
       }
+    when :ship_type
+      return {
+          type: params[:rule][:ship_type][:type]
+      }
     else
       puts "UNK: #{strategy}"
       return {}

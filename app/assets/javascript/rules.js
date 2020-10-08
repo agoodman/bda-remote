@@ -20,5 +20,8 @@ $(document).ready(function() {
         else if(strategy.endsWith("ship_size")) {
             $('#ship_size').show();
         }
+        else if(strategy.endsWith("ship_type")) {
+            $('#ship_type').show();
+        }
     });
 });

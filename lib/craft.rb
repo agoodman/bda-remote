@@ -9,6 +9,9 @@ module Craft
     def ship_size
       @vessel["size"].split(",").map { |e| e.to_f } rescue [0, 0, 0]
     end
+    def ship_type
+      @vessel["type"]
+    end
     def parts
       @vessel[:parts]
     end
