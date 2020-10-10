@@ -10,6 +10,7 @@ class Competition < ApplicationRecord
   has_many :rules
   has_many :rankings
   has_one :metric
+  has_many :vessel_roles
 
   validates :user_id, presence: true
   validates :status, presence: true
@@ -23,6 +24,7 @@ class Competition < ApplicationRecord
   after_initialize :assign_initial_remaining_heats
   after_initialize :assign_initial_remaining_stages
   after_create :create_default_metric
+  after_create :create_default_vessel_role
 
   scope :open, -> { where(status: 0) }
 
@@ -53,6 +55,10 @@ class Competition < ApplicationRecord
 
   def create_default_metric
     Metric.where(competition_id: self.id).first_or_create
+  end
+
+  def create_default_vessel_role
+    VesselRole.where(competition_id: self.id, name: "default").first_or_create
   end
 
   def validation_strategies

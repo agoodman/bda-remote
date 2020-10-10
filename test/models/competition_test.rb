@@ -9,6 +9,7 @@ class CompetitionTest < ActiveSupport::TestCase
     should have_many(:rules)
     should have_many(:rankings)
     should have_one(:metric)
+    should have_many(:vessel_roles)
   end
 
   context "validations" do
