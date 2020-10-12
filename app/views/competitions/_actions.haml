@@ -3,6 +3,10 @@
     %li= link_to 'Upload Craft', new_competition_vessel_path(competition)
   - if user_signed_in? && current_user == competition.user
     %li= link_to 'Edit Competition', edit_competition_path(competition)
+    - if competition.private?
+      %li= link_to 'Publish Now', publish_competition_path(competition)
+    - if competition.public?
+      %li= link_to 'Make Private', unpublish_competition_path(competition)
     - if competition.can_start?
       %li= link_to 'Edit Rules', competition_rules_path(competition)
       %li= link_to 'Start Competition', start_competition_path(competition)

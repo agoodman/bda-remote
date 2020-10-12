@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_25_001758) do
+ActiveRecord::Schema.define(version: 2020_10_12_143345) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_09_25_001758) do
     t.string "name"
     t.integer "user_id"
     t.integer "remaining_stages"
+    t.datetime "published_at"
     t.index ["name"], name: "index_competitions_on_name", unique: true
   end
 
@@ -142,12 +143,20 @@ ActiveRecord::Schema.define(version: 2020_09_25_001758) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "vessel_roles", force: :cascade do |t|
+    t.integer "competition_id"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "vessels", force: :cascade do |t|
     t.integer "player_id"
     t.string "craft_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "competition_id"
+    t.string "role"
     t.index ["competition_id"], name: "index_vessels_on_competition_id"
   end
 

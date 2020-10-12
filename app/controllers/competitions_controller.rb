@@ -1,5 +1,5 @@
 class CompetitionsController < AuthenticatedController
-  before_action :require_session, only: [:new, :create, :edit, :start, :unstart, :extend, :template, :duplicate]
+  before_action :require_session, only: [:new, :create, :edit, :start, :unstart, :extend, :template, :duplicate, :publish, :unpublish]
 
   include Serviceable
   skip_before_action :verify_authenticity_token
@@ -9,7 +9,9 @@ class CompetitionsController < AuthenticatedController
   # rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
 
   def index
-    @competitions = Competition.limit(10).order(updated_at: :desc)
+    @competitions = Rails.cache.fetch("competitions") do
+      Competition.limit(10).order(updated_at: :desc)
+    end
     respond_to do |format|
       format.json { render json: @collection }
       format.xml { render xml: @collection }
@@ -41,13 +43,15 @@ class CompetitionsController < AuthenticatedController
 
   def update
     @competition = Competition.find(params[:id])
-    @competition.update(params.require(:competition).permit(:name, :duration))
+    @competition.update(valid_params)
     @competition.save
     redirect_to competition_path(@competition)
   end
 
   def results
-    @competition = Competition.includes(records: { vessel: :player }).find(params[:id])
+    @competition = Rails.cache.fetch("results-#{params[:id]}") do
+      Competition.includes(records: { vessel: :player }).find(params[:id])
+    end
     respond_to do |format|
       format.csv
     end
@@ -58,7 +62,7 @@ class CompetitionsController < AuthenticatedController
   end
 
   def create
-    @competition = Competition.new(params.require(:competition).permit(:name, :duration))
+    @competition = Competition.new(valid_params)
     @competition.user_id = current_user.id
     @competition.save
     redirect_to competition_path(@competition.id)
@@ -90,6 +94,22 @@ class CompetitionsController < AuthenticatedController
       flash[:error] = "sorry, dave"
       head :bad_request
     end
+  end
+
+  def publish
+    @instance = Competition.find(params[:id])
+    if @instance.private?
+      @instance.publish!
+    end
+    redirect_to competition_path(@instance)
+  end
+
+  def unpublish
+    @instance = Competition.find(params[:id])
+    if @instance.public?
+      @instance.unpublish!
+    end
+    redirect_to competition_path(@instance)
   end
 
   def template
@@ -124,5 +144,9 @@ class CompetitionsController < AuthenticatedController
       format.xml { render xml: result }
       format.html { redirect_to new_competition_path }
     end
+  end
+
+  def valid_params
+    params.require(:competition).permit(:name, :duration, :private)
   end
 end

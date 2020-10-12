@@ -194,4 +194,22 @@ class Competition < ApplicationRecord
     end
     return
   end
+
+  def public?
+    !published_at.nil? && published_at < Time.now
+  end
+
+  def private?
+    published_at.nil?
+  end
+
+  def publish!
+    self.published_at = Time.now
+    self.save!
+  end
+
+  def unpublish!
+    self.published_at = nil
+    self.save!
+  end
 end

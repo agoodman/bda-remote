@@ -10,7 +10,9 @@
 
 <ul>
 <% @competitions.each do |e| -%>
-<li><%= link_to e.name, competition_path(e) %></li>
+<% if e.public? || (user_signed_in? && e.user == current_user) -%>
+<li><%= link_to e.name, competition_path(e) %><% if e.private? %><span>(private)</span><% end %></li>
+<% end -%>
 <% end -%>
 </ul>
 </section>

@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       get :generate
       get :start
       get :unstart
+      get :publish
+      get :unpublish
       get :extend
       get :stop
       get :results
