@@ -39,6 +39,13 @@ class CompetitionsController < AuthenticatedController
     redirect_to competition_path(@competition) unless current_user == @competition.user
   end
 
+  def update
+    @competition = Competition.find(params[:id])
+    @competition.update(params.require(:competition).permit(:name, :duration))
+    @competition.save
+    redirect_to competition_path(@competition)
+  end
+
   def results
     @competition = Competition.includes(records: { vessel: :player }).find(params[:id])
     respond_to do |format|
