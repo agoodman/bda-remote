@@ -30,7 +30,7 @@ module Armory
   class TournamentRankingStrategy < GroupedStragegy
     def apply!(competition, stage)
       players_per_heat = competition.players_per_heat
-      ranked_vessels = competition.vessels.sort_by { |v| v.score }
+      ranked_vessels = competition.rankings.includes(:vessel).sort_by { |e| e.score }.map(&:vessel)
       groups = ranked_vessels.in_groups_of(players_per_heat, false)
       generate_with_groups(competition, stage, groups)
     end
