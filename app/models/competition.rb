@@ -94,9 +94,9 @@ class Competition < ApplicationRecord
     self.save!
   end
 
-  def extend!
+  def extend!(strategy = RandomDistributionStrategy.new)
     last_stage = heats.map(&:stage).max
-    generate_heats(self, last_stage+1, true)
+    generate_heats(self, last_stage+1, true, strategy)
     self.remaining_stages = self.remaining_stages + 1
     self.save!
   end

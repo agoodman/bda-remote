@@ -88,7 +88,11 @@ class CompetitionsController < AuthenticatedController
   def extend
     @instance = Competition.find(params[:id])
     if @instance.running?
-      @instance.extend!
+      if params[:strategy] == "ranked"
+        @instance.extend!(Armory::TournamentRankingStrategy.new)
+      else
+        @instance.extend!
+      end
       redirect_to competition_path(@instance)
     else
       flash[:error] = "sorry, dave"

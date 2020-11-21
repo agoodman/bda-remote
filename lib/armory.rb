@@ -7,11 +7,8 @@ module Armory
     strategy.apply!(competition, stage)
   end
 
-  class RandomDistributionStrategy
-    def apply!(competition, stage)
-      players_per_heat = competition.players_per_heat
-      puts "RandomDistribution for #{competition.vessels.count} players in groups of #{players_per_heat}"
-      groups = competition.vessels.shuffle.in_groups_of(players_per_heat, false)
+  class GroupedStragegy
+    def generate_with_groups(competition, stage, groups)
       groups.each.with_index do |g,k|
         heat = competition.heats.where(stage: stage, order: k).first_or_create
         g.each do |v|
@@ -21,9 +18,21 @@ module Armory
     end
   end
 
-  class TournamentBestHalfStrategy
-    def apply!(competition)
-      # sort players by heat score, select the top half and generate new heats
+  class RandomDistributionStrategy < GroupedStragegy
+    def apply!(competition, stage)
+      players_per_heat = competition.players_per_heat
+      puts "RandomDistribution for #{competition.vessels.count} players in groups of #{players_per_heat}"
+      groups = competition.vessels.shuffle.in_groups_of(players_per_heat, false)
+      generate_with_groups(competition, stage, groups)
+    end
+  end
+
+  class TournamentRankingStrategy < GroupedStragegy
+    def apply!(competition, stage)
+      players_per_heat = competition.players_per_heat
+      ranked_vessels = competition.vessels.sort_by { |v| v.score }
+      groups = ranked_vessels.in_groups_of(players_per_heat, false)
+      generate_with_groups(competition, stage, groups)
     end
   end
 
