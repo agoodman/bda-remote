@@ -23,7 +23,10 @@ class MetricsController < AuthenticatedController
                       :dmg_in,
                       :mis_dmg_in,
                       :mis_parts_in,
-                      :ram_parts_in
+                      :ram_parts_in,
+                      :wins,
+                      :death_order,
+                      :death_time
                   )
     @competition.metric.update(options)
     @competition.update_rankings!

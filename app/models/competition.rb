@@ -183,6 +183,9 @@ class Competition < ApplicationRecord
       ranking.mis_parts_in = r.map(&:mis_parts_in).sum
       ranking.ram_parts_out = r.map(&:ram_parts_out).sum
       ranking.ram_parts_in = r.map(&:ram_parts_in).sum
+      ranking.death_order = r.map(&:death_order).sum
+      ranking.death_time = r.map(&:death_time).sum
+      ranking.wins = r.map(&:wins).sum
       ranking.score = metric.score_for_record(ranking)
       ranking.rank = 0
       ranking

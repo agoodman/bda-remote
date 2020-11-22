@@ -44,6 +44,9 @@ class RecordsController < ApplicationController
       r.ram_parts_in = rp['ram_parts_in'] rescue 0
       r.distance = rp['distance']
       r.weapon = rp['weapon']
+      r.death_order = rp['death_order'] rescue 0
+      r.death_time = rp['death_time'] rescue 0
+      r.wins = rp['wins'] rescue 0
       r.save
 
       if r.errors.any?
@@ -79,7 +82,10 @@ class RecordsController < ApplicationController
                  :mis_parts_in,
                  :mis_parts_out,
                  :ram_parts_in,
-                 :ram_parts_out)
+                 :ram_parts_out,
+                 :death_order,
+                 :death_time,
+                 :wins)
   end
 
   def did_assign_collection

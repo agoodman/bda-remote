@@ -19,6 +19,9 @@
         %th Missile Dmg In
         %th Missile Parts In
         %th Ram Parts In
+        %th Wins
+        %th Death Order
+        %th Death Time
     %tbody
       - competition.leaders.each_with_index do |p, k|
         %tr
@@ -38,3 +41,6 @@
           %td= p[:mis_dmg_in]
           %td= p[:mis_parts_in]
           %td= p[:ram_parts_in]
+          %td= p[:wins]
+          %td= p[:death_order]
+          %td= p[:death_time]
