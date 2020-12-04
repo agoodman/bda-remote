@@ -20,6 +20,7 @@
 </section>
 <section>
 <h2>Status: <%= @instance.status_label.humanize %></h2>
+<%= render partial: 'scoring', locals: { competition: @instance } %>
 <%= render partial: 'actions', locals: { competition: @instance } %>
 </section>
 
