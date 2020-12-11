@@ -18,9 +18,9 @@ class PartsController < ApplicationController
       redirect_to new_part_path and return
     end
 
-    @part = Part.where(name: options[:name]).first_or_create
-    @part.cost = options[:cost].to_f rescue 0
-    @part.mass = options[:mass].to_f rescue 0
+    @part = Part.where(name: options['name']).first_or_create
+    @part.cost = options['cost'].to_f rescue 0
+    @part.mass = options['mass'].to_f rescue 0
     @part.save
     flash[:notice] = "Part #{@part.name} updated"
     redirect_to new_part_path
