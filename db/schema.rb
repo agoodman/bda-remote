@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_22_230332) do
+ActiveRecord::Schema.define(version: 2020_12_11_033338) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -66,6 +66,14 @@ ActiveRecord::Schema.define(version: 2020_11_22_230332) do
     t.float "death_time"
     t.integer "wins"
     t.index ["competition_id"], name: "index_metrics_on_competition_id"
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.string "name"
+    t.float "cost"
+    t.float "mass"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "players", force: :cascade do |t|

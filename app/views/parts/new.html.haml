@@ -1,0 +1,11 @@
+%h1 Upload Part
+- if flash[:error]
+  %ul.errors
+    - flash[:error].each do |e|
+      %li= e
+- if flash[:notice]
+  %ul.errors
+    %li= flash[:notice]
+= form_for :part, url: parts_path, html: { multipart: true } do |f|
+  = file_field_tag :file
+  = f.submit 'Submit'
