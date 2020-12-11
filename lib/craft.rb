@@ -176,6 +176,16 @@ module Craft
       end
       return depth * links.count + total + result
     end
+    def cost
+      part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") }
+      part_costs = Part.where('name IN (?)', part_names).each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.cost }
+      part_names.map { |e| part_costs[e] }.reduce(0, :+)
+    end
+    def mass
+      part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") }
+      part_masses = Part.where('name IN (?)', part_names).each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.mass }
+      part_names.map { |e| part_masses[e] }.reduce(0, :+)
+    end
   end
 
   def is_craft_file_valid?(file, strategies=[])
