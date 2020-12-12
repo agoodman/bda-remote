@@ -1,6 +1,8 @@
 class PartsController < ApplicationController
   include PartLibrary
 
+  skip_before_action :verify_authenticity_token
+
   def new
   end
 
@@ -22,7 +24,9 @@ class PartsController < ApplicationController
     @part.cost = options['cost'].to_f rescue 0
     @part.mass = options['mass'].to_f rescue 0
     @part.save
-    flash[:notice] = "Part #{@part.name} updated"
-    redirect_to new_part_path
+
+    respond_to do |format|
+      format.json { render json: @part }
+    end
   end
 end
