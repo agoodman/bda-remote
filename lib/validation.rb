@@ -407,8 +407,22 @@ module Validation
   end
 
   class ShipCostCondition < ResourcePropertyCondition
+    def apply(craft)
+      cost = craft.cost
+      [cost].any? @comparator
+    end
+    def error_message
+      "craft must cost #{@op} #{@value}"
+    end
   end
 
   class ShipMassCondition < ResourcePropertyCondition
+    def apply(craft)
+      mass = craft.mass
+      [mass].any? @comparator
+    end
+    def error_message
+      "craft must have mass #{@op} #{@value}"
+    end
   end
 end
