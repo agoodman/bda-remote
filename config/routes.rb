@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     resource :metric, only: [:edit, :update]
   end
 
-  resources :parts, only: [:new, :create]
+  resources :parts, only: [:new, :create, :show]
 
   # players are top level objects
   resources :players do

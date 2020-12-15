@@ -29,4 +29,12 @@ class PartsController < ApplicationController
       format.json { render json: @part }
     end
   end
+
+  def show
+    @part = Part.where(name: params[:id]).first
+    head :bad_request and return if @part.nil?
+    respond_to do |format|
+      format.json { render json: @part, status: :ok }
+    end
+  end
 end
