@@ -4,8 +4,12 @@ module PartLibrary
       valid_keys = [:name, :cost, :mass]
       props = {}
       body = file.tempfile.read
-      eidx = body.lines.find_index { |e| e =~ /MODULE/ }
-      part_lines = body.lines[0..eidx]
+      lines = body.lines
+      line_count = lines.count
+      midx = lines.index { |e| e =~ /MODULE/ } || line_count
+      ridx = lines.index { |e| e =~ /RESOURCE/ } || line_count
+      eidx = [midx, ridx].min
+      part_lines = lines[0..eidx]
       part_lines.each do |e|
         # puts "in: #{e}"
         next if e =~ /\/\//
