@@ -49,6 +49,20 @@
       = e.select :matcher, options_for_select([:none, :any, :all])
   %fieldset#property{style: "display: none"}
     = f.fields_for :properties, &field_helper
+  %fieldset#ship_cost{style: "display: none"}
+    %ul
+    = f.fields_for :ship_cost do |e|
+      %li
+        = e.label :value
+        = e.select :op, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+        = e.text_field :value
+  %fieldset#ship_mass{style: "display: none"}
+    %ul
+    = f.fields_for :ship_mass do |e|
+      %li
+        = e.label :value
+        = e.select :op, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+        = e.text_field :value
   %fieldset#ship_type{style: "display: none"}
     = f.fields_for :ship_type do |e|
       = e.label :type

@@ -87,6 +87,16 @@ class RulesController < AuthenticatedController
           op: params[:rule][:properties][:op].cleanup,
           value: params[:rule][:properties][:value].cleanup
       }
+    when :ship_cost
+      return {
+          op: params[:rule][:ship_cost][:op],
+          value: params[:rule][:ship_cost][:value]
+      }
+    when :ship_mass
+      return {
+          op: params[:rule][:ship_mass][:op],
+          value: params[:rule][:ship_mass][:value]
+      }
     when :ship_size
       return {
           opx: params[:rule][:ship_size][:opx],

@@ -15,7 +15,9 @@ class Rule < ApplicationRecord
       string_module_property: "StringModulePropertyCondition",
       resource_property: "ResourcePropertyCondition",
       ship_size: "ShipSizeCondition",
-      ship_type: "ShipTypeCondition"
+      ship_type: "ShipTypeCondition",
+      ship_cost: "ShipCostCondition",
+      ship_mass: "ShipMassCondition"
   }
   def self.strategy_keys
     @@strategy_map.keys

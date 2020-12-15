@@ -406,4 +406,9 @@ module Validation
     end
   end
 
+  class ShipCostCondition < ResourcePropertyCondition
+  end
+
+  class ShipMassCondition < ResourcePropertyCondition
+  end
 end
