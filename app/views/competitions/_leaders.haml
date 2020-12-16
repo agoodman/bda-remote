@@ -6,9 +6,12 @@
         %th Rank
         %th Player
         %th Score
+        %th Wins
         %th Kills
         %th Deaths
         %th Assists
+        %th Death Order
+        %th Death Time
         %th Hits Out
         %th Dmg Out
         %th Missile Dmg Out
@@ -19,18 +22,18 @@
         %th Missile Dmg In
         %th Missile Parts In
         %th Ram Parts In
-        %th Wins
-        %th Death Order
-        %th Death Time
     %tbody
       - competition.leaders.each_with_index do |p, k|
         %tr
           %td= k+1
           %td= p.vessel.player.name
           %td= p[:score]
+          %td= p[:wins]
           %td= p[:kills]
           %td= p[:deaths]
           %td= p[:assists]
+          %td= p[:death_order]
+          %td= p[:death_time]
           %td= p[:hits_out]
           %td= p[:dmg_out]
           %td= p[:mis_dmg_out]
@@ -41,6 +44,3 @@
           %td= p[:mis_dmg_in]
           %td= p[:mis_parts_in]
           %td= p[:ram_parts_in]
-          %td= p[:wins]
-          %td= p[:death_order]
-          %td= p[:death_time]
