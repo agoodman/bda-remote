@@ -58,9 +58,13 @@ class Heat < ApplicationRecord
   def leaders
     result = records.group_by(&:vessel_id).map { |k, e|
       {
+          wins: e.map(&:wins).sum,
+          score: competition.metric.score_for_record(e.first),
           kills: e.map(&:kills).sum,
           deaths: e.map(&:deaths).sum,
           assists: e.map(&:assists).sum,
+          death_order: e.map(&:death_order).sum,
+          death_time: e.map(&:death_time).sum,
           hits_out: e.map(&:hits_out).sum,
           hits_in: e.map(&:hits_in).sum,
           dmg_out: e.map(&:dmg_out).sum,
@@ -74,8 +78,7 @@ class Heat < ApplicationRecord
           name: (vessels.where(id: k).first.player.name rescue "-")
       }
     }
-    max_hits_out = result.map { |e| e[:hits_out] }.max
-    return result.sort_by { |e| 3*e[:kills] - 3*e[:deaths] + e[:assists] + 5*e[:hits_out]/max_hits_out }.reverse
+    return result.sort_by { |e| e[:score] }.reverse
   end
 
 end

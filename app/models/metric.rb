@@ -42,22 +42,22 @@ class Metric < ApplicationRecord
 
   def score_for_record(record)
     result = 0
-    result += record.kills*self.kills
-    result += record.deaths*self.deaths
-    result += record.assists*self.assists
-    result += record.hits_out*self.hits_out
-    result += record.hits_in*self.hits_in
-    result += record.dmg_out*self.dmg_out
-    result += record.dmg_in*self.dmg_in
-    result += record.ram_parts_in*self.ram_parts_in
-    result += record.ram_parts_out*self.ram_parts_out
-    result += record.mis_parts_in*self.mis_parts_in
-    result += record.mis_parts_out*self.mis_parts_out
-    result += record.mis_dmg_in*self.mis_dmg_in
-    result += record.mis_dmg_out*self.mis_dmg_out
-    result += record.death_order*self.death_order
-    result += record.death_time*self.death_time
-    result += record.wins*self.wins
+    result += (record.kills*self.kills rescue 0)
+    result += (record.deaths*self.deaths rescue 0)
+    result += (record.assists*self.assists rescue 0)
+    result += (record.hits_out*self.hits_out rescue 0)
+    result += (record.hits_in*self.hits_in rescue 0)
+    result += (record.dmg_out*self.dmg_out rescue 0)
+    result += (record.dmg_in*self.dmg_in rescue 0)
+    result += (record.ram_parts_in*self.ram_parts_in rescue 0)
+    result += (record.ram_parts_out*self.ram_parts_out rescue 0)
+    result += (record.mis_parts_in*self.mis_parts_in rescue 0)
+    result += (record.mis_parts_out*self.mis_parts_out rescue 0)
+    result += (record.mis_dmg_in*self.mis_dmg_in rescue 0)
+    result += (record.mis_dmg_out*self.mis_dmg_out rescue 0)
+    result += (record.death_order*self.death_order rescue 0)
+    result += (record.death_time*self.death_time rescue 0)
+    result += (record.wins*self.wins rescue 0)
     return result
   end
 end
