@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       get :stop
       get :results
     end
-    resources :players, only: :index, controller: 'competitions/players'
+    resources :players, only: [:index, :new, :create, :destroy], controller: 'competitions/players'
     resources :vessels, only: [:index, :new, :create] do
       collection do
         get :upload

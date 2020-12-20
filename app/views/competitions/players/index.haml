@@ -1,0 +1,20 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to @competition.name, competition_path(@competition)
+%h1 Edit NPCs
+- if flash[:error]
+  %ul.errors
+    %li= flash[:error]
+- vessels = @competition.vessels.includes(:player).where(players: { is_human: false })
+- if vessels.any?
+  %ul
+    - vessels.each do |v|
+      %li
+        = "#{v.player.name} (#{v.craft_url})"
+        = link_to 'remove', competition_player_path(@competition, v.player), method: :delete, data: { confirm: "Are you sure?" }
+
+- else
+  %p No NPCs
+= link_to 'Add NPC', new_competition_player_path(@competition)

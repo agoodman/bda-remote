@@ -5,6 +5,8 @@ class Player < ApplicationRecord
 
   validates :name, presence: true
 
+  scope :npc, -> { where(is_human: false) }
+
   def recent_competitions
     vessels.order("updated_at desc").limit(10).map(&:competition)
   end

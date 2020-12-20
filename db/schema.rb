@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_11_033338) do
+ActiveRecord::Schema.define(version: 2020_12_18_000643) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_033338) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
+    t.boolean "is_human", default: true
     t.index ["name"], name: "index_players_on_name", unique: true
   end
 
