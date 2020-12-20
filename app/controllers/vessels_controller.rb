@@ -76,6 +76,14 @@ class VesselsController < AuthenticatedController
     head :ok
   end
 
+  def index
+    @competition = Competition.find(params[:competition_id])
+    respond_to do |format|
+      format.json { render json: @competition.vessels }
+      format.xml { render xml: @competition.vessels }
+    end
+  end
+
   def detail
     file = params[:file]
     @craft = Craft::KspVessel.interpret(file)
