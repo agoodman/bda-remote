@@ -21,9 +21,9 @@ module Armory
   class RandomDistributionStrategy < GroupedStragegy
     def apply!(competition, stage)
       players_per_heat = competition.players_per_heat
-      puts "RandomDistribution for #{competition.vessels.count} players in groups of #{players_per_heat}"
-      npc_vessels = competition.vessels.where(players: { is_human: false })
+      npc_vessels = competition.vessels.where(players: { is_human: false }) rescue []
       player_vessels = competition.vessels.where(players: { is_human: true })
+      puts "RandomDistribution for #{player_vessels.count} players in groups of #{players_per_heat}"
       groups = player_vessels.shuffle.in_groups_of(players_per_heat, false).map { |g| g + npc_vessels }
       generate_with_groups(competition, stage, groups)
     end
