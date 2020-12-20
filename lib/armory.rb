@@ -22,7 +22,9 @@ module Armory
     def apply!(competition, stage)
       players_per_heat = competition.players_per_heat
       puts "RandomDistribution for #{competition.vessels.count} players in groups of #{players_per_heat}"
-      groups = competition.vessels.shuffle.in_groups_of(players_per_heat, false)
+      npc_vessels = competition.vessels.where(players: { is_human: false })
+      player_vessels = competition.vessels.where(players: { is_human: true })
+      groups = player_vessels.shuffle.in_groups_of(players_per_heat, false).map { |g| g + npc_vessels }
       generate_with_groups(competition, stage, groups)
     end
   end
@@ -31,7 +33,9 @@ module Armory
     def apply!(competition, stage)
       players_per_heat = competition.players_per_heat
       ranked_vessels = competition.rankings.includes(:vessel).sort_by { |e| e.score }.map(&:vessel)
-      groups = ranked_vessels.in_groups_of(players_per_heat, false)
+      npc_vessels = competition.vessels.where(players: { is_human: false })
+      player_vessels = ranked_vessels.filter { |v| v.player.is_human }
+      groups = player_vessels.in_groups_of(players_per_heat, false).map { |g| g + npc_vessels }
       generate_with_groups(competition, stage, groups)
     end
   end
