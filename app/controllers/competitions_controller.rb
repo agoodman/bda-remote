@@ -38,6 +38,7 @@ class CompetitionsController < AuthenticatedController
 
   def edit
     @competition = Competition.find(params[:id])
+    @rulesets = Ruleset.all.map { |e| [e.name, e.id] }
     redirect_to competition_path(@competition) unless current_user == @competition.user
   end
 
@@ -151,6 +152,6 @@ class CompetitionsController < AuthenticatedController
   end
 
   def valid_params
-    params.require(:competition).permit(:name, :duration, :private)
+    params.require(:competition).permit(:name, :duration, :private, :ruleset_id)
   end
 end

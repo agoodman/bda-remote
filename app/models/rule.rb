@@ -1,5 +1,5 @@
 class Rule < ApplicationRecord
-  belongs_to :competition
+  belongs_to :ruleset
 
   validates_presence_of :strategy
   validates_presence_of :params

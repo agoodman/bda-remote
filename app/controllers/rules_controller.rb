@@ -1,7 +1,11 @@
 class RulesController < AuthenticatedController
 
   # before_action :require_session
-  before_action :assign_competition
+  before_action :assign_ruleset
+
+  def assign_ruleset
+    @ruleset = Ruleset.find(params[:ruleset_id])
+  end
 
   def new
     @rule = Rule.new
@@ -16,24 +20,21 @@ class RulesController < AuthenticatedController
     strategy = params[:rule][:strategy].to_sym
     @rule.strategy = Rule::strategies[strategy]
     @rule.params = build_params(strategy)
-    @rule.competition_id = @competition.id
+    @rule.ruleset_id = @ruleset.id
     @rule.save
     if @rule.errors.any?
       flash[:error] = @rule.errors.messages
-      redirect_to new_competition_rule_path(params[:competition_id])
+      redirect_to new_ruleset_rule_path(@ruleset)
     else
-      redirect_to competition_rules_path(params[:competition_id])
+      redirect_to ruleset_path(@ruleset)
     end
   end
 
   def destroy
     @rule = Rule.find(params[:id])
+    ruleset_id = @rule.ruleset_id
     @rule.destroy
-    redirect_to competition_rules_path(@competition)
-  end
-
-  def assign_competition
-    @competition = Competition.find(params[:competition_id])
+    redirect_to ruleset_path(@ruleset)
   end
 
   def build_params(strategy)

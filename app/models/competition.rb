@@ -3,11 +3,11 @@ class Competition < ApplicationRecord
   include Validation
 
   belongs_to :user
+  belongs_to :ruleset
   has_many :records
   has_many :heats
   has_many :vessels
   has_many :players, through: :vessels
-  has_many :rules
   has_many :rankings
   has_one :metric
 
@@ -67,6 +67,10 @@ class Competition < ApplicationRecord
       end
     end
     return results
+  end
+
+  def rules
+    ruleset.rules rescue []
   end
 
   # business logic

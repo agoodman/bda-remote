@@ -9,7 +9,6 @@
     - if competition.public?
       %li= link_to 'Make Private', unpublish_competition_path(competition)
     - if competition.can_start?
-      %li= link_to 'Edit Rules', competition_rules_path(competition)
       %li= link_to 'Start Competition', start_competition_path(competition)
     - elsif competition.running?
       %li= link_to 'Un-Start Competition', unstart_competition_path(competition)

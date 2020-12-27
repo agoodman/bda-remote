@@ -15,4 +15,7 @@
     %li
       = f.label :name
       = f.text_field :name
+    %li
+      = f.label :ruleset_id, "Ruleset"
+      = f.select :ruleset_id, options_for_select(@rulesets, @competition.ruleset_id), include_blank: true
   = f.submit 'Save Competition'

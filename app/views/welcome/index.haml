@@ -1,0 +1,10 @@
+%section
+  %ul
+    - if user_signed_in?
+      %li= link_to 'Rulesets', rulesets_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to 'Players', players_path
+    - if user_signed_in? && !current_user.player.nil?
+      %li= link_to 'My Player', player_path(current_user.player)
+    - else
+      %li= link_to 'Register', '/register'

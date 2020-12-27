@@ -1,0 +1,12 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Back', rulesets_path
+
+%section
+  %h1 New Ruleset
+
+  = form_for @ruleset do |f|
+    = f.label :name
+    = f.text_field :name
+    = f.submit

@@ -1,0 +1,14 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+
+%section
+  %h1 Rulesets
+
+  - if @rulesets.any?
+    %ul
+      - @rulesets.each do |rs|
+        %li= link_to rs.name, ruleset_path(rs)
+  - else
+    %p No rulesets
+  = link_to 'New ruleset', new_ruleset_path

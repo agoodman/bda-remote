@@ -12,14 +12,15 @@
 %nav
   %ul
     %li= link_to 'Home', root_path
-    %li= link_to 'Competitions', competitions_path
-    %li= link_to @competition.name, competition_path(@competition)
+    %li= link_to 'Rulesets', rulesets_path
+    %li= link_to @ruleset.name, ruleset_path(@ruleset)
 %h1 New Rule
 - if flash[:error]
   %ul.errors
     - flash[:error].each do |e|
       %li= e
-= form_for @rule, url: competition_rules_path(@competition) do |f|
+= form_for @rule, url: ruleset_rules_path(@ruleset) do |f|
+  = f.hidden_field :ruleset_id, value: @ruleset.id
   = f.select :strategy, options_for_select(Rule::strategy_select_options), { include_blank: true }
   %fieldset#part_count{style: "display: none"}
     = f.fields_for :part_count do |e|

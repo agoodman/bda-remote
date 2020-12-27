@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'metrics/show'
-  get 'metrics/update'
   devise_for :users, controllers: {omniauth_callbacks: "omniauth_callbacks"}
 
   root to: 'welcome#index'
@@ -43,7 +41,6 @@ Rails.application.routes.draw do
       resources :records, only: :index
       post 'records/batch'
     end
-    resources :rules, only: [:index, :new, :create, :destroy]
     resource :metric, only: [:edit, :update]
   end
 
@@ -57,6 +54,10 @@ Rails.application.routes.draw do
     collection do
       get :register
     end
+  end
+
+  resources :rulesets do
+    resources :rules, only: [:index, :new, :create, :destroy]
   end
 
   # rescue bad routes
