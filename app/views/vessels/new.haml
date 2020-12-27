@@ -1,0 +1,15 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Vessel Hangar', vessels_path
+
+%section
+  %h1 Upload Vessel
+  - if flash[:error]
+    %ul.errors
+    - flash[:error].each do |e|
+      %li= e
+  = form_for :vessel, url: vessels_path, html: { multipart: true } do |f|
+    = file_field_tag :file
+    = f.submit 'Submit'
+

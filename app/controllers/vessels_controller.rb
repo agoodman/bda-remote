@@ -10,7 +10,7 @@ class VesselsController < AuthenticatedController
   skip_before_action :verify_authenticity_token
 
   def new
-    @vessel = Vessel.new(competition_id: params[:competition_id], player_id: current_user.player.id)
+    @vessel = Vessel.new(player_id: current_user.player.id)
   end
 
   def create
@@ -20,25 +20,16 @@ class VesselsController < AuthenticatedController
 
     file = params[:file]
 
-    comp = Competition.find(params[:competition_id])
-    unless comp.status == 0
-      flash[:error] = "Competition is not accepting players"
-      redirect_to competition_path(comp) and return
-    end
-
     unless file.original_filename.ends_with?(".craft")
       flash[:error] = "File must have .craft extension"
-      redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
+      redirect_to new_vessel_path and return
     end
 
     if file.size > 5242880
       flash[:error] = "File too large (max 5MB)"
-      redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
+      redirect_to new_vessel_path and return
     end
 
-    unless is_craft_file_valid?(file, comp.validation_strategies)
-      redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
-    end
 
     player = current_user.player
     filename = "#{comp.id}/#{player.id}/#{file.original_filename}"
@@ -54,34 +45,29 @@ class VesselsController < AuthenticatedController
       @vessel.save
     end
 
+    craft_url = s3obj.public_url
+    @vessel = Vessel.create(player_id: player.id, craft_url: craft_url)
+
     if @vessel.errors.any?
       flash[:error] = @vessel.errors
-      redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return
+      redirect_to new_vessel_path and return
     else
-      redirect_to competition_path(comp)
+      redirect_to vessels_path
     end
-  end
-
-  def upload
-  end
-
-  def batch
-    c = Competition.find(params[:competition_id])
-    items = []
-    CSV.foreach(params[:upload], headers: true) do |row|
-      p = Player.where(name: row['player_name']).first_or_create
-      items << { player_id: p.id, craft_url: row['craft_url'], competition_id: c.id }
-    end
-    Vessel.import(items)
-    head :ok
   end
 
   def index
-    @competition = Competition.find(params[:competition_id])
+    @vessels = current_user.player.vessels
     respond_to do |format|
-      format.json { render json: @competition.vessels }
-      format.xml { render xml: @competition.vessels }
+      format.html
+      format.json { render json: @vessels }
+      format.xml { render xml: @vessels }
     end
+  end
+
+  def show
+    @vessel = Vessel.find(params[:id])
+    redirect_to vessels_path and return unless @vessel.player == current_user.player
   end
 
   def detail
@@ -92,7 +78,4 @@ class VesselsController < AuthenticatedController
   def evaluate
   end
 
-  def did_assign_collection
-    @collection = @collection.where(competition_id: params[:competition_id])
-  end
 end

@@ -6,5 +6,6 @@
     %li= link_to 'Players', players_path
     - if user_signed_in? && !current_user.player.nil?
       %li= link_to 'My Player', player_path(current_user.player)
+      %li= link_to 'Vessel Hangar', vessels_path
     - else
       %li= link_to 'Register', '/register'

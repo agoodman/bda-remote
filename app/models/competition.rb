@@ -6,7 +6,8 @@ class Competition < ApplicationRecord
   belongs_to :ruleset
   has_many :records
   has_many :heats
-  has_many :vessels
+  has_many :vessel_assignments
+  has_many :vessels, through: :vessel_assignments
   has_many :players, through: :vessels
   has_many :rankings
   has_one :metric

@@ -1,0 +1,17 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Vessel Hangar', vessels_path
+
+%section
+  %h1 Vessel Detail
+  %p= @vessel.craft_url
+
+%section
+  %h2 Competitions
+  - if @vessel.competitions.any?
+    %ul
+      - @vessel.competitions.each do |c|
+        %li= c.name
+  - else
+    %p None

@@ -25,12 +25,7 @@ Rails.application.routes.draw do
       get :results
     end
     resources :players, only: [:index, :new, :create, :destroy], controller: 'competitions/players'
-    resources :vessels, only: [:index, :new, :create] do
-      collection do
-        get :upload
-        post :batch
-      end
-    end
+    resources :vessels, only: [:index, :create, :destroy], controller: 'competitions/vessels'
     resources :heats, only: [:index, :show] do
       member do 
         get :start
@@ -59,6 +54,8 @@ Rails.application.routes.draw do
   resources :rulesets do
     resources :rules, only: [:index, :new, :create, :destroy]
   end
+
+  resources :vessels, only: [:index, :new, :create, :show, :destroy]
 
   # rescue bad routes
   match '*unmatched', to: 'application#bad_request', via: :all

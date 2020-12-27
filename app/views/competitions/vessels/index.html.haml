@@ -1,0 +1,31 @@
+%nav
+  %ul
+    %li= link_to 'Home', root_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to @competition.name, competition_path(@competition)
+
+%section
+  %h1 Included Vessels
+  - included_vessels = @competition.vessel_assignments.includes(vessel: :player).where(vessels: {player_id: current_user.player.id})
+  %ul
+    - if included_vessels.any?
+      - included_vessels.each do |va|
+        %li
+          = va.vessel.filename
+          = link_to 'remove', competition_vessel_path(@competition, va), method: :delete, data: { confirm: "Are you sure?" }
+    - else
+      %li None
+
+  %h1 Select Vessel
+  - available_vessels = @vessels - included_vessels.map(&:vessel)
+  - if available_vessels.any?
+    %ul
+      - available_vessels.each do |v|
+        %li
+          = form_for :vessel_assignment, url: competition_vessels_path(@competition) do |f|
+            = f.label :vessel_id, v.filename
+            = f.hidden_field :vessel_id, value: v.id
+            = f.submit 'Select'
+  - else
+    %p You haven't uploaded any vessels yet
+  = link_to 'Vessel Hangar', vessels_path
