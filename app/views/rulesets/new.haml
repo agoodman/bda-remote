@@ -7,6 +7,10 @@
   %h1 New Ruleset
 
   = form_for @ruleset do |f|
-    = f.label :name
-    = f.text_field :name
-    = f.submit
+    %div
+      = f.label :name
+      = f.text_field :name
+    %div
+      = f.label :summary
+      = f.text_area :summary
+    %div= f.submit
