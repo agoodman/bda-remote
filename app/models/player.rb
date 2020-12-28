@@ -8,6 +8,6 @@ class Player < ApplicationRecord
   scope :npc, -> { where(is_human: false) }
 
   def recent_competitions
-    vessels.order("updated_at desc").limit(10).map(&:competition)
+    vessels.order("updated_at desc").map(&:competitions).flatten.take(10)
   end
 end
