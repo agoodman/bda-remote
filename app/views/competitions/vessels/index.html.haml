@@ -5,6 +5,8 @@
     %li= link_to @competition.name, competition_path(@competition)
 
 %section
+  - if flash[:error]
+    %p= flash[:error]
   %h1 Included Vessels
   - included_vessels = @competition.vessel_assignments.includes(vessel: :player).where(vessels: {player_id: current_user.player.id})
   %ul

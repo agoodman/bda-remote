@@ -8,6 +8,7 @@ class Competitions::VesselsController < AuthenticatedController
   end
 
   def create
+    redirect_to competition_vessels_path(@competition) and return unless @competition.status == 0
     @vessel_assignment = VesselAssignment.where(
         competition_id: params[:competition_id],
         vessel_id: params[:vessel_assignment][:vessel_id]).first_or_create
@@ -15,7 +16,7 @@ class Competitions::VesselsController < AuthenticatedController
   end
 
   def destroy
-    redirect_to competitions_vessels_path(@competition) and return unless @competition.can_start?
+    redirect_to competition_vessels_path(@competition) and return unless @competition.status == 0
     @vessel_assignment = VesselAssignment.find(params[:id])
     @vessel_assignment.destroy
     redirect_to competition_vessels_path(@competition)
