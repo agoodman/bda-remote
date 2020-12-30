@@ -1,7 +1,7 @@
 %nav
   %ul
     %li= link_to 'Home', root_path
-    %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
+    %li= link_to 'Vessel Hangar', player_vessels_path(@player)
 
 %section
   %h1 Upload Vessel
@@ -9,7 +9,7 @@
     %ul.errors
     - flash[:error].each do |e|
       %li= e
-  = form_for :vessel, url: player_vessels_path(current_user.player), html: { multipart: true } do |f|
+  = form_for :vessel, url: player_vessels_path(@player), html: { multipart: true } do |f|
     = f.label :name
     = f.text_field :name
     = file_field_tag :file
