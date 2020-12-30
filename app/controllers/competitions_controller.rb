@@ -60,13 +60,19 @@ class CompetitionsController < AuthenticatedController
 
   def new
     @competition = Competition.new
+    @rulesets = Ruleset.all
   end
 
   def create
     @competition = Competition.new(valid_params)
     @competition.user_id = current_user.id
     @competition.save
-    redirect_to competition_path(@competition.id)
+    if @competition.errors.any?
+      flash[:error] = @competition.errors.full_messages.to_sentence
+      redirect_to new_competition_path
+    else
+      redirect_to competition_path(@competition)
+    end
   end
 
   def start

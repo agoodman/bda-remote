@@ -8,14 +8,18 @@
 <h1>New Competition</h1>
 <%= link_to 'Fork Existing', template_competitions_path %>
 
-<% if @competition.errors.any? -%>
-<p class="error"><%= @competition.errors %></p>
+<% if flash[:error] -%>
+<p class="error"><%= flash[:error] %></p>
 <% end -%>
 <%= form_for Competition.new do |f| -%>
 <ul>
 <li>
 <%= f.label :name %>
 <%= f.text_field :name %>
+</li>
+<li>
+<%= f.label :ruleset_id, 'Ruleset' %>
+<%= f.select :ruleset_id, options_for_select(@rulesets.map { |e| [e.name, e.id] }), include_blank: true %>
 </li>
 </ul>
 <%= f.submit 'Create Competition' -%>

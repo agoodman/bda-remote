@@ -3,7 +3,7 @@ class Competition < ApplicationRecord
   include Validation
 
   belongs_to :user
-  belongs_to :ruleset
+  belongs_to :ruleset, optional: true
   has_many :records
   has_many :heats
   has_many :vessel_assignments
