@@ -16,7 +16,7 @@ class VesselsController < AuthenticatedController
   def create
     s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
     bucket = s3.bucket(ENV['S3_BUCKET'])
-    redirect_to new_competition_vessel_path(competition_id: params[:competition_id]) and return if bucket.nil?
+    redirect_to new_vessel_path and return if bucket.nil?
 
     file = params[:file]
 
@@ -30,23 +30,17 @@ class VesselsController < AuthenticatedController
       redirect_to new_vessel_path and return
     end
 
-
     player = current_user.player
-    filename = "#{comp.id}/#{player.id}/#{file.original_filename}"
+    filename = "players/#{player.id}/#{file.original_filename}"
     s3obj = bucket.object(filename)
     s3obj.put(
       body: file,
       acl: "public-read"
     )
 
-    @vessel = Vessel.where(competition_id: comp.id, player_id: player.id).first_or_create(craft_url: s3obj.public_url)
-    if @vessel.craft_url != s3obj.public_url
-      @vessel.craft_url = s3obj.public_url
-      @vessel.save
-    end
-
+    # craft_url = "url-#{Time.now.to_f}"
     craft_url = s3obj.public_url
-    @vessel = Vessel.create(player_id: player.id, craft_url: craft_url)
+    @vessel = Vessel.create(player_id: player.id, craft_url: craft_url, name: params[:vessel][:name])
 
     if @vessel.errors.any?
       flash[:error] = @vessel.errors
