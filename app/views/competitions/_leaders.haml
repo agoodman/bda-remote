@@ -26,7 +26,7 @@
       - competition.leaders.each_with_index do |p, k|
         %tr
           %td= k+1
-          %td= p.vessel.player.name
+          %td= p.vessel.full_name
           %td= number_with_precision(p[:score], precision: 3)
           %td= p[:wins]
           %td= p[:kills]

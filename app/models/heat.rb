@@ -75,7 +75,7 @@ class Heat < ApplicationRecord
           mis_parts_in: e.map(&:mis_parts_in).sum,
           ram_parts_out: e.map(&:ram_parts_out).sum,
           ram_parts_in: e.map(&:ram_parts_in).sum,
-          name: (vessels.where(id: k).first.player.name rescue "-")
+          name: (e.first.vessel.full_name rescue "-")
       }
     }
     return result.sort_by { |e| e[:score] }.reverse
