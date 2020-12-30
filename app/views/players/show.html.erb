@@ -11,6 +11,9 @@
 <%= link_to 'Edit Player', edit_player_path(@player) %>
 <%= link_to 'Logout', '/logout' %>
 <% end -%>
+<% if !@player.is_human || (user_signed_in? && current_user.player.id == @player.id) -%>
+<%= link_to 'Vessel Hangar', player_vessels_path(@player) %>
+<% end -%>
 </section>
 
 <%= render partial: 'chart', locals: { player: @player } %>

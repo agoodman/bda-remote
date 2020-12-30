@@ -3,18 +3,33 @@
     %li= link_to 'Home', root_path
     %li= link_to 'Competitions', competitions_path
     %li= link_to @competition.name, competition_path(@competition)
-%h1 Edit NPCs
-- if flash[:error]
-  %ul.errors
-    %li= flash[:error]
-- vessels = @competition.vessels.includes(:player).where(players: { is_human: false })
-- if vessels.any?
-  %ul
-    - vessels.each do |v|
-      %li
-        = "#{v.player.name} (#{v.craft_url})"
-        = link_to 'remove', competition_player_path(@competition, v.player), method: :delete, data: { confirm: "Are you sure?" }
 
-- else
-  %p No NPCs
-= link_to 'Add NPC', new_competition_player_path(@competition)
+- included_vessels = @competition.vessel_assignments.includes(vessel: :player).where(players: { is_human: false })
+- available_vessels = @npcs.includes(:vessels).map(&:vessels).flatten - included_vessels.map(&:vessel)
+%section
+  %h1 Edit NPCs
+  %h2 Included Vessels
+  - if flash[:error]
+    %ul.errors
+      %li= flash[:error]
+  - vessels = @competition.vessels.includes(:player).where(players: { is_human: false })
+  %ul
+    - if included_vessels.any?
+      - included_vessels.each do |va|
+        %li
+          = va.vessel.filename
+          = link_to 'remove', competition_vessel_path(@competition, va), method: :delete, data: { confirm: "Are you sure?" }
+    - else
+      %li None
+
+  %h2 Available Vessels
+  - if available_vessels.any?
+    %ul
+      - available_vessels.each do |v|
+        %li
+          = form_for :vessel_assignment, url: competition_vessels_path(@competition) do |f|
+            = f.label :vessel_id, "#{v.player.name}_#{v.name}"
+            = f.hidden_field :vessel_id, value: v.id
+            = f.submit 'Select'
+  - else
+    %p You haven't uploaded any vessels yet

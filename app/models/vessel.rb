@@ -17,4 +17,8 @@ class Vessel < ApplicationRecord
   def filename
     craft_url.split("/").last rescue "unk"
   end
+
+  def full_name
+    "#{player.name}_#{name}"
+  end
 end

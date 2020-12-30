@@ -2,10 +2,9 @@ class VesselsController < AuthenticatedController
   require 'csv'
   include Craft
 
-  before_action :require_session, only: [:new, :create]
-
-  # include Serviceable
-  # acts_as_service :vessel, only: :index
+  before_action :require_session, only: [:index, :new, :create]
+  before_action :assign_player
+  before_action :reject_if_needed
 
   skip_before_action :verify_authenticity_token
 
@@ -30,8 +29,7 @@ class VesselsController < AuthenticatedController
       redirect_to new_vessel_path and return
     end
 
-    player = current_user.player
-    filename = "players/#{player.id}/#{file.original_filename}"
+    filename = "players/#{@player.id}/#{file.original_filename}"
     s3obj = bucket.object(filename)
     s3obj.put(
       body: file,
@@ -40,18 +38,18 @@ class VesselsController < AuthenticatedController
 
     # craft_url = "url-#{Time.now.to_f}"
     craft_url = s3obj.public_url
-    @vessel = Vessel.create(player_id: player.id, craft_url: craft_url, name: params[:vessel][:name])
+    @vessel = Vessel.create(player_id: @player.id, craft_url: craft_url, name: params[:vessel][:name])
 
     if @vessel.errors.any?
       flash[:error] = @vessel.errors
-      redirect_to new_vessel_path and return
+      redirect_to new_player_vessel_path(current_user.player) and return
     else
-      redirect_to vessels_path
+      redirect_to player_vessels_path(current_user.player)
     end
   end
 
   def index
-    @vessels = current_user.player.vessels
+    @vessels = @player.vessels
     respond_to do |format|
       format.html
       format.json { render json: @vessels }
@@ -61,7 +59,7 @@ class VesselsController < AuthenticatedController
 
   def show
     @vessel = Vessel.find(params[:id])
-    redirect_to vessels_path and return unless @vessel.player == current_user.player
+    redirect_to player_vessels_path(current_user.player) and return unless @vessel.player == current_user.player
   end
 
   def detail
@@ -72,4 +70,13 @@ class VesselsController < AuthenticatedController
   def evaluate
   end
 
+  private
+
+  def assign_player
+    @player = Player.find(params[:player_id])
+  end
+
+  def reject_if_needed
+    redirect_to player_vessels_path(current_user.player) and return unless !@player.is_human or @player.user == current_user
+  end
 end

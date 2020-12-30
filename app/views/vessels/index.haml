@@ -8,7 +8,7 @@
   - if @vessels.any?
     %ul
       - @vessels.each do |v|
-        %li= link_to v.name, vessel_path(v)
+        %li= link_to v.name, player_vessel_path(@player, v)
   - else
     %p No vessels
-  = link_to 'New vessel', new_vessel_path
+  = link_to 'New vessel', new_player_vessel_path(@player)

@@ -1,5 +1,5 @@
 %section.players
-  %h2 Players (#{competition.vessels.count})
+  %h2 Entries (#{competition.vessels.count})
   %ul
     - vessel_assignments = competition.vessel_assignments.includes(vessel: :player)
     - if vessel_assignments.empty?

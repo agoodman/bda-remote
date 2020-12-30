@@ -5,9 +5,10 @@
     %li= link_to @competition.name, competition_path(@competition)
 
 %section
+  %h1 Manage Vessels
   - if flash[:error]
     %p= flash[:error]
-  %h1 Included Vessels
+  %h2 Included Vessels
   - included_vessels = @competition.vessel_assignments.includes(vessel: :player).where(vessels: {player_id: current_user.player.id})
   %ul
     - if included_vessels.any?
@@ -18,7 +19,7 @@
     - else
       %li None
 
-  %h1 Select Vessel
+  %h2 Select Vessel
   - available_vessels = @vessels - included_vessels.map(&:vessel)
   - if available_vessels.any?
     %ul
@@ -30,4 +31,4 @@
             = f.submit 'Select'
   - else
     %p You haven't uploaded any vessels yet
-  = link_to 'Vessel Hangar', vessels_path
+  = link_to 'Vessel Hangar', player_vessels_path(current_user.player)

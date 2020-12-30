@@ -16,4 +16,4 @@
           - if user_signed_in? && current_user.id == @instance.id && h.can_reset?
             = link_to 'Reset', reset_competition_heat_path(@instance, h)
           = link_to 'Details', competition_heat_path(@instance, h)
-        %td= h.heat_assignments.map(&:vessel).map(&:player).map(&:name).join(", ")
+        %td= h.heat_assignments.map(&:vessel).map(&:full_name).join(", ")

@@ -4,7 +4,7 @@ class Competitions::PlayersController < ApplicationController
 
   def index
     @players = @competition.players
-    @npcs = Player.where(is_human: false)
+    @npcs = Player.npc
 
     respond_to do |format|
       format.html
@@ -41,7 +41,7 @@ class Competitions::PlayersController < ApplicationController
     end
 
     player = Player.npc.where(user_id: 1, name: params[:player][:name]).first_or_create
-    filename = "#{@competition.id}/#{player.id}/#{file.original_filename}"
+    filename = "players/#{player.id}/#{file.original_filename}"
     s3obj = bucket.object(filename)
     s3obj.put(
         body: file,
@@ -49,7 +49,7 @@ class Competitions::PlayersController < ApplicationController
     )
 
     craft_url = s3obj.public_url
-    @vessel = Vessel.where(competition_id: @competition.id, player_id: player.id).first_or_create(craft_url: craft_url)
+    @vessel = Vessel.where(player_id: player.id).first_or_create(craft_url: craft_url)
     if @vessel.craft_url != craft_url
       @vessel.craft_url = craft_url
       @vessel.save

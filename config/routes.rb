@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
   # players are top level objects
   resources :players do
+    resources :vessels, only: [:index, :new, :create, :show, :destroy]
     member do
       get :chart
     end
@@ -54,8 +55,6 @@ Rails.application.routes.draw do
   resources :rulesets do
     resources :rules, only: [:index, :new, :create, :destroy]
   end
-
-  resources :vessels, only: [:index, :new, :create, :show, :destroy]
 
   # rescue bad routes
   match '*unmatched', to: 'application#bad_request', via: :all
