@@ -15,14 +15,23 @@ class RulesetsController < AuthenticatedController
   end
 
   def create
-    @ruleset = Ruleset.create(params.require(:ruleset).permit(:name))
+    @ruleset = Ruleset.create(ruleset_params)
     redirect_to ruleset_path(@ruleset)
+  end
+
+  def edit
+    @ruleset = Ruleset.find(params[:id])
   end
 
   def update
     @ruleset = Ruleset.find(params[:id])
-    @ruleset.update(params.require(:ruleset).permit(:name))
+    @ruleset.update(ruleset_params)
     redirect_to ruleset_path(@ruleset)
   end
 
+  private
+
+  def ruleset_params
+    params.require(:ruleset).permit([:name, :summary])
+  end
 end

@@ -6,6 +6,8 @@
 %section
   %h1 Ruleset: #{@ruleset.name}
   %p= @ruleset.summary
+  %ul
+    %li= link_to 'Edit Ruleset', edit_ruleset_path(@ruleset)
 
 %section.rules
   %h1 Rules

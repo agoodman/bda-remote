@@ -1,0 +1,17 @@
+%nav
+  %ul
+    %li= link_to 'Home', home_path
+    %li= link_to 'Rulesets', rulesets_path
+    %li= link_to 'Back', ruleset_path(@ruleset)
+
+%section
+  %h1 Edit Ruleset
+
+  = form_for @ruleset do |f|
+    %div
+      = f.label :name
+      = f.text_field :name
+    %div
+      = f.label :summary
+      = f.text_area :summary
+    %div= f.submit
