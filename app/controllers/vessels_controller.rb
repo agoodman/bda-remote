@@ -3,8 +3,8 @@ class VesselsController < AuthenticatedController
   include Craft
 
   before_action :require_session, only: [:index, :new, :create]
-  before_action :assign_player
-  before_action :reject_if_needed
+  before_action :assign_player, except: [:detail, :evaluate]
+  before_action :reject_if_needed, except: [:detail, :evaluate]
 
   skip_before_action :verify_authenticity_token
 
