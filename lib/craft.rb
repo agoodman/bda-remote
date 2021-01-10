@@ -159,7 +159,7 @@ module Craft
 
     def self.interpret(craft)
       vessel = KspVessel.new
-      vessel.build_tree(body.lines)
+      vessel.build_tree(craft.lines)
       return vessel
     end
 
