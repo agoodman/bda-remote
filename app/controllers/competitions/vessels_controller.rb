@@ -16,7 +16,7 @@ class Competitions::VesselsController < AuthenticatedController
     # fetch and validate craft
     @vessel = Vessel.find(params[:vessel_assignment][:vessel_id])
     craft = open(@vessel.craft_url).read
-    unless is_craft_file_valid?(craft)
+    unless is_craft_valid?(craft)
       redirect_to competition_vessels_path(@competition) and return
     end
 

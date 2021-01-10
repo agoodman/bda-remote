@@ -144,7 +144,7 @@ module Craft
       @vessel = vessel
       @part_dict = @vessel[:parts].each_with_object(Hash.new(0)) { |e,h| h[e["part"]] = e }
     end
-    def self.interpret(file)
+    def self.interpret_file(file)
       # read contents into memory
       # puts "filename: #{file.original_filename}"
       # puts "size: #{file.size}"
@@ -154,11 +154,15 @@ module Craft
       # puts "line count: #{body.lines.count}"
       # rewind the file so the uploaded doesn't start at the end
       file.tempfile.rewind
+      interpret(body.lines)
+    end
 
+    def self.interpret(craft)
       vessel = KspVessel.new
       vessel.build_tree(body.lines)
       return vessel
     end
+
     def stackiness
       depth = 0
       determine_stack_value(@vessel[:parts].first["part"], depth+1, 0)
@@ -190,7 +194,16 @@ module Craft
 
   def is_craft_file_valid?(file, strategies=[])
     # open the file, search through it, and identify all parts/modules
-    craft = KspVessel.interpret(file)
+    craft = KspVessel.interpret_file(file)
+    return apply_strategies?(craft, strategies)
+  end
+
+  def is_craft_valid?(body, strategies=[])
+    craft = KspVessel.interpret(body)
+    return apply_strategies?(craft, strategies)
+  end
+
+  def apply_strategies?(craft, strategies=[])
     result = true
     errors = []
     strategies.each do |s|
