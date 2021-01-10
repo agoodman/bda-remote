@@ -4,12 +4,13 @@ class VesselsController < AuthenticatedController
 
   before_action :require_session, only: [:index, :new, :create]
   before_action :assign_player, except: [:detail, :evaluate]
+  before_action :assign_vessel, only: [:show, :edit, :update]
   before_action :reject_if_needed, except: [:detail, :evaluate]
 
   skip_before_action :verify_authenticity_token
 
   def new
-    @vessel = Vessel.new(player_id: current_user.player.id)
+    @vessel = Vessel.new
   end
 
   def create
@@ -58,8 +59,15 @@ class VesselsController < AuthenticatedController
   end
 
   def show
-    @vessel = Vessel.find(params[:id])
     redirect_to player_vessels_path(current_user.player) and return unless @vessel.player == current_user.player
+  end
+
+  def edit
+  end
+
+  def update
+    @vessel.update(vessel_params)
+    redirect_to player_vessel_path(@player, @vessel)
   end
 
   def detail
@@ -76,7 +84,15 @@ class VesselsController < AuthenticatedController
     @player = Player.find(params[:player_id])
   end
 
+  def assign_vessel
+    @vessel = Vessel.find(params[:id])
+  end
+
   def reject_if_needed
     redirect_to player_vessels_path(current_user.player) and return unless !@player.is_human or @player.user == current_user
+  end
+
+  def vessel_params
+    params.require(:vessel).permit(:name)
   end
 end

@@ -1,5 +1,8 @@
 class Competitions::VesselsController < AuthenticatedController
 
+  require "open-uri"
+  include Craft
+
   before_action :require_session
   before_action :assign_competition
 
@@ -9,6 +12,14 @@ class Competitions::VesselsController < AuthenticatedController
 
   def create
     redirect_to competition_vessels_path(@competition) and return unless @competition.status == 0
+
+    # fetch and validate craft
+    @vessel = Vessel.find(params[:vessel_assignment][:vessel_id])
+    craft = open(@vessel.craft_url).read
+    unless is_craft_file_valid?(craft)
+      redirect_to competition_vessels_path(@competition) and return
+    end
+
     @vessel_assignment = VesselAssignment.where(
         competition_id: params[:competition_id],
         vessel_id: params[:vessel_assignment][:vessel_id]).first_or_create
