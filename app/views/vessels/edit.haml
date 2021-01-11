@@ -1,0 +1,17 @@
+%nav
+  %ul
+    %li= link_to 'Home', home_path
+    %li= link_to 'Vessel Hangar', player_vessels_path(@player)
+    %li= link_to 'Back', player_vessel_path(@player, @vessel)
+
+%section
+  %h1 Edit Vessel
+  - if flash[:error]
+    %ul.errors
+    - flash[:error].each do |e|
+      %li= e
+  = form_for [@player, @vessel] do |f|
+    = f.label :name
+    = f.text_field :name
+    = f.submit 'Submit'
+
