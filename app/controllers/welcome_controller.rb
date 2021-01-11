@@ -7,6 +7,6 @@ class WelcomeController < ApplicationController
   end
 
   def logout
-    sign_out and redirect_to root_path
+    sign_out and redirect_to home_path
   end
 end
