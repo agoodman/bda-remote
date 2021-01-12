@@ -136,8 +136,8 @@ class CompetitionsController < AuthenticatedController
       redirect_to template_competitions_path and return
     end
     # copy vessels
-    src.vessels.each do |e|
-      dst.vessels.create(player_id: e.player_id, craft_url: e.craft_url)
+    src.vessel_assignments.each do |e|
+      dst.vessel_assignments.create(vessel_id: e.vessel_id)
     end
     # copy rules
     src.rules.each do |e|
