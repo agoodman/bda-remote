@@ -25,7 +25,11 @@ Rails.application.routes.draw do
       get :results
     end
     resources :players, only: [:index, :new, :create, :destroy], controller: 'competitions/players'
-    resources :vessels, only: [:index, :manifest, :create, :destroy], controller: 'competitions/vessels'
+    resources :vessels, only: [:index, :create, :destroy], controller: 'competitions/vessels' do
+      collection do
+        get :manifest
+      end
+    end
     resources :heats, only: [:index, :show] do
       member do 
         get :start
