@@ -8,10 +8,12 @@ class Competitions::VesselsController < AuthenticatedController
 
   def index
     @vessels = current_user.player.vessels rescue []
+  end
+
+  def manifest
     respond_to do |format|
-      format.html
-      format.json { render json: @vessels, status: :ok }
-      format.xml { render xml: @vessels, status: :ok }
+      format.json { render json: @competition.vessels, status: :ok }
+      format.xml { render xml: @competition.vessels, status: :ok }
     end
   end
 
