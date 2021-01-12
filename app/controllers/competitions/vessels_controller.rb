@@ -8,6 +8,11 @@ class Competitions::VesselsController < AuthenticatedController
 
   def index
     @vessels = current_user.player.vessels rescue []
+    respond_to do |format|
+      format.html
+      format.json { render json: @vessels, status: :ok }
+      format.xml { render xml: @vessels, status: :ok }
+    end
   end
 
   def create
