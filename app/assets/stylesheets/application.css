@@ -58,7 +58,7 @@ section ul li {
 
 section li a {
   display: block;
-  padding: 10px;
+  padding: 10px 0;
 }
 
 section li a:hover {
@@ -77,6 +77,10 @@ section.players li {
 
 section.heats li {
   padding: 5px;
+}
+
+section > p {
+    padding: 10px;
 }
 
 * {

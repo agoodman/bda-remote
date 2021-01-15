@@ -8,6 +8,8 @@
   %p= @ruleset.summary
   %ul
     %li= link_to 'Edit Ruleset', edit_ruleset_path(@ruleset)
+    %li Modified #{time_ago_in_words(@ruleset.updated_at)} ago
+    %li Created #{time_ago_in_words(@ruleset.created_at)} ago
 
 %section.rules
   %h1 Rules

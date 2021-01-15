@@ -3,7 +3,7 @@ class RulesetsController < AuthenticatedController
   before_action :require_session
 
   def index
-    @rulesets = Ruleset.all
+    @rulesets = Ruleset.order('updated_at desc')
   end
 
   def show
