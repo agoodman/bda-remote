@@ -159,7 +159,7 @@ module Craft
 
     def self.interpret(craft)
       vessel = KspVessel.new
-      vessel.build_tree(craft.lines)
+      vessel.build_tree(craft.lines) rescue nil
       return vessel
     end
 
@@ -204,6 +204,7 @@ module Craft
   end
 
   def apply_strategies?(craft, strategies=[])
+    return false if craft.nil?
     result = true
     errors = []
     strategies.each do |s|
