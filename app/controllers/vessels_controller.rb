@@ -4,7 +4,7 @@ class VesselsController < AuthenticatedController
 
   before_action :require_session, except: [:detail, :evaluate]
   before_action :assign_player, except: [:detail, :evaluate]
-  before_action :assign_vessel, except: [:detail, :evaluate, :index]
+  before_action :assign_vessel, only: [:show, :edit, :update, :destroy, :undiscard]
   before_action :reject_if_needed, except: [:detail, :evaluate]
 
   skip_before_action :verify_authenticity_token
