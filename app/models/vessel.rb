@@ -1,4 +1,6 @@
 class Vessel < ApplicationRecord
+  include Discard::Model
+
   belongs_to :player
   has_many :vessel_assignments
   has_many :competitions, through: :vessel_assignments

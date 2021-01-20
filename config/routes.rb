@@ -47,7 +47,11 @@ Rails.application.routes.draw do
 
   # players are top level objects
   resources :players do
-    resources :vessels, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+    resources :vessels, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
+      member do
+        get :undiscard
+      end
+    end
     member do
       get :chart
     end

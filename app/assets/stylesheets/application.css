@@ -53,11 +53,10 @@ section ul li {
   display: block;
   background-color: #fcf7ff;
   border-bottom: 1px solid #3e517a;
-  padding-left: 15px;
+  padding: 10px 15px;
 }
 
 section li a {
-  display: block;
   padding: 10px 0;
 }
 

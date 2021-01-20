@@ -6,7 +6,13 @@
 %section
   %h1 Vessel Detail
   %p= @vessel.name
+  - if @vessel.discarded?
+    %p Retired #{time_ago_in_words(@vessel.discarded_at)} ago.
   %ul
+    - if @vessel.discarded?
+      %li= link_to 'Re-Activate', undiscard_player_vessel_path(@player, @vessel)
+    - else
+      %li= link_to 'Retire', player_vessel_path(@player, @vessel), method: :delete, data: { confirm: "Are you sure?" }
     %li= link_to 'Edit Vessel', edit_player_vessel_path(@player, @vessel)
     %li= link_to 'Download Craft', @vessel.craft_url
 

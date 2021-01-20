@@ -2,9 +2,9 @@ class VesselsController < AuthenticatedController
   require 'csv'
   include Craft
 
-  before_action :require_session, only: [:index, :new, :create]
+  before_action :require_session, except: [:detail, :evaluate]
   before_action :assign_player, except: [:detail, :evaluate]
-  before_action :assign_vessel, only: [:show, :edit, :update]
+  before_action :assign_vessel, except: [:detail, :evaluate, :index]
   before_action :reject_if_needed, except: [:detail, :evaluate]
 
   skip_before_action :verify_authenticity_token
@@ -50,7 +50,7 @@ class VesselsController < AuthenticatedController
   end
 
   def index
-    @vessels = @player.vessels
+    @vessels = @player.vessels.kept
     respond_to do |format|
       format.html
       format.json { render json: @vessels }
@@ -67,6 +67,16 @@ class VesselsController < AuthenticatedController
 
   def update
     @vessel.update(vessel_params)
+    redirect_to player_vessel_path(@player, @vessel)
+  end
+
+  def destroy
+    @vessel.discard
+    redirect_to player_vessel_path(@player, @vessel)
+  end
+
+  def undiscard
+    @vessel.undiscard
     redirect_to player_vessel_path(@player, @vessel)
   end
 

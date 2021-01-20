@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_28_174633) do
+ActiveRecord::Schema.define(version: 2021_01_20_024748) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -181,6 +181,8 @@ ActiveRecord::Schema.define(version: 2020_12_28_174633) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "name"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_vessels_on_discarded_at"
     t.index ["player_id", "name"], name: "index_vessels_on_player_id_and_name", unique: true
   end
 

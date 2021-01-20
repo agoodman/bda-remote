@@ -4,7 +4,7 @@
 
 %section
   %h1 Vessel Hangar
-
+  %h2 Active Vessels
   - if @vessels.any?
     %ul
       - @vessels.each do |v|
@@ -12,3 +12,13 @@
   - else
     %p No vessels
   = link_to 'New vessel', new_player_vessel_path(@player)
+
+%section
+  %h2 Retired Vessels
+  - retired_vessels = @player.vessels.discarded
+  - if retired_vessels.any?
+    %ul
+      - retired_vessels.each do |v|
+        %li= link_to v.name, player_vessel_path(@player, v)
+  - else
+    %p None
