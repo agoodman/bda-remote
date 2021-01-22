@@ -20,6 +20,7 @@
 </section>
 <section>
 <h2>Status: <%= @instance.status_label.humanize %></h2>
+<h2>Stage: <% if @instance.stage == 0 %>Qualifying<% else %><%= @instance.stage %> of <%= @instance.max_stages %></h2><% end %>
 <%= render partial: 'scoring', locals: { competition: @instance } %>
 <%= render partial: 'actions', locals: { competition: @instance } %>
 </section>
