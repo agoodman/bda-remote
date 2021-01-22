@@ -21,6 +21,10 @@
 <%= f.label :ruleset_id, 'Ruleset' %>
 <%= f.select :ruleset_id, options_for_select(@rulesets.map { |e| [e.name, e.id] }), include_blank: true %>
 </li>
+<li>
+  <%= f.label :max_stages, 'Number of ranked stages' %>
+  <%= f.number_field :max_stages, min: 1 %>
+</li>
 </ul>
 <%= f.submit 'Create Competition' -%>
 <% end -%>

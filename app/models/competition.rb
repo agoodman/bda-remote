@@ -16,13 +16,13 @@ class Competition < ApplicationRecord
   validates :status, presence: true
   validates :stage, presence: true, numericality: { only_integers: true }
   validates :remaining_heats, presence: true, numericality: { only_integers: true }
-  validates :remaining_stages, presence: true, numericality: { only_integers: true }
+  validates :max_stages, presence: true, numericality: { only_integers: true }
   validates :name, presence: true
 
   after_initialize :assign_initial_status
   after_initialize :assign_initial_stage
   after_initialize :assign_initial_remaining_heats
-  after_initialize :assign_initial_remaining_stages
+  after_initialize :assign_initial_max_stages
   after_create :create_default_metric
 
   scope :open, -> { where(status: 0) }
@@ -48,8 +48,8 @@ class Competition < ApplicationRecord
     self.remaining_heats = 0
   end
 
-  def assign_initial_remaining_stages
-    self.remaining_stages = 1
+  def assign_initial_max_stages
+    self.max_stages = 1 if max_stages.nil?
   end
 
   def create_default_metric
@@ -82,9 +82,7 @@ class Competition < ApplicationRecord
     self.stage = 0
     self.started_at = Date.new
     self.save!
-    (0...self.remaining_stages).each do |k|
-      generate_heats(self, k)
-    end
+    generate_heats(self, 0)
     self.remaining_heats = self.heats.for_stage(self.stage).not_started.not_ended.count
   end
 
@@ -102,7 +100,6 @@ class Competition < ApplicationRecord
   def extend!(strategy = RandomDistributionStrategy.new)
     last_stage = heats.map(&:stage).max
     generate_heats(self, last_stage+1, true, strategy)
-    self.remaining_stages = self.remaining_stages + 1
     self.save!
   end
 
@@ -142,9 +139,11 @@ class Competition < ApplicationRecord
   end
 
   def next_stage
+    return if stage >= max_stages
     new_stage = self.stage + 1
     self.stage = new_stage
-    self.remaining_heats = heats.where(stage: new_stage, started_at: nil, ended_at: nil).count
+    generate_heats(self, new_stage, false, TournamentRankingStrategy.new)
+    self.remaining_heats = heats.for_stage(new_stage).not_started.not_ended.count
     self.save!
   end
 
