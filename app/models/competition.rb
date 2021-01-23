@@ -41,7 +41,7 @@ class Competition < ApplicationRecord
   end
 
   def assign_initial_stage
-    self.stage = 0
+    self.stage = 0 if stage.nil?
   end
 
   def assign_initial_remaining_heats
