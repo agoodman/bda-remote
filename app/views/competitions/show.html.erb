@@ -8,6 +8,7 @@
 <h1><%= @instance.name %></h1>
 <section class=""rules>
   <h2>Rules</h2>
+  <p><%= @instance.ruleset.summary rescue nil %></p>
   <ul>
     <% if @instance.rules.any? -%>
       <% @instance.rules.each do |r| -%>
