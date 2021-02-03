@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Conquer The Air - The Flying Circus</title>
+    <title>Conquer The Air &dash; Flying Circus</title>
     <style type="text/css">
         body {
-            font-family: Helvetica Neue";
+            font-family: "Helvetica Neue";
+            padding: 0;
+            margin: 0;
+        }
+        body .wrapper {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
         body .hero {
+            position: absolute;
+            top: 0px;
             height: 100%;
             width: 100%;
             overflow: hidden;
@@ -17,8 +30,13 @@
             padding: 0;
             position: relative;
         }
-        body nav {
+        body .content {
             position: absolute;
+            top: 150px;
+            width: 75%;
+            overflow: hidden;
+        }
+        body nav {
             top: 50px;
             left: 50px;
             right: 50px;
@@ -29,17 +47,42 @@
             text-shadow: 2px 2px #333333;
             font-size: 36pt;
         }
+        body nav h2 {
+            color: #bfff00;
+            text-shadow: 1px 1px black;
+        }
+        body section {
+            top: 250px;
+            margin: 50px;
+            text-align: center;
+        }
+        body section a {
+            font-weight: bold;
+            background: black;
+            color: yellow;
+            text-decoration: none;
+            padding: 20px;
+            margin: 10px;
+        }
     </style>
 </head>
 
 <body>
+<div class="wrapper">
 <div class="hero">
     <div class="video">
-        <iframe src="https://player.vimeo.com/video/495825313?autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1" width="1920" height="1080" frameborder="0" allow=autoplay; fullscreen"></iframe>
+        <iframe src="https://player.vimeo.com/video/495825313?autoplay=1&loop=1&title=0&byline=0&portrait=0&background=1" width="1920" height="1080" frameborder="0" allow=autoplay; fullscreen></iframe>
     </div>
 </div>
-<nav>
-    <h1>Conquer the Air - Flying Circus</h1>
-</nav>
+<div class="content">
+    <nav>
+        <h1>Flying Circus</h1>
+        <h2>Conquer the Air</h2>
+    </nav>
+    <section>
+        <a href="/register">Register to Get Started</a>
+    </section>
+</div>
+</div>
 </body>
 </html>
