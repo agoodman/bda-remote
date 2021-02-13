@@ -5,3 +5,4 @@
 //= require players
 //= require competitions
 //= require sorttable
+//= require bootstrap

@@ -1,27 +1,34 @@
 - content_for(:html_title) { "Vessel Details: #{@vessel.name}" }
-%nav
-  %ul
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
     %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
 
-%section
-  %h1 Vessel Detail
-  %p= @vessel.name
-  - if @vessel.discarded?
-    %p Retired #{time_ago_in_words(@vessel.discarded_at)} ago.
-  %ul
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
     - if @vessel.discarded?
       %li= link_to 'Re-Activate', undiscard_player_vessel_path(@player, @vessel)
     - else
-      %li= link_to 'Retire', player_vessel_path(@player, @vessel), method: :delete, data: { confirm: "Are you sure?" }
+      %li= link_to 'Retire Vessel', player_vessel_path(@player, @vessel), method: :delete, data: { confirm: "Are you sure?" }
     %li= link_to 'Edit Vessel', edit_player_vessel_path(@player, @vessel)
     %li= link_to 'Download Craft', @vessel.craft_url
 
 %section
+  %h1 Vessel Detail
+  %ul.list-unstyled
+    %li= @vessel.name
+    - if @vessel.discarded?
+      %li Retired #{time_ago_in_words(@vessel.discarded_at)} ago.
+    - else
+      %li Active
+
+%section
   %h2 Competitions
   - if @vessel.competitions.any?
-    %ul
+    %ul.list-group
       - @vessel.competitions.each do |c|
-        %li= c.name
+        %li.list-group-item= c.name
   - else
     %p None

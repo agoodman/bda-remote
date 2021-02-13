@@ -1,0 +1,30 @@
+- content_for(:html_title) { "Vessel Hangar" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Fork Existing', template_competitions_path
+    %li= link_to 'Cancel', competitions_path
+
+%section
+  %h1 New Competition
+
+  - if flash[:error]
+    %p.error= flash[:error]
+  = form_for Competition.new do |f|
+    .form-group
+      = f.label :name
+      = f.text_field :name, class: 'form-control'
+    .form-group
+      = f.label :ruleset_id, 'Ruleset'
+      = f.select :ruleset_id, options_for_select(@rulesets.map { |e| [e.name, e.id] }), { include_blank: true }, { class: 'form-control' }
+    .form-group
+      = f.label :max_stages, 'Number of ranked stages'
+      = f.number_field :max_stages, min: 1, class: 'form-control'
+    .form-group
+      = f.submit 'Create Competition', class: 'form-control'
+

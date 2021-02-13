@@ -1,0 +1,25 @@
+- content_for(:html_title) { "Player Details" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Players', players_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    - if user_signed_in? && current_user.player.id == @player.id
+      %li= link_to 'Edit Player', edit_player_path(@player)
+      %li= link_to 'Logout', '/logout'
+    - if !@player.is_human || (user_signed_in? && current_user.player.id == @player.id)
+      %li= link_to 'Vessel Hangar', player_vessels_path(@player)
+
+%section
+  %h1 Player: #{@player.name}
+
+= render partial: 'chart', locals: { player: @player }
+
+- if user_signed_in? && !current_user.player.nil? && current_user.player.id == @player.id
+  = render partial: 'available_competitions'
+
+= render partial: 'recent_competitions'

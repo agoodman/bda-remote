@@ -1,0 +1,8 @@
+%section
+  %h2 Status: #{competition.status_label.humanize}
+  %p
+    Stage:
+    - if competition.stage == 0
+      Qualifying
+    - else
+      #{competition.stage} of #{competition.max_stages}

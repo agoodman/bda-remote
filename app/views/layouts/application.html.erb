@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="description" content="Human-designed AI-piloted aircraft combat in an ongoing ranked tournament format." />
     <link rel="canonical" href="https://conquertheair.com/home" />
     <meta property="og:type" content="website" />
@@ -26,7 +27,13 @@
   </head>
 
   <body>
-    <header>Flying Circus API</header>
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
+    <div class="sidebar">
+      <header>Flying Circus API</header>
+      <nav><%= yield(:nav) %></nav>
+      <%= yield(:sidebar) %>
+    </div>
   </body>
 </html>

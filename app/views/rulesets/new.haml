@@ -1,17 +1,22 @@
 - content_for(:html_title) { "New Ruleset" }
-%nav
-  %ul
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
-    %li= link_to 'Back', rulesets_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to "Cancel", rulesets_path
 
 %section
   %h1 New Ruleset
 
   = form_for @ruleset do |f|
-    %div
+    .form-group
       = f.label :name
-      = f.text_field :name
-    %div
+      = f.text_field :name, class: 'form-control'
+    .form-group
       = f.label :summary
-      = f.text_area :summary
-    %div= f.submit
+      = f.text_area :summary, class: 'form-control'
+    .form-group= f.submit "Create Ruleset", class: 'form-control'

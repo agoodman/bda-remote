@@ -1,6 +1,10 @@
 %section
-  %h1 Recent Competitions
-  %ul
-    - @player.recent_competitions.each do |c|
-      %li
-        = link_to "#{c.name} ( #{vessel_file_name_for_player(c, @player)} )", competition_path(c)
+  %h2 Recent Competitions
+  - recent = @player.recent_competitions
+  - if recent.empty?
+    %ul.list-group
+      %li.list-group-item none
+  - else
+    .list-group
+    - recent.each do |c|
+      = link_to "#{c.name} ( #{vessel_file_name_for_player(c, @player)} )", competition_path(c), class: 'list-group-item'

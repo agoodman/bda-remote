@@ -1,25 +1,33 @@
 - content_for(:html_title) { "Vessel Hangar" }
-%nav
-  %ul
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
+    %li= link_to 'Competitions', competitions_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'New Vessel', new_player_vessel_path(@player)
 
 %section
   %h1 Vessel Hangar
   %h2 Active Vessels
   - if @vessels.any?
-    %ul
+    .list-group
       - @vessels.each do |v|
-        %li= link_to v.name, player_vessel_path(@player, v)
+        = link_to v.name, player_vessel_path(@player, v), class: 'list-group-item'
   - else
-    %p No vessels
-  = link_to 'New vessel', new_player_vessel_path(@player)
+    %ul.list-group
+      %li.list-group-item No vessels
 
 %section
   %h2 Retired Vessels
   - retired_vessels = @player.vessels.discarded
   - if retired_vessels.any?
-    %ul
+    .list-group
       - retired_vessels.each do |v|
-        %li= link_to v.name, player_vessel_path(@player, v)
+        = link_to v.name, player_vessel_path(@player, v), class: 'list-group-item'
   - else
-    %p None
+    %ul.list-group
+      %li.list-group-item None

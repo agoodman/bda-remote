@@ -1,0 +1,11 @@
+- content_for(:html_title) { "Players" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+
+%section
+  %h1 Players
+  .list-group
+    - @players.each do |e|
+      = link_to e.name, player_path(e), class: "list-group-item"

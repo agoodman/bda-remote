@@ -1,0 +1,9 @@
+%section.rules
+  %h2 Rules
+  %p= competition.ruleset.summary rescue nil
+  %ul.list-group
+    - if competition.rules.any?
+      - competition.rules.each do |r|
+        %li.list-group-item #{r.strategy} (#{r.params})
+    - else
+      %li.list-group-item No rules

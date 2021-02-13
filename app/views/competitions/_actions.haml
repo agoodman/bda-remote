@@ -1,4 +1,5 @@
-%ul
+%h4 Actions
+%ul.list-unstyled
   - if user_signed_in? && competition.status == 0
     %li= link_to 'Manage Vessels', competition_vessels_path(competition)
   - if user_signed_in? && current_user == competition.user

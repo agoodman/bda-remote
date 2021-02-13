@@ -1,0 +1,38 @@
+- content_for :html_title do
+  Competition: #{@instance.name}
+
+- content_for :nav do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Competitions', competitions_path
+
+- content_for :sidebar do
+  %h4 Sections
+  %ul.list-unstyled
+    %li= link_to "Status", '#status'
+    %li= link_to "Rules", '#rules'
+    %li= link_to "Scoring", '#scoring'
+    %li= link_to "Leaders", '#leaders'
+    %li= link_to "Entries", '#entries'
+    %li= link_to "Heats", '#heats'
+  = render partial: 'actions', locals: { competition: @instance }
+
+%h1 Competition: #{@instance.name}
+
+%a{name: "status"}
+= render partial: 'status', locals: { competition: @instance }
+
+%a{name: "rules"}
+= render partial: 'rules', locals: { competition: @instance }
+
+%a{name: "scoring"}
+= render partial: 'scoring', locals: { competition: @instance }
+
+%a{name: "leaders"}
+= render partial: 'leaders', locals: { competition: @instance }
+
+%a{name: "entries"}
+= render partial: 'player_list', locals: { competition: @instance }
+
+%a{name: "heats"}
+= render(partial: 'heats', locals: { competition: @instance }) if @instance.heats.any?

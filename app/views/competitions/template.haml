@@ -1,15 +1,24 @@
-%nav
-  %ul
+- content_for(:html_title) { "Fork Existing Competition" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
-    %li= link_to 'Competitions', competitions_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', competitions_path
 
 %section
   %h1 Fork a Competition
   - if flash[:error]
     %p= flash[:error]
   = form_for :competition, url: duplicate_competitions_path do |f|
-    = f.label :original_id, 'Original'
-    = f.select :original_id, options_for_select(@competitions.each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.id })
-    = f.label :name
-    = f.text_field :name
-    = f.submit "Create Fork"
+    .form-group
+      = f.label :original_id, 'Original'
+      = f.select :original_id, options_for_select(@competitions.each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.id }), {}, { class: 'form-control' }
+    .form-group
+      = f.label :name
+      = f.text_field :name, class: 'form-control'
+    .form-group
+      = f.submit "Create Fork", class: 'form-control'

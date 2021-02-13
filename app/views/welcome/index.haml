@@ -1,6 +1,7 @@
 - content_for(:html_title) { "Home" }
-%section
-  %ul
+
+- content_for(:sidebar) do
+  %ul.list-unstyled
     - if user_signed_in?
       %li= link_to 'Rulesets', rulesets_path
     %li= link_to 'Competitions', competitions_path
@@ -10,3 +11,16 @@
       %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
     - else
       %li= link_to 'Register', '/register'
+
+%section
+  %h1 Flying Circus
+  %h2 Helpful Links
+  .list-group
+    = link_to "Discord", "https://discord.gg/K2wVyCJWbr", class: "list-group-item"
+    = link_to "CeruleanEyes on Twitch", "https://twitch.tv/Ceruleaneyess", class: "list-group-item"
+    = link_to "YouTube", "https://www.youtube.com/channel/UCsXnu0kOuEsxbfs-8BYcjpA", class: "list-group-item"
+  %h2 Recent news
+  %ul.list-group
+    %li.list-group-item
+      %span.badge 13 Feb
+      Updated web UI. Much prettier now.

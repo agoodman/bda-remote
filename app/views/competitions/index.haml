@@ -1,0 +1,20 @@
+- content_for(:html_title) { "Competitions" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'New Competition', new_competition_path
+
+%section
+  %h1 Competitions
+  %ul.list-group
+  - @competitions.each do |e|
+    - if e.public? || (user_signed_in? && e.user == current_user)
+      %li.list-group-item
+        = link_to e.name, competition_path(e)
+        - if e.private?
+          %span.badge (private)

@@ -1,0 +1,18 @@
+- content_for(:html_title) { "Edit Player" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Players', players_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', player_path(@player)
+
+%section
+  %h1 Edit Player
+  = form_for @player do |f|
+    = f.label :name
+    = f.text_field :name
+    = f.submit 'Save'

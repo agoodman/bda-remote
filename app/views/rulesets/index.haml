@@ -1,15 +1,22 @@
 - content_for(:html_title) { "Rulesets" }
-%nav
-  %ul
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'New ruleset', new_ruleset_path
 
 %section
   %h1 Rulesets
 
   - if @rulesets.any?
-    %ul
+    %ul.list-group
       - @rulesets.each do |rs|
-        %li= link_to rs.name, ruleset_path(rs)
+        %li.list-group-item
+          = link_to rs.name, ruleset_path(rs)
+          %span.badge #{time_ago_in_words(rs.updated_at)} ago
   - else
     %p No rulesets
-  = link_to 'New ruleset', new_ruleset_path

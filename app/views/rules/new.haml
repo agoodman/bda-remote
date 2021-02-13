@@ -1,4 +1,15 @@
 - content_for(:html_title) { "New Rule" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Rulesets', rulesets_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', ruleset_path(@ruleset)
+
 - field_helper = lambda do |e|
   = e.label :part, 'Part name'
   = e.text_field :part
@@ -10,11 +21,7 @@
   = e.select :op, options_for_select([:lt, :gt, :lte, :gte, :eq, :neq])
   = e.label :value, 'Reference value'
   = e.text_field :value
-%nav
-  %ul
-    %li= link_to 'Home', home_path
-    %li= link_to 'Rulesets', rulesets_path
-    %li= link_to @ruleset.name, ruleset_path(@ruleset)
+
 %h1 New Rule
 - if flash[:error]
   %ul.errors
@@ -22,7 +29,7 @@
       %li= e
 = form_for @rule, url: ruleset_rules_path(@ruleset) do |f|
   = f.hidden_field :ruleset_id, value: @ruleset.id
-  = f.select :strategy, options_for_select(Rule::strategy_select_options), { include_blank: true }
+  = f.select :strategy, options_for_select(Rule::strategy_select_options), { include_blank: true }, class: 'form-control'
   %fieldset#part_count{style: "display: none"}
     = f.fields_for :part_count do |e|
       = e.label :op
@@ -84,4 +91,4 @@
         = e.label :z
         = e.select :opz, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
         = e.text_field :z
-  = f.submit "Create Rule"
+  .form-group= f.submit "Create Rule", class: 'form-control'

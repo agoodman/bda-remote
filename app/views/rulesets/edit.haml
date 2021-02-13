@@ -1,18 +1,23 @@
 - content_for(:html_title) { "Edit Ruleset" }
-%nav
-  %ul
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
     %li= link_to 'Rulesets', rulesets_path
-    %li= link_to 'Back', ruleset_path(@ruleset)
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', ruleset_path(@ruleset)
 
 %section
   %h1 Edit Ruleset
 
   = form_for @ruleset do |f|
-    %div
+    .form-group
       = f.label :name
-      = f.text_field :name
-    %div
+      = f.text_field :name, class: 'form-control'
+    .form-group
       = f.label :summary
-      = f.text_area :summary
-    %div= f.submit
+      = f.text_area :summary, class: 'form-control'
+    .form-group= f.submit "Update Ruleset", class: 'form-control'

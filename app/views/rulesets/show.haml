@@ -1,26 +1,30 @@
 - content_for(:html_title) { "Ruleset: #{@ruleset.name}" }
-%nav
-  %ul
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
     %li= link_to 'Rulesets', rulesets_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Edit Ruleset', edit_ruleset_path(@ruleset)
+    %li= link_to 'Add rule', new_ruleset_rule_path(@ruleset)
 
 %section
   %h1 Ruleset: #{@ruleset.name}
   %p= @ruleset.summary
-  %ul
-    %li= link_to 'Edit Ruleset', edit_ruleset_path(@ruleset)
+  %ul.list-unstyled
     %li Modified #{time_ago_in_words(@ruleset.updated_at)} ago
     %li Created #{time_ago_in_words(@ruleset.created_at)} ago
 
 %section.rules
-  %h1 Rules
-  %ul
+  %h2 Rules
+  %ul.list-group
     - if @ruleset.rules.any?
       - @ruleset.rules.each do |rule|
-        %li
+        %li.list-group-item
           #{rule.strategy}(#{rule.params})
           = link_to 'remove', ruleset_rule_path(@ruleset, rule), method: :delete, data: { confirm: "Are you sure?" }
     - else
-      %li No rules defined
-  %ul
-    %li= link_to 'Add rule', new_ruleset_rule_path(@ruleset)
+      %li.list-group-item No rules defined

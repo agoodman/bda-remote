@@ -1,9 +1,14 @@
 - content_for(:html_title) { "Edit Vessel" }
-%nav
-  %ul
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
     %li= link_to 'Vessel Hangar', player_vessels_path(@player)
-    %li= link_to 'Back', player_vessel_path(@player, @vessel)
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', player_vessel_path(@player, @vessel)
 
 %section
   %h1 Edit Vessel
