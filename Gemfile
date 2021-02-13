@@ -17,7 +17,7 @@ gem 'jquery-rails'
 gem 'chart-js-rails'
 gem 'dalli'
 gem 'discard', '~> 1.2'
-gem 'bootstrap', '~> 4.0.0'
+gem 'bootstrap', '~> 4.3.1'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
