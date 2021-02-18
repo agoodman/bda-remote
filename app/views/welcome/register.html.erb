@@ -2,11 +2,22 @@
 <section>
 <h1>Register</h1>
 <% if user_signed_in? -%>
-<p>You are already registered as <%= current_user.player.name %>!</p>
-<ul>
-<li><%= link_to 'View Player', player_path(current_user.player) %></li>
-<li><%= link_to 'Edit Player', edit_player_path(current_user.player) %></li>
+<% content_for(:nav) do %>
+<ul class="list-unstyled">
+  <li><%= link_to 'Home', home_path %></li>
+  <li><%= link_to 'Vessel Hangar', player_vessels_path(current_user.player.id) %></li>
 </ul>
+<% end -%>
+<% content_for(:sidebar) do %>
+<h4>Actions</h4>
+<ul class="list-unstyled">
+  <li><%= link_to 'View Player', player_path(current_user.player) %></li>
+  <li><%= link_to 'Edit Player', edit_player_path(current_user.player) %></li>
+</ul>
+<% end -%>
+<p>You are registered as <%= current_user.player.name %>!</p>
+<h2>Next Steps...</h2>
+<blockquote><p>Check out the Vessel Hangar to learn more!</p></blockquote>
 <% else -%>
 <p>
 Flying Circus is a KSP+BDArmory competition pitting diverse aircraft against each other. The rules are simple. Human players design aircraft according to sets of rules. AI pilots

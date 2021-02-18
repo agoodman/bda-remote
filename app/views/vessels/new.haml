@@ -1,18 +1,34 @@
 - content_for(:html_title) { "Upload Vessel" }
-%nav
-  %ul
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
     %li= link_to 'Vessel Hangar', player_vessels_path(@player)
 
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', player_vessels_path(@player)
+
 %section
   %h1 Upload Vessel
+  %h2 Consider the Following
+  %ul
+    %li Every Vessel must have a unique name
+    %li
+      Vessels will appear as
+      %code &lt;player&gt;_&lt;vessel&gt;
+      (no need to include your name)
   - if flash[:error]
     %ul.errors
     - flash[:error].each do |e|
       %li= e
   = form_for :vessel, url: player_vessels_path(@player), html: { multipart: true } do |f|
-    = f.label :name
-    = f.text_field :name
-    = file_field_tag :file
+    .form-group
+      = f.label :name
+      = f.text_field :name, class: 'form-control'
+    .form-group
+      = f.label :file
+      = file_field_tag :file, class: 'form-control'
     = f.submit 'Submit'
 
