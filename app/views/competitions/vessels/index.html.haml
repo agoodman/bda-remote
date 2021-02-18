@@ -1,8 +1,15 @@
-%nav
-  %ul
+- content_for(:html_title) { "Manage Vessels" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
     %li= link_to 'Home', home_path
     %li= link_to 'Competitions', competitions_path
     %li= link_to @competition.name, competition_path(@competition)
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
 
 %section
   %h1 Manage Vessels
@@ -31,4 +38,4 @@
             = f.submit 'Select'
   - else
     %p You haven't uploaded any vessels yet
-  = link_to 'Vessel Hangar', player_vessels_path(current_user.player)
+
