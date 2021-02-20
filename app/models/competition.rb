@@ -142,8 +142,13 @@ class Competition < ApplicationRecord
     return if stage >= max_stages
     new_stage = self.stage + 1
     self.stage = new_stage
-    generate_heats(self, new_stage, true, TournamentRankingStrategy.new)
-    self.remaining_heats = heats.for_stage(new_stage).not_started.not_ended.count
+    unfinished_count = heats.for_stage(new_stage).not_started.not_ended.count
+    if unfinished_count == 0
+      generate_heats(self, new_stage, true, TournamentRankingStrategy.new)
+      self.remaining_heats = heats.for_stage(new_stage).not_started.not_ended.count
+    else
+      self.remaining_heats = unfinished_count
+    end
     self.save!
   end
 
