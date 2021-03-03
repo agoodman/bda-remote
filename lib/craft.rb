@@ -13,7 +13,7 @@ module Craft
       @vessel["type"]
     end
     def parts
-      @vessel[:parts]
+      @vessel[:parts] rescue []
     end
     def part_map
       @vessel[:parts].each_with_object(Hash.new(0)) { |e,h| h[e["part"].gsub(/_.+/, "")] += 1 }
@@ -143,29 +143,34 @@ module Craft
       end
       @vessel = vessel
       @part_dict = @vessel[:parts].each_with_object(Hash.new(0)) { |e,h| h[e["part"]] = e }
+      !@vessel.nil?
     end
     def self.interpret_file(file)
       # read contents into memory
-      # puts "filename: #{file.original_filename}"
-      # puts "size: #{file.size}"
-      # puts "body: #{file.tempfile}"
+      puts "filename: #{file.original_filename}"
+      puts "size: #{file.size}"
+      puts "body: #{file.tempfile}"
       body = file.tempfile.read
-      # puts "opened: #{body.size()}"
-      # puts "line count: #{body.lines.count}"
+      puts "opened: #{body.size()}"
+      puts "line count: #{body.lines.count}"
       # rewind the file so the uploaded doesn't start at the end
       file.tempfile.rewind
-      interpret(body.lines)
+      interpret(body)
     end
 
     def self.interpret(craft)
       vessel = KspVessel.new
-      vessel.build_tree(craft.lines) rescue nil
+      return nil unless vessel.build_tree(craft.lines)
       return vessel
     end
 
     def stackiness
       depth = 0
-      determine_stack_value(@vessel[:parts].first["part"], depth+1, 0)
+      begin
+        determine_stack_value(@vessel[:parts].first["part"], depth+1, 0)
+      rescue
+        0
+      end
     end
     def determine_stack_value(part_name, depth, total)
       part = @part_dict[part_name]
@@ -181,12 +186,12 @@ module Craft
       return depth * links.count + total + result
     end
     def cost
-      part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") }
+      part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") } rescue []
       part_costs = Part.where('name IN (?)', part_names).each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.cost }
       part_names.map { |e| part_costs[e] }.reduce(0, :+)
     end
     def mass
-      part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") }
+      part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") } rescue []
       part_masses = Part.where('name IN (?)', part_names).each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.mass }
       part_names.map { |e| part_masses[e] }.reduce(0, :+)
     end

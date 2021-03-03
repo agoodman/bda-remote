@@ -82,7 +82,15 @@ class VesselsController < AuthenticatedController
 
   def detail
     file = params[:file]
-    @craft = Craft::KspVessel.interpret(file)
+    @craft = Craft::KspVessel.interpret_file(file)
+    if @craft.nil?
+      flash[:error] = "Failed to interpret your file"
+      redirect_to evaluate_path and return
+    end
+    if @craft.parts.nil?
+      flash[:error] = "Failed to resolve parts for your file"
+      redirect_to evaluate_path
+    end
   end
 
   def evaluate
