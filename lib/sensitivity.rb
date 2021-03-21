@@ -26,7 +26,7 @@ module Sensitivity
             result
           end
         end
-        new_craft = new_craft_lines.join("\n")
+        new_craft = new_craft_lines.join
         new_name = "#{vessel.name}Mk#{index}"
         new_vessel = upload_craft(new_craft, new_name, owner)
         if new_vessel.nil?
@@ -37,10 +37,12 @@ module Sensitivity
       end
     end
 
-    return nil
-
     # create competition
+    metric = Metric.create(kills: 3, deaths: -1, assists: 1, wins: 5, dmg_out: 1e-5)
     competition = Competition.new(name: "Sensitivity Analysis for #{vessel.name}")
+    competition.max_stages = 40
+    competition.metric = metric
+    competition.ruleset = Ruleset.find(37) # use existing ruleset
     competition.user_id = owner.id
     competition.save
 
