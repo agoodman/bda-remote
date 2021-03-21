@@ -58,11 +58,10 @@ module Sensitivity
     bucket = s3.bucket(ENV['S3_BUCKET'])
     return nil if bucket.nil?
 
-    file = params[:file]
-    filename = "players/#{owner.id}/#{file.original_filename}"
+    filename = "players/#{owner.id}/#{name}"
     s3obj = bucket.object(filename)
     s3obj.put(
-        body: file,
+        body: craft,
         acl: "public-read"
     )
 
