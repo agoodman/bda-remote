@@ -21,7 +21,7 @@ module Sensitivity
           if match.nil?
             line
           else
-            result = "#{match[1]}#{match[2].to_f * v}"
+            result = "#{match[1]}#{match[2].to_f * v}\n"
             # puts "in: #{line}, out[#{v}]: #{result}"
             result
           end
