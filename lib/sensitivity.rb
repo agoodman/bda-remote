@@ -49,6 +49,7 @@ module Sensitivity
     competition.save
 
     # assign vessels
+    VesselAssignment.create(competition: competition, vessel: vessel)
     generated_vessels.each do |v|
       VesselAssignment.create(competition: competition, vessel: v)
     end
