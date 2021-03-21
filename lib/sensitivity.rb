@@ -5,7 +5,7 @@
 module Sensitivity
   require "open-uri"
 
-  def configure(vessel, owner)
+  def configure(vessel, user)
     # fetch craft file
     craft = URI::open(vessel.craft_url).read
 
@@ -28,7 +28,7 @@ module Sensitivity
         end
         new_craft = new_craft_lines.join
         new_name = "#{vessel.name}Mk#{index}"
-        new_vessel = upload_craft(new_craft, new_name, owner)
+        new_vessel = upload_craft(new_craft, new_name, user.player.id)
         if new_vessel.nil?
           return nil
         end
@@ -45,7 +45,7 @@ module Sensitivity
     competition.max_stages = 40
     competition.metric = metric
     competition.ruleset = Ruleset.find(37) # use existing ruleset
-    competition.user_id = owner.id
+    competition.user_id = user.id
     competition.save
 
     # assign vessels
@@ -57,12 +57,12 @@ module Sensitivity
     return competition
   end
 
-  def upload_craft(craft, name, owner)
+  def upload_craft(craft, name, player_id)
     s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
     bucket = s3.bucket(ENV['S3_BUCKET'])
     return nil if bucket.nil?
 
-    filename = "players/#{owner.id}/#{name}"
+    filename = "players/#{player_id}/#{name}"
     s3obj = bucket.object(filename)
     s3obj.put(
         body: craft,
@@ -70,7 +70,8 @@ module Sensitivity
     )
 
     craft_url = s3obj.public_url
-    vessel = Vessel.create(player_id: owner.id, craft_url: craft_url, name: name)
+    puts "uploaded #{craft.length} bytes to #{craft_url}"
+    vessel = Vessel.create(player_id: player_id, craft_url: craft_url, name: name)
     vessel
   end
 
