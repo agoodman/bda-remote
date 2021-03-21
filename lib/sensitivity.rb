@@ -64,8 +64,8 @@ module Sensitivity
 
     filename = "players/#{owner.id}/#{name}"
     s3obj = bucket.object(filename)
-    s3obj.write(
-        data: craft,
+    s3obj.put(
+        body: craft,
         acl: "public-read"
     )
 
