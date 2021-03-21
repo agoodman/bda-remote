@@ -37,6 +37,8 @@ module Sensitivity
       end
     end
 
+    return nil if generated_vessels.empty?
+
     # create competition
     metric = Metric.create(kills: 3, deaths: -1, assists: 1, wins: 5, dmg_out: 1e-5)
     competition = Competition.new(name: "Sensitivity Analysis for #{vessel.name}")
@@ -61,11 +63,7 @@ module Sensitivity
     return nil if bucket.nil?
 
     filename = "players/#{owner.id}/#{name}"
-    s3obj = bucket.object(filename)
-    s3obj.put(
-        body: craft,
-        acl: "public-read"
-    )
+    s3obj = bucket.objects.create(filename, craft, acl: "public-read")
 
     craft_url = s3obj.public_url
     vessel = Vessel.create(player_id: owner.id, craft_url: craft_url, name: name)
