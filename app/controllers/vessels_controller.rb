@@ -4,7 +4,7 @@ class VesselsController < AuthenticatedController
 
   before_action :require_session, except: [:detail, :evaluate]
   before_action :assign_player, except: [:detail, :evaluate]
-  before_action :assign_vessel, only: [:show, :edit, :update, :destroy, :undiscard]
+  before_action :assign_vessel, only: [:show, :edit, :update, :destroy, :undiscard, :sensitivity]
   before_action :reject_if_needed, except: [:detail, :evaluate]
 
   skip_before_action :verify_authenticity_token
@@ -94,6 +94,11 @@ class VesselsController < AuthenticatedController
   end
 
   def evaluate
+  end
+
+  def sensitivity
+    competition = Sensitivity.configure(@vessel, current_user)
+    redirect_to competition_path(competition)
   end
 
   private

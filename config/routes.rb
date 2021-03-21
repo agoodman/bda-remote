@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     resources :vessels, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do
         get :undiscard
+        get :sensitivity
       end
     end
     member do
