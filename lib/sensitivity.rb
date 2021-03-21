@@ -59,11 +59,11 @@ module Sensitivity
 
   def upload_craft(craft, name, owner)
     s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
-    bucket = s3.bucket(ENV['S3_BUCKET'])
-    return nil if bucket.nil?
+    bucket_name = ENV['S3_BUCKET']
+    return nil if bucket_name.nil?
 
     filename = "players/#{owner.id}/#{name}"
-    s3obj = bucket.objects[filename].write(craft, acl: "public-read")
+    s3.put_object(bucket_name: bucket_name, key: filename, data: craft, acl: "public-read")
 
     craft_url = s3obj.public_url
     vessel = Vessel.create(player_id: owner.id, craft_url: craft_url, name: name)
