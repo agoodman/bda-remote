@@ -63,7 +63,7 @@ module Sensitivity
     return nil if bucket.nil?
 
     filename = "players/#{owner.id}/#{name}"
-    s3obj = bucket.objects.create(filename, craft, acl: "public-read")
+    s3obj = bucket.objects[filename].write(craft, acl: "public-read")
 
     craft_url = s3obj.public_url
     vessel = Vessel.create(player_id: owner.id, craft_url: craft_url, name: name)
