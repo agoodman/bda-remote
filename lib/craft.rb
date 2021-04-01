@@ -225,17 +225,20 @@ module Craft
 
   def modify_craft(craft, keys=[], values=[])
     # find/replace the matching lines from the baseline craft file
-    new_craft_lines = craft.lines.map do |line|
-      keys.each.with_index do |paramKey,k|
-        pattern = /^(.*#{paramKey} = )(.+)$/
+    new_craft = craft
+    keys.each.with_index do |paramKey,k|
+      pattern = /^(.*#{paramKey} = )(.+)$/
+      new_craft_lines = new_craft.lines.map do |line|
         match = line.match(pattern)
-        if !match.nil?
-          return "#{match[1]}#{values[k].to_s}\n"
+        if match.nil?
+          line
+        else
+          result = "#{match[1]}#{values[k]}\n"
+          # puts "in: #{line}, out[#{v}]: #{result}"
+          result
         end
       end
-      line
     end
-    new_craft = new_craft_lines.join
     new_craft
   end
 
