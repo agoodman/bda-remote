@@ -251,8 +251,8 @@ module Craft
         acl: "public-read"
     )
 
-    puts "uploaded #{craft.length} bytes to #{craft_url}"
     craft_url = s3obj.public_url
+    puts "uploaded #{craft.length} bytes to #{craft_url}"
     vessel = Vessel.create(player_id: player_id, craft_url: craft_url, name: name)
     vessel
   end
