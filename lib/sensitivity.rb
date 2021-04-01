@@ -3,11 +3,13 @@
 # Designed to configure a spread of parametric variants from a baseline vessel.
 #
 module Sensitivity
+  include Craft
   require "open-uri"
 
   def configure(vessel, user)
     # fetch craft file
     craft = URI::open(vessel.craft_url).read
+    # craft = URI::open("https://bdascores.s3.amazonaws.com/players/24/aubranium_UglyBox.craft").read
 
     # generate a spread of parametric craft and associated vessels
     index = 1
@@ -56,24 +58,6 @@ module Sensitivity
 
     # return configured competition
     return competition
-  end
-
-  def upload_craft(craft, name, player_id)
-    s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
-    bucket = s3.bucket(ENV['S3_BUCKET'])
-    return nil if bucket.nil?
-
-    filename = "players/#{player_id}/#{name}"
-    s3obj = bucket.object(filename)
-    s3obj.put(
-        body: craft,
-        acl: "public-read"
-    )
-
-    craft_url = s3obj.public_url
-    puts "uploaded #{craft.length} bytes to #{craft_url}"
-    vessel = Vessel.create(player_id: player_id, craft_url: craft_url, name: name)
-    vessel
   end
 
   private

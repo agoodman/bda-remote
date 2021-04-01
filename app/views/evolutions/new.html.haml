@@ -1,0 +1,28 @@
+- content_for(:html_title) { "Evolutions" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Evolutions', evolutions_path
+    %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', evolutions_path
+
+%section
+  %h1 New Evolution
+  = form_for :evolution, url: evolutions_path, html: { multipart: true } do |f|
+    - if flash[:errors]
+      .form-group
+        %p= flash[:errors]
+    .form-group
+      = f.label :name
+      = f.text_field :name, class: 'form-control'
+    .form-group
+      = f.label :vessel_id, 'Baseline Vessel'
+      = f.select :vessel_id, options_for_select(@vessels.each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.id }), {}, { class: 'form-control' }
+    = f.submit 'Submit'
+
+

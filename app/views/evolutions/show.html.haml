@@ -1,0 +1,25 @@
+- content_for(:html_title) { "Evolutions - #{@evolution.name}" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Evolutions', evolutions_path
+    %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li None
+
+%section
+  %h1 Evolution: #{@evolution.name}
+  %h2 Vessel: #{@evolution.vessel.name}
+  %h2 Generation: #{@evolution.variant_groups.count} of #{@evolution.max_generations}
+
+%section
+  %h2 Variant Groups
+  %ul.list-unstyled
+    - @evolution.variant_groups.each do |vg|
+      %li
+        Keys: #{vg.keys}, Variants: #{vg.variants.count}
+        = link_to "details", variant_group_path(vg)

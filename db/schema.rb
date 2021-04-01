@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_064140) do
+ActiveRecord::Schema.define(version: 2021_03_31_232737) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -26,6 +26,17 @@ ActiveRecord::Schema.define(version: 2021_01_22_064140) do
     t.datetime "published_at"
     t.integer "ruleset_id"
     t.index ["name"], name: "index_competitions_on_name", unique: true
+  end
+
+  create_table "evolutions", force: :cascade do |t|
+    t.string "name"
+    t.integer "vessel_id"
+    t.integer "user_id"
+    t.integer "max_generations"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_evolutions_on_user_id"
+    t.index ["vessel_id"], name: "index_evolutions_on_vessel_id"
   end
 
   create_table "heat_assignments", force: :cascade do |t|
@@ -166,6 +177,37 @@ ActiveRecord::Schema.define(version: 2021_01_22_064140) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  end
+
+  create_table "variant_assignments", force: :cascade do |t|
+    t.integer "variant_id"
+    t.integer "vessel_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "variant_group_assignments", force: :cascade do |t|
+    t.integer "variant_group_id"
+    t.integer "competition_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "variant_groups", force: :cascade do |t|
+    t.integer "evolution_id"
+    t.integer "generation"
+    t.string "keys"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["evolution_id"], name: "index_variant_groups_on_evolution_id"
+  end
+
+  create_table "variants", force: :cascade do |t|
+    t.integer "variant_group_id"
+    t.string "values"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["variant_group_id"], name: "index_variants_on_variant_group_id"
   end
 
   create_table "vessel_assignments", force: :cascade do |t|

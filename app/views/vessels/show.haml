@@ -3,6 +3,7 @@
 - content_for(:nav) do
   %ul.list-unstyled
     %li= link_to 'Home', home_path
+    %li= link_to 'Evolutions', evolutions_path
     %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
 
 - content_for(:sidebar) do
@@ -14,6 +15,7 @@
       %li= link_to 'Retire Vessel', player_vessel_path(@player, @vessel), method: :delete, data: { confirm: "Are you sure?" }
     %li= link_to 'Edit Vessel', edit_player_vessel_path(@player, @vessel)
     %li= link_to 'Download Craft', @vessel.craft_url
+    %li= link_to 'New Evolution', @vessel.craft_url
 
 %section
   %h1 Vessel Detail

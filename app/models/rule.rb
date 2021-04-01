@@ -1,8 +1,9 @@
 class Rule < ApplicationRecord
   belongs_to :ruleset
 
-  validates_presence_of :strategy
-  validates_presence_of :params
+  validates :ruleset_id, presence: true
+  validates :strategy, presence: true
+  validates :params, presence: true
 
   @@strategy_map = {
       part_count: "PartCount",

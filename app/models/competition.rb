@@ -11,6 +11,7 @@ class Competition < ApplicationRecord
   has_many :players, through: :vessels
   has_many :rankings
   has_one :metric
+  has_one :variant_group_assignment
 
   validates :user_id, presence: true
   validates :status, presence: true

@@ -2,6 +2,7 @@ class Vessel < ApplicationRecord
   include Discard::Model
 
   belongs_to :player
+  has_many :variant_assignments
   has_many :vessel_assignments
   has_many :competitions, through: :vessel_assignments
   has_many :heat_assignments
@@ -11,6 +12,7 @@ class Vessel < ApplicationRecord
 
   validates :player_id, presence: true
   validates :craft_url, presence: true
+  validates :name, presence: true
 
   def score
     rankings.last.score rescue nil

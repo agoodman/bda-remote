@@ -1,0 +1,21 @@
+- content_for(:html_title) { "Evolutions" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'New Evolution', new_evolution_path
+
+%section
+  %h1 Evolutions
+  - if @evolutions.any?
+    %ul.list-group
+      - @evolutions.each do |e|
+        %li.list-group-item
+          = link_to e.name, evolution_path(e)
+  - else
+    %p None

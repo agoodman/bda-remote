@@ -3,7 +3,6 @@ require 'test_helper'
 class VesselTest < ActiveSupport::TestCase
   context "associations" do
     should belong_to(:player)
-    should belong_to(:competition)
     should have_many(:heat_assignments)
     should have_many(:heats)
     should have_many(:rankings)
@@ -11,6 +10,7 @@ class VesselTest < ActiveSupport::TestCase
 
   context "validations" do
     should validate_presence_of(:player_id)
-    should validate_presence_of(:competition_id)
+    should validate_presence_of(:name)
+    should validate_presence_of(:craft_url)
   end
 end

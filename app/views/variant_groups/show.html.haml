@@ -1,0 +1,30 @@
+- content_for(:html_title) { "VariantGroup - #{@variant_group.keys}" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Evolutions', evolutions_path
+    %li= link_to @variant_group.evolution.name, evolution_path(@variant_group.evolution)
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    - if @variant_group.competition.nil?
+      %li= link_to 'Generate Competition', generate_variant_group_path(@variant_group)
+    - else
+      %li None
+
+%section
+  %h1 Evolution: #{@variant_group.evolution.name}
+  %h2 Vessel: #{@variant_group.evolution.vessel.name}
+  %h2 Keys: #{@variant_group.keys}
+  - if @variant_group.competition.nil?
+    %p No Competition
+  - else
+    %p= link_to 'Competition details', competition_path(@variant_group.competition)
+
+%section
+  %h2 Variants
+  %ul.list-unstyled
+    - @variant_group.variants.each do |v|
+      %li Values: #{v.values}
