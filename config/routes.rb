@@ -43,6 +43,13 @@ Rails.application.routes.draw do
     resource :metric, only: [:edit, :update]
   end
 
+  resources :evolutions
+  resources :variant_groups, only: :show do
+    member do
+      get :generate
+    end
+  end
+
   resources :parts, only: [:new, :create, :show]
 
   # players are top level objects

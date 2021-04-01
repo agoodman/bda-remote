@@ -3,6 +3,7 @@ class Player < ApplicationRecord
   has_many :vessels
   has_many :records, through: :vessels
 
+  validates :user_id, presence: true
   validates :name, presence: true
 
   scope :npc, -> { where(is_human: false) }

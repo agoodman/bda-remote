@@ -222,4 +222,38 @@ module Craft
     return result
   end
 
+  def modify_craft(craft, keys=[], values=[])
+    # find/replace the matching lines from the baseline craft file
+    new_craft_lines = craft.lines.map do |line|
+      keys.each.with_index do |paramKey,k|
+        pattern = /^(.*#{paramKey} = )(.+)$/
+        match = line.match(pattern)
+        if !match.nil?
+          return "#{match[1]}#{values[k].to_s}\n"
+        end
+      end
+      line
+    end
+    new_craft = new_craft_lines.join
+    new_craft
+  end
+
+  def upload_craft(craft, name, player_id)
+    s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
+    bucket = s3.bucket(ENV['S3_BUCKET'])
+    return nil if bucket.nil?
+
+    filename = "players/#{player_id}/#{name}"
+    s3obj = bucket.object(filename)
+    s3obj.put(
+        body: craft,
+        acl: "public-read"
+    )
+
+    puts "uploaded #{craft.length} bytes to #{craft_url}"
+    craft_url = s3obj.public_url
+    vessel = Vessel.create(player_id: player_id, craft_url: craft_url, name: name)
+    vessel
+  end
+
 end
