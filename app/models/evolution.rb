@@ -24,7 +24,7 @@ class Evolution < ApplicationRecord
         "steerDamping"
     ]
     baseline_values = [
-        [5, 10, 5],
+        [5, 10, 15],
         [0.25, 0.5, 0.75],
         [2, 4, 6]
     ]
