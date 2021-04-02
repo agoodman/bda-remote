@@ -28,9 +28,10 @@
   %h2 Variants
   %ul.list-unstyled
     - @variant_group.variants.each do |v|
-      %li Values: #{v.values}
+      %li Name: G#{@variant_group.generation}-V#{v.id}, Values: #{v.values}
 
 - unless @variant_group.competition.nil? || @variant_group.competition.rankings.empty?
+  - best_variant_vessel = @variant_group.competition.rankings.order(:rank).first.vessel
   %section
     %h2 Best Variant
-    %p= @variant_group.competition.rankings.order(:rank).first.vessel.name
+    %p Name: #{best_variant_vessel.name}, Values: #{best_variant_vessel.variant.values}

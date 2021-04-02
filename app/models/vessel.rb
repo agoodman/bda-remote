@@ -2,7 +2,8 @@ class Vessel < ApplicationRecord
   include Discard::Model
 
   belongs_to :player
-  has_many :variant_assignments
+  has_one :variant_assignment
+  has_one :variant, through: :variant_assignment
   has_many :vessel_assignments
   has_many :competitions, through: :vessel_assignments
   has_many :heat_assignments
