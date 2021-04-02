@@ -238,6 +238,7 @@ module Craft
           result
         end
       end
+      new_craft = new_craft_lines.join
     end
     new_craft
   end
