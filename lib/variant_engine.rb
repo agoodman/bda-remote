@@ -101,7 +101,7 @@ module VariantEngine
 
       values = keys.map.with_index do |k,index|
         clamps = @@variant_key_clamps[k.to_sym]
-        center = centers[index]
+        center = centers[index].to_f
         span = clamps[1] - clamps[0]
         [center - spread_factor * span, center, center + spread_factor * span]
       end
