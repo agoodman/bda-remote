@@ -29,13 +29,20 @@ function loadCumulative(records) {
 
 function loadVesselRanks(results) {
     console.log("vesselRanks: "+results.length);
+    var colors = ["#000", "#f00", "#0f0", "#00f", "#fff", "#ff0", "#0ff"];
+    var colorIndex = 0;
     var stages = [];
     var labels = [];
     var datasets = [];
     results.forEach(function(e) {
         // console.log("vessel: "+e["name"]+", ranks: "+e["ranks"]);
         labels.push(e["name"]);
-        datasets.push({label: e["name"], data: e["ranks"]});
+        datasets.push({
+            label: e["name"],
+            data: e["ranks"],
+            fill: false,
+            backgroundColor: colors[(colorIndex++ % colors.length)]
+        });
     });
     for(var k=0;k<datasets[0].data.length;k++) {
         stages.push(k);
