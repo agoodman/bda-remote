@@ -36,6 +36,59 @@ class CompetitionsController < AuthenticatedController
     end
   end
 
+  def chart
+    @competition = Competition.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json {
+        vessels = @competition.vessels
+        vessel_ranks = {}
+        vessels.each { |v| vessel_ranks[v.id] = [] }
+        max_stage = @competition.heats.order(:stage).last.stage rescue 0
+        # puts "max stage: #{max_stage}"
+        all_records = @competition.records
+        (0..max_stage).each do |stage|
+          # generate a ranking of all players for the stage
+          unordered_rankings = all_records.includes(heat: {}, vessel: :player).filter { |e| e.heat.stage <= stage }.group_by(&:vessel_id).map do |vessel_id,r|
+            ranking = Ranking.new
+            ranking.vessel_id = vessel_id
+            ranking.kills = r.map(&:kills).sum
+            ranking.deaths = r.map(&:deaths).sum
+            ranking.assists = r.map(&:assists).sum
+            ranking.hits_out = r.map(&:hits_out).sum
+            ranking.hits_in = r.map(&:hits_in).sum
+            ranking.dmg_out = r.map(&:dmg_out).sum
+            ranking.dmg_in = r.map(&:dmg_in).sum
+            ranking.mis_dmg_out = r.map(&:mis_dmg_out).sum
+            ranking.mis_dmg_in = r.map(&:mis_dmg_in).sum
+            ranking.mis_parts_out = r.map(&:mis_parts_out).sum
+            ranking.mis_parts_in = r.map(&:mis_parts_in).sum
+            ranking.ram_parts_out = r.map(&:ram_parts_out).sum
+            ranking.ram_parts_in = r.map(&:ram_parts_in).sum
+            ranking.death_order = r.map(&:death_order).sum
+            ranking.death_time = r.map(&:death_time).sum
+            ranking.wins = r.map(&:wins).sum
+            ranking.score = @competition.metric.score_for_record(ranking)
+            ranking.rank = 0
+            ranking
+          end
+          sorted_rankings = unordered_rankings.sort_by { |e| e.score }.reverse
+          sorted_rankings.each_with_index do |e, k|
+            e.rank = k + 1
+            ranks = vessel_ranks[e.vessel_id]
+            if ranks.nil?
+              vessel_ranks[e.vessel_id] = [e.rank]
+            else
+              vessel_ranks[e.vessel_id].push(e.rank)
+            end
+            puts "vessel: #{e.vessel_id}, stage: #{stage}, rank: #{e.rank}"
+          end
+        end
+        render json: vessel_ranks.keys.map { |k| {vessel_id: k, name: (vessels.where(id: k).first.name rescue "unk"), ranks: vessel_ranks[k] } }
+      }
+    end
+  end
+
   def edit
     @competition = Competition.find(params[:id])
     @rulesets = Ruleset.all.map { |e| [e.name, e.id] }

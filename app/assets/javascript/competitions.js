@@ -26,3 +26,26 @@ function loadCumulative(records) {
         }
     });
 }
+
+function loadVesselRanks(results) {
+    console.log("vesselRanks: "+results.length);
+    var stages = [];
+    var labels = [];
+    var datasets = [];
+    results.forEach(function(e) {
+        // console.log("vessel: "+e["name"]+", ranks: "+e["ranks"]);
+        labels.push(e["name"]);
+        datasets.push({label: e["name"], data: e["ranks"]});
+    });
+    for(var k=0;k<datasets[0].data.length;k++) {
+        stages.push(k);
+    }
+    var ctx = document.getElementById('competition_chart');
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: stages,
+            datasets: datasets
+        }
+    });
+}

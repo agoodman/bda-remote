@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get :extend
       get :stop
       get :results
+      get :chart
     end
     resources :players, only: [:index, :new, :create, :destroy], controller: 'competitions/players'
     resources :vessels, only: [:index, :create, :destroy], controller: 'competitions/vessels' do

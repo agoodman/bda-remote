@@ -1,0 +1,8 @@
+%section
+  %h2 Charts
+  %canvas#competition_chart
+  %script{language: "JavaScript"}
+    $(document).ready(function() {
+    console.log("load chart.json for #{@competition.id}");
+    $.getJSON("/competitions/#{@competition.id}/chart.json", loadVesselRanks);
+    });
