@@ -23,31 +23,10 @@ class Evolution < ApplicationRecord
         "steerKiAdjust",
         "steerDamping"
     ]
-    baseline_values = [
-        [5, 10, 15],
-        [0.25, 0.5, 0.75],
-        [2, 4, 6]
-    ]
-    vg = variant_groups.create(keys: baseline_keys.join(","), generation: 0)
-    (0...3).each do |x|
-      (0...3).each do |y|
-        (0...3).each do |z|
-          variant_values = [
-              baseline_values[0][x],
-              baseline_values[1][y],
-              baseline_values[2][z]
-          ]
-          vg.variants.create(values: variant_values.map(&:to_s).join(","))
-        end
-      end
-    end
-
-    vg.generate_competition!
+    variant_groups.create(keys: baseline_keys.join(","), generation: 0)
   end
 
   def latest_vessel
-    return vessel # override for now
-    # return vessel if variant_groups.empty?
-    # variant_groups.last.competition.rankings.something?
+    variant_groups.order(:generation).last.competition.rankings.order(:rank).first.vessel rescue vessel
   end
 end

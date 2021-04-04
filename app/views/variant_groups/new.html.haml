@@ -1,0 +1,23 @@
+- content_for(:html_title) { "New Variant Group" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', evolution_variant_groups_path(@evolution)
+
+%section
+  %h1 New Variant Group for #{@evolution.name}
+  %h2 Generation: #{@evolution.variant_groups.count+1}
+
+  - if flash[:error]
+    %p.error= flash[:error]
+  = form_for [@evolution, VariantGroup.new], url: evolution_variant_groups_path(@evolution) do |f|
+    .form-group
+      = f.select :keys, options_for_select(@key_options)
+    .form-group
+      = f.submit 'Create Variant Group', class: 'form-control'
+

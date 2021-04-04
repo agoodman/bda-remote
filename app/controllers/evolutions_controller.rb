@@ -33,10 +33,6 @@ class EvolutionsController < AuthenticatedController
     @evolution.update(params[:evolution])
   end
 
-  def start
-    @evolution.start!
-  end
-
   private
 
   def assign_evolution

@@ -9,7 +9,7 @@
 - content_for(:sidebar) do
   %h4 Actions
   %ul.list-unstyled
-    %li None
+    %li= link_to 'New Variant Group', new_evolution_variant_group_path(@evolution)
 
 %section
   %h1 Evolution: #{@evolution.name}
@@ -22,4 +22,4 @@
     - @evolution.variant_groups.each do |vg|
       %li
         Keys: #{vg.keys}, Variants: #{vg.variants.count}
-        = link_to "details", variant_group_path(vg)
+        = link_to "details", evolution_variant_group_path(@evolution, vg)
