@@ -41,8 +41,10 @@ function loadVesselRanks(results) {
             label: e["name"],
             data: e["ranks"],
             fill: false,
-            backgroundColor: colors[(colorIndex++ % colors.length)]
+            backgroundColor: colors[colorIndex],
+            borderColor: colors[colorIndex]
         });
+        colorIndex = (colorIndex + 1) % colors.length;
     });
     for(var k=0;k<datasets[0].data.length;k++) {
         stages.push(k);
