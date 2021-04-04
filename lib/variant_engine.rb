@@ -86,9 +86,16 @@ module VariantEngine
       keys = variant_group.keys.split(",") rescue []
       return unless keys.count == 3
 
-      centers = variant_group.evolution.latest_vessel.variant.values.split(",") rescue keys.map do |k|
-        clamps = @@variant_key_clamps[k.to_sym]
-        (clamps[0] + clamps[1]) / 2.0
+      previous_variant_group = variant_group.evolution.variant_groups.where('generation < ?', variant_group.generation).order(:generation).last
+      if previous_variant_group.nil?
+        # initial baseline
+        centers = keys.map do |k|
+          clamps = @@variant_key_clamps[k.to_sym]
+          (clamps[0] + clamps[1]) / 2.0
+        end
+      else
+        # use values from top ranked variant from previous group
+        centers = previous_variant_group.competition.rankings.order(:rank).first.vessel.variant.values.split(",") rescue []
       end
       return unless centers.count == 3
 
