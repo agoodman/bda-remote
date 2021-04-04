@@ -27,6 +27,6 @@ class Evolution < ApplicationRecord
   end
 
   def latest_vessel
-    variant_groups.order(:generation).last.competition.rankings.order(:rank).first.vessel rescue vessel
+    variant_groups.where('generation < ?', variant_groups.count-1).order(:generation).last.competition.rankings.order(:rank).first.vessel rescue vessel
   end
 end
