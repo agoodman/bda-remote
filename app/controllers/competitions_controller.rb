@@ -20,14 +20,7 @@ class CompetitionsController < AuthenticatedController
   end
 
   def show
-    @instance = Rails.cache.fetch("competition-#{params[:id]}") do
-      Competition.includes(
-          players: {},
-          records: {},
-          vessels: :player,
-          heats: { heat_assignments: { vessel: :player } }
-      ).find(params[:id])
-    end
+    @instance = cached_instance
 
     respond_to do |format|
       format.json { render json: @instance }
@@ -37,10 +30,10 @@ class CompetitionsController < AuthenticatedController
   end
 
   def chart
-    @competition = Competition.find(params[:id])
     respond_to do |format|
       format.html
       format.json {
+        @competition = cached_instance
         vessels = @competition.vessels
         vessel_ranks = {}
         vessels.each { |v| vessel_ranks[v.id] = [] }
@@ -81,7 +74,7 @@ class CompetitionsController < AuthenticatedController
             else
               vessel_ranks[e.vessel_id].push(e.rank)
             end
-            puts "vessel: #{e.vessel_id}, stage: #{stage}, rank: #{e.rank}"
+            # puts "vessel: #{e.vessel_id}, stage: #{stage}, rank: #{e.rank}"
           end
         end
         render json: vessel_ranks.keys.map { |k| {vessel_id: k, name: (vessels.where(id: k).first.name rescue "unk"), ranks: vessel_ranks[k] } }
@@ -200,6 +193,17 @@ class CompetitionsController < AuthenticatedController
   end
 
   private
+
+  def cached_instance
+    Rails.cache.fetch("competition-#{params[:id]}") do
+      Competition.includes(
+          players: {},
+          records: {},
+          vessels: :player,
+          heats: { heat_assignments: { vessel: :player } }
+      ).find(params[:id])
+    end
+  end
 
   def duplicate_record
     result = { error: "Name must be unique" }

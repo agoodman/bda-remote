@@ -3,6 +3,6 @@
   %canvas#competition_chart
   %script{language: "JavaScript"}
     $(document).ready(function() {
-    console.log("load chart.json for #{@competition.id}");
-    $.getJSON("/competitions/#{@competition.id}/chart.json", loadVesselRanks);
+    console.log("load chart.json for #{params[:id]}");
+    $.getJSON("/competitions/#{params[:id]}/chart.json", loadVesselRanks);
     });
