@@ -19,5 +19,7 @@
     .form-group
       = f.select :keys, options_for_select(@key_options)
     .form-group
+      = f.select :selection_strategy, options_for_select(@selection_strategy_options)
+    .form-group
       = f.submit 'Create Variant Group', class: 'form-control'
 

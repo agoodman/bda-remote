@@ -9,6 +9,7 @@ class VariantGroup < ApplicationRecord
   validates :evolution_id, presence: true
   validates :keys, presence: true
   validates :generation, presence: true, numericality: { only_integer: true }
+  validates :selection_strategy, presence: true
 
   after_create :generate_variants
 

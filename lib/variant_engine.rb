@@ -1,4 +1,15 @@
 module VariantEngine
+  @@selection_strategies = [
+      "best",
+      "weighted"
+  ]
+
+  def selection_strategies
+    @@selection_strategies
+  end
+
+  module_function :selection_strategies
+
   class VariantStrategy
   end
 
