@@ -15,7 +15,7 @@
       %li= link_to 'Retire Vessel', player_vessel_path(@player, @vessel), method: :delete, data: { confirm: "Are you sure?" }
     %li= link_to 'Edit Vessel', edit_player_vessel_path(@player, @vessel)
     %li= link_to 'Download Craft', @vessel.craft_url
-    %li= link_to 'New Evolution', @vessel.craft_url
+    %li= link_to 'New Evolution', new_evolution_path(evolution: {vessel_id: @vessel.id})
 
 %section
   %h1 Vessel Detail

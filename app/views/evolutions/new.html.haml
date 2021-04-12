@@ -22,7 +22,7 @@
       = f.text_field :name, class: 'form-control'
     .form-group
       = f.label :vessel_id, 'Baseline Vessel'
-      = f.select :vessel_id, options_for_select(@vessels.each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.id }), {}, { class: 'form-control' }
+      = f.select :vessel_id, options_for_select(@vessels.each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.id }, selected: (params[:evolution][:vessel_id] rescue nil)), {}, { class: 'form-control' }
     = f.submit 'Submit'
 
 
