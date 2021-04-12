@@ -200,9 +200,12 @@ class Competition < ApplicationRecord
       ranking.rank = 0
       ranking
     end
+    # subtract minimum score to eliminate negative
+    min_score = rankings.map(&:score).min || 0
     sorted_rankings = unordered_rankings.sort_by { |e| e.score }.reverse
     sorted_rankings.each_with_index do |e, k|
       e.rank = k + 1
+      e.score = e.score - min_score
       e.save!
     end
     return
