@@ -1,4 +1,5 @@
 class VariantGroupsController < AuthenticatedController
+  include VariantEngine
 
   before_action :require_session
   before_action :assign_evolution, only: [:new, :create]
@@ -21,6 +22,7 @@ class VariantGroupsController < AuthenticatedController
       dynamicRoll: "DynamicDampingRollMin,DynamicDampingRollMax,dynamicSteerDampingRollFactor",
       evasion: "minEvasionTime,evasionThreshold,evasionTimeThreshold"
     }
+    @selection_strategy_options = VariantEngine.selection_strategies
     @spread_factor = @evolution.variant_groups.last.spread_factor rescue 0.25
   end
 
