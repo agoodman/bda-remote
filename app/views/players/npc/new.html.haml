@@ -1,0 +1,23 @@
+- content_for(:html_title) { "Players - Create NPC" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+    %li= link_to 'Competitions', competitions_path
+    %li= link_to 'Players', players_path
+
+-content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Cancel', players_path
+
+%section
+  %h1 Add NPC
+  - if flash[:error]
+    %p= flash[:error]
+  = form_for @player, url: npcs_path do |f|
+    .form-group
+      = f.label :name
+      = f.text_field :name, class: 'form-control'
+    .form-group
+      = f.submit 'Add NPC', class: 'form-control'

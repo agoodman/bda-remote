@@ -4,8 +4,23 @@
   %ul.list-unstyled
     %li= link_to 'Home', home_path
 
+-content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'New NPC', new_npc_path
+
 %section
   %h1 Players
   .list-group
-    - @players.each do |e|
+    - @players.human.each do |e|
+      = link_to e.name, player_path(e), class: "list-group-item"
+
+%section
+  %h1 NPCs
+  - if flash[:error]
+    %p= flash[:error]
+  .list-group
+    - if @players.npc.empty?
+      None
+    - @players.npc.each do |e|
       = link_to e.name, player_path(e), class: "list-group-item"

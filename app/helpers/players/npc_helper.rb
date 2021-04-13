@@ -1,0 +1,2 @@
+module Players::NpcHelper
+end

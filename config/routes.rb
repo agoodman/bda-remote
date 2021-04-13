@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   resources :parts, only: [:new, :create, :show]
 
   # players are top level objects
+  resources :npcs, only: [:new, :create], controller: 'players/npc'
   resources :players do
     resources :vessels, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do
