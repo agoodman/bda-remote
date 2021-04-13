@@ -92,7 +92,7 @@ module VariantEngine
     }
 
     def apply!(variant_group)
-      spread_factor = 0.25 / (variant_group.generation+1) rescue 0.25
+      spread_factor = variant_group.spread_factor
 
       keys = variant_group.keys.split(",") rescue []
       return unless keys.count == 3
