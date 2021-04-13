@@ -26,4 +26,29 @@ class VariantGroup < ApplicationRecord
   def generate_variants
     SpreadTensorVariantStrategy.new.apply!(self)
   end
+
+  def result_values
+    puts "No competition" and return nil if competition.nil?
+    puts "No rankings" and return nil if competition.rankings.empty?
+    if selection_strategy == "best"
+      # select top ranked vessel variant
+      competition.rankings.order(:rank).first.vessel.variant.values
+    elsif selection_strategy == "weighted"
+      # compute weighted centroid
+      rankings = competition.rankings.includes(:vessel => :variant)
+      max_score = rankings.map(&:score).max.to_f
+      # puts "max score: #{max_score}, variant count: #{variant_count}"
+      weighted_values = keys.split(",").map.with_index do |key,index|
+        norm_factor = rankings.map { |e| e.score.to_f / max_score }.sum
+        rankings.map { |e|
+          # norm_score = e.score.to_f / max_score
+          # puts "normalized weight: #{norm_score}, value: #{e.vessel.variant.values.split(",")[index].to_f}"
+          (1.0 / norm_factor) * (e.score.to_f / max_score) * e.vessel.variant.values.split(",")[index].to_f rescue 0
+        }.sum
+      end
+      weighted_values.join(",")
+    else
+      return nil
+    end
+  end
 end
