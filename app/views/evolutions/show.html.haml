@@ -19,7 +19,9 @@
 %section
   %h2 Variant Groups
   %ul.list-unstyled
+    - if @evolution.variant_groups.empty?
+      %li None
     - @evolution.variant_groups.each do |vg|
       %li
-        Keys: #{vg.keys}, Variants: #{vg.variants.count}
+        Keys: #{vg.keys}, Factor: #{vg.spread_factor}, Variants: #{vg.variants.count}
         = link_to "details", evolution_variant_group_path(@evolution, vg)

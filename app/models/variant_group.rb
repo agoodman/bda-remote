@@ -10,6 +10,7 @@ class VariantGroup < ApplicationRecord
   validates :keys, presence: true
   validates :generation, presence: true, numericality: { only_integer: true }
   validates :selection_strategy, presence: true
+  validates :spread_factor, presence: true, numericality: true
 
   after_create :generate_variants
 

@@ -21,6 +21,7 @@ class VariantGroupsController < AuthenticatedController
       dynamicRoll: "DynamicDampingRollMin,DynamicDampingRollMax,dynamicSteerDampingRollFactor",
       evasion: "minEvasionTime,evasionThreshold,evasionTimeThreshold"
     }
+    @spread_factor = @evolution.variant_groups.last.spread_factor rescue 0.25
   end
 
   def create
