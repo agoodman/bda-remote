@@ -45,6 +45,6 @@ class VariantGroupsController < AuthenticatedController
   end
 
   def valid_params
-    params.require(:variant_group).permit(:keys)
+    params.require(:variant_group).permit(:keys, :selection_strategy, :spread_factor)
   end
 end
