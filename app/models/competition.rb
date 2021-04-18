@@ -191,7 +191,7 @@ class Competition < ApplicationRecord
         rank_change = curr_rank_map[vid].to_i - prev_rank_map[vid].to_i
         rank_change.abs
       end
-      rank_changes.sum
+      rank_changes.sum.to_f / rank_changes.count.to_f rescue 999
     end
   end
 
