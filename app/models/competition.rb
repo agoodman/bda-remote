@@ -188,8 +188,8 @@ class Competition < ApplicationRecord
         curr_rank_map[e.vessel_id] = e.rank
       end
       rank_changes = prev_rank_map.keys.map do |vid|
-        rank_change = curr_rank_map[vid].to_i.abs - prev_rank_map[vid].to_i.abs
-        rank_change
+        rank_change = curr_rank_map[vid].to_i - prev_rank_map[vid].to_i
+        rank_change.abs
       end
       rank_changes.sum
     end
