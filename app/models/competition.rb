@@ -172,6 +172,29 @@ class Competition < ApplicationRecord
     end
   end
 
+  def stability_factor
+    last_stage = heats.map(&:stage).max || 0
+    if last_stage == 0
+      rankings.map(&:rank).sum || 999 rescue 999
+    else
+      previous_rankings = computed_rankings(last_stage-1)
+      current_rankings = computed_rankings(last_stage)
+      prev_rank_map = {}
+      previous_rankings.each do |e|
+        prev_rank_map[e.vessel_id] = e.rank
+      end
+      curr_rank_map = {}
+      current_rankings.each do |e|
+        curr_rank_map[e.vessel_id] = e.rank
+      end
+      rank_changes = prev_rank_map.keys.map do |vid|
+        rank_change = curr_rank_map[vid].to_i.abs - prev_rank_map[vid].to_i.abs
+        rank_change
+      end
+      rank_changes.sum
+    end
+  end
+
   def update_rankings!
     unordered_rankings = records.includes(vessel: :player).group_by(&:vessel_id).map do |vessel_id,r|
       ranking = rankings.where(vessel_id: vessel_id).first
@@ -227,5 +250,41 @@ class Competition < ApplicationRecord
   def unpublish!
     self.published_at = nil
     self.save!
+  end
+
+  private
+
+  def computed_rankings(last_stage)
+    unordered_rankings = records.joins(:heat).includes(vessel: :player).where('heats.stage <= ?', last_stage).group_by(&:vessel_id).map do |vessel_id,r|
+      ranking = Ranking.new
+      ranking.competition_id = id
+      ranking.vessel_id = vessel_id
+      ranking.kills = r.map(&:kills).sum
+      ranking.deaths = r.map(&:deaths).sum
+      ranking.assists = r.map(&:assists).sum
+      ranking.hits_out = r.map(&:hits_out).sum
+      ranking.hits_in = r.map(&:hits_in).sum
+      ranking.dmg_out = r.map(&:dmg_out).sum
+      ranking.dmg_in = r.map(&:dmg_in).sum
+      ranking.mis_dmg_out = r.map(&:mis_dmg_out).sum
+      ranking.mis_dmg_in = r.map(&:mis_dmg_in).sum
+      ranking.mis_parts_out = r.map(&:mis_parts_out).sum
+      ranking.mis_parts_in = r.map(&:mis_parts_in).sum
+      ranking.ram_parts_out = r.map(&:ram_parts_out).sum
+      ranking.ram_parts_in = r.map(&:ram_parts_in).sum
+      ranking.death_order = r.map(&:death_order).sum
+      ranking.death_time = r.map(&:death_time).sum
+      ranking.wins = r.map(&:wins).sum
+      ranking.score = metric.score_for_record(ranking)
+      ranking.rank = 0
+      ranking
+    end
+    min_score = unordered_rankings.map(&:score).min || 0
+    sorted_rankings = unordered_rankings.sort_by { |e| e.score }.reverse
+    sorted_rankings.each_with_index do |e, k|
+      e.rank = k + 1
+      e.score = e.score - min_score
+      e
+    end
   end
 end
