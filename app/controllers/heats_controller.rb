@@ -25,6 +25,7 @@ class HeatsController < ApplicationController
     # check if competition has any more heats
     comp = @instance.competition
     unless comp.has_remaining_heats?(comp.stage)
+      comp.update_rankings!
       comp.next_stage
     end
     head :ok

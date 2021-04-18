@@ -59,8 +59,6 @@ class RecordsController < ApplicationController
       status
     end
 
-    c.update_rankings!
-
     respond_to do |format|
       format.json { render json: results }
     end
