@@ -136,7 +136,7 @@ class Competition < ApplicationRecord
   end
 
   def has_remaining_heats?(stage)
-    heats.where(stage: stage, started_at: nil, ended_at: nil).any?
+    heats.where(stage: stage, ended_at: nil).any?
   end
 
   def next_stage
