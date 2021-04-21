@@ -173,7 +173,7 @@ class Competition < ApplicationRecord
   end
 
   def stability_factor
-    last_stage = heats.map(&:stage).max || 0
+    last_stage = records.joins(:heat).maximum(:stage) || 0
     if last_stage == 0
       rankings.map(&:rank).sum || 999 rescue 999
     else
