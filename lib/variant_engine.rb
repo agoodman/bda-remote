@@ -1,19 +1,63 @@
 module VariantEngine
+  require "open-uri"
+
+  @@generation_strategies = [
+      "spread",
+      "genetic"
+  ]
+
   @@selection_strategies = [
       "best",
       "weighted"
   ]
 
+  def generation_strategies
+    @@generation_strategies
+  end
+
   def selection_strategies
     @@selection_strategies
   end
 
+  def all_keys
+    @@variant_key_defaults.keys
+  end
+
+  def reference_values_for(craft_url, keys)
+    puts "fetching #{craft_url}"
+    craft_file = URI::open(craft_url).read rescue nil
+    return nil if craft_file.nil?
+    remaining_keys = {}
+    keys.each { |key| remaining_keys[key] = 1 }
+
+    existing_values_map = {}
+    craft_file.lines.each do |line|
+      key_to_remove = nil
+      remaining_keys.keys.each do |key|
+        pattern = /^.*#{key} = (.+)$/
+        value = line.match(pattern)[1] rescue nil
+        unless value.nil?
+          existing_values_map[key] = value.strip
+          key_to_remove = key
+          break
+        end
+      end
+      unless key_to_remove.nil?
+        remaining_keys[key_to_remove] = nil
+      end
+    end
+    existing_values_map.values.join(",")
+  end
+
+  module_function :generation_strategies
   module_function :selection_strategies
+  module_function :all_keys
+  module_function :reference_values_for
 
   class VariantStrategy
   end
 
-  @variant_key_defaults = {
+  @@variant_key_defaults = {
       "steerMult": 6.59999,
       "steerKiAdjust": 0.25,
       "steerDamping": 2.5,
@@ -133,4 +177,73 @@ module VariantEngine
       variant_group.generate_competition!
     end
   end
+
+  class GeneticVariantStrategy < VariantStrategy
+    def apply!(variant_group)
+      # 10% random mutation factor
+      mutation_factor = 0.1
+      if variant_group.generation == 0
+        # for first group, generate 6 random mutation pairs
+        # pick three random axes
+        axes = []
+        available_axes = variant_group.keys.split(",")
+        3.times do
+          next_axis = available_axes[rand*available_axes.count]
+          available_axes -= [next_axis]
+          axes.push(next_axis)
+        end
+
+        variant_group.variants.create(values: variant_group.baseline_values)
+        axes.each do |axis|
+          offset = rand * mutation_factor
+          generate_dipole(variant_group, axis, offset, variant_group.baseline_values)
+        end
+      else
+        # drop two worst and generate random mutation dipole from best variant
+        previous_group = variant_group.evolution.variant_groups.where('generation < ?', variant_group.generation).order(:generation).first
+        return if previous_group.nil? || previous_group.competition.nil?
+        rankings = previous_group.competition.rankings.includes(vessel: :variant).order(:rank)
+        retained_count = rankings.count - 2
+        retained_variants = rankings.take(retained_count).map(&:vessel).map(&:variant)
+        retained_variants.each do |v|
+          variants.create(values: v.values)
+        end
+
+        # pick a random mutation axis based on the best variant
+        group_keys = variant_group.keys.split(",")
+        axis = group_keys[rand*group_keys.count]
+        offset = rand * mutation_factor
+
+        generate_dipole(variant_group, axis, offset, retained_variants.first.values)
+      end
+
+      variant_group.generate_competition!
+    end
+
+    def generate_dipole_values(keys, values, axis, magnitude)
+      index = keys.index(axis)
+      if index.nil?
+        puts "found no match for #{axis} in #{keys}"
+      else
+        puts "matching index #{index}"
+      end
+      [-1, 1].map do |modifier|
+        values.map.with_index do |e,k|
+          if k == index
+            e.to_f * (1.0 + magnitude * modifier).to_f
+          else
+            e.to_f
+          end
+        end
+      end
+    end
+
+    def generate_dipole(variant_group, axis, offset, reference_values)
+      puts "generate dipole: #{axis}, #{offset}"
+      generate_dipole_values(variant_group.keys.split(","), reference_values.split(","), axis, offset).each do |values|
+        variant_group.variants.create(values: values.join(","))
+      end
+    end
+  end
+
 end

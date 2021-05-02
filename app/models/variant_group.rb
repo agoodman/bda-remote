@@ -8,11 +8,14 @@ class VariantGroup < ApplicationRecord
 
   validates :evolution_id, presence: true
   validates :keys, presence: true
+  validates :baseline_values, presence: true
   validates :generation, presence: true, numericality: { only_integer: true }
   validates :selection_strategy, presence: true
   validates :spread_factor, presence: true, numericality: true
 
   after_create :generate_variants
+
+  attr_accessor :reference_type
 
   def generate_competition!
     return unless variant_group_assignment.nil?
@@ -24,7 +27,12 @@ class VariantGroup < ApplicationRecord
   end
 
   def generate_variants
-    SpreadTensorVariantStrategy.new.apply!(self)
+    case generation_strategy.to_sym
+    when :spread
+      SpreadTensorVariantStrategy.new.apply!(self)
+    when :genetic
+      GeneticVariantStrategy.new.apply!(self)
+    end
   end
 
   def result_values
@@ -40,10 +48,10 @@ class VariantGroup < ApplicationRecord
       # puts "max score: #{max_score}, variant count: #{variant_count}"
       weighted_values = keys.split(",").map.with_index do |key,index|
         norm_factor = rankings.map { |e| e.score.to_f / max_score }.sum
-        rankings.map { |e|
+        (1.0 / norm_factor) * rankings.map { |e|
           # norm_score = e.score.to_f / max_score
           # puts "normalized weight: #{norm_score}, value: #{e.vessel.variant.values.split(",")[index].to_f}"
-          (1.0 / norm_factor) * (e.score.to_f / max_score) * e.vessel.variant.values.split(",")[index].to_f rescue 0
+          (e.score.to_f / max_score) * e.vessel.variant.values.split(",")[index].to_f rescue 0
         }.sum
       end
       weighted_values.join(",")

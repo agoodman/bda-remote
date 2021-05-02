@@ -13,8 +13,6 @@
 %section
   %h1 New Variant Group for #{@evolution.name}
   %h2 Generation: #{@evolution.variant_groups.count+1}
-  - if @evolution.variant_groups.any?
-    %h2 Reference Variant: #{@evolution.variant_groups.last.result_values}
 
   - if flash[:error]
     %p.error= flash[:error]
@@ -22,6 +20,12 @@
     .form-group
       = f.label :keys, 'Parameter set'
       = f.select :keys, options_for_select(@key_options)
+    .form-group
+      = f.label :reference_type, 'Reference values'
+      = f.select :reference_type, options_for_select(@reference_types)
+    .form-group
+      = f.label :generation_strategy, 'Variant strategy'
+      = f.select :generation_strategy, options_for_select(@generation_strategy_options)
     .form-group
       = f.label :selection_strategy
       = f.select :selection_strategy, options_for_select(@selection_strategy_options)

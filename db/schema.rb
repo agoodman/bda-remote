@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_12_222241) do
+ActiveRecord::Schema.define(version: 2021_04_26_145537) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -201,6 +201,8 @@ ActiveRecord::Schema.define(version: 2021_04_12_222241) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "selection_strategy"
     t.float "spread_factor"
+    t.string "baseline_values"
+    t.string "generation_strategy"
     t.index ["evolution_id"], name: "index_variant_groups_on_evolution_id"
   end
 
