@@ -206,7 +206,7 @@ module VariantEngine
         retained_count = rankings.count - 2
         retained_variants = rankings.take(retained_count).map(&:vessel).map(&:variant)
         retained_variants.each do |v|
-          variants.create(values: v.values)
+          variant_group.variants.create(values: v.values)
         end
 
         # pick a random mutation axis based on the best variant
