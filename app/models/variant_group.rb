@@ -19,7 +19,7 @@ class VariantGroup < ApplicationRecord
 
   def generate_competition!
     return unless variant_group_assignment.nil?
-    c = Competition.create(name: "#{evolution.name}-G#{generation}", user_id: evolution.user_id, max_stages: 40)
+    c = Competition.create(name: "#{evolution.name}-G#{generation}", user_id: evolution.user_id, max_stages: 15)
     variants.each do |v|
       VesselAssignment.create(vessel_id: v.vessel.id, competition_id: c.id)
     end
