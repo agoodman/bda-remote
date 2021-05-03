@@ -182,7 +182,7 @@ module VariantEngine
     def apply!(variant_group)
       # 10% random mutation factor
       mutation_factor = 0.1
-      if variant_group.generation == 0
+      if true || variant_group.generation == 0
         # for first group, generate 6 random mutation pairs
         # pick three random axes
         axes = []
