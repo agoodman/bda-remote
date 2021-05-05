@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_26_145537) do
+ActiveRecord::Schema.define(version: 2021_05_05_024911) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2021_04_26_145537) do
     t.float "mass"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "points"
   end
 
   create_table "players", force: :cascade do |t|

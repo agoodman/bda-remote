@@ -52,7 +52,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :parts, only: [:new, :create, :show]
+  resources :parts, only: [:index, :new, :create, :show, :edit, :update]
 
   # players are top level objects
   resources :npcs, only: [:new, :create], controller: 'players/npc'

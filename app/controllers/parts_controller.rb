@@ -1,7 +1,15 @@
-class PartsController < ApplicationController
+class PartsController < AuthenticatedController
   include PartLibrary
 
   skip_before_action :verify_authenticity_token
+
+  before_action :require_session, only: [:index, :edit, :update]
+  before_action :assign_part_by_name, only: :show
+  before_action :assign_part, only: [:edit, :update]
+
+  def index
+    @parts = Part.all
+  end
 
   def new
   end
@@ -31,10 +39,32 @@ class PartsController < ApplicationController
   end
 
   def show
-    @part = Part.where(name: params[:id]).first
     head :bad_request and return if @part.nil?
     respond_to do |format|
       format.json { render json: @part, status: :ok }
     end
+  end
+
+  def edit
+  end
+
+  def update
+    @part.points = params[:part][:points]
+    @part.save
+    if @part.errors.any?
+      redirect_to edit_part_path(@part)
+    else
+      redirect_to parts_path
+    end
+  end
+
+  private
+
+  def assign_part
+    @part = Part.find(params[:id])
+  end
+
+  def assign_part_by_name
+    @part = Part.where(name: params[:id]).first
   end
 end
