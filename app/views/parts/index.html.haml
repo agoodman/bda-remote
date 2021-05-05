@@ -1,0 +1,22 @@
+- content_for(:html_title) { "All Parts" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li None
+
+%section
+  %h1 All Parts
+  - if @parts.empty?
+    %p None
+  - else
+    %ul.list-unstyled
+      - @parts.each do |part|
+        %li.list-group-item
+          #{part.name}
+          (#{part.points})
+          = link_to 'edit', edit_part_path(part)
