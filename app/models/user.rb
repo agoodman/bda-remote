@@ -3,7 +3,11 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :rememberable, :omniauthable, omniauth_providers: [:google_oauth2]
 
+  include RoleModel
+
   has_many :competitions
   has_many :evolutions
   has_one :player
+
+  roles :organizer, :showrunner
 end

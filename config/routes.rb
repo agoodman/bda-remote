@@ -71,6 +71,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :roles, only: [:index] do
+    member do
+      get :promote
+      get :demote
+    end
+  end
+
   resources :rulesets do
     resources :rules, only: [:index, :new, :create, :destroy]
   end

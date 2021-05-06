@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_05_024911) do
+ActiveRecord::Schema.define(version: 2021_05_06_000639) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 2021_05_05_024911) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "roles_mask"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end

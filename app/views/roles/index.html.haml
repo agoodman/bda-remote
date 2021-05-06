@@ -1,0 +1,49 @@
+- content_for(:html_title) { "Roles" }
+
+- content_for(:nav) do
+  %ul.list-unstyled
+    %li= link_to 'Home', home_path
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li None
+
+%section
+  - organizers = @users.filter { |e| e.has_role? :organizer }
+  - showrunners = @users.filter { |e| e.has_role? :showrunner }
+  - players = @users.filter { |e| !e.has_any_role? :organizer, :showrunner }
+  %h1 Organizers
+  - if organizers.empty?
+    %p None
+  - else
+    %table
+      %tr
+        %th Player Name
+        %th Organizer
+        %th Show Runner
+      - @users.each do |user|
+        %tr
+          %td
+            #{user.player.name}
+            - if user == current_user
+              (you)
+          %td
+            - if user.has_role? :organizer
+              Yes
+              - if user != current_user
+                = link_to 'Demote', demote_role_path(user.id, role: 'organizer')
+            - else
+              No
+              - if user != current_user
+                = link_to 'Promote to Organizer', promote_role_path(user.id, role: 'organizer')
+          %td
+            - if user.has_role? :showrunner
+              Yes
+              - if user != current_user
+                = link_to 'Demote', demote_role_path(user.id, role: 'showrunner')
+            - else
+              No
+              - if user != current_user
+                = link_to 'Promote to Showrunner', promote_role_path(user.id, role: 'showrunner')
+
