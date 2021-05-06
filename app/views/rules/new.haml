@@ -72,6 +72,13 @@
         = e.label :value
         = e.select :op, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
         = e.text_field :value
+  %fieldset#ship_points{style: "display: none"}
+    %ul
+    = f.fields_for :ship_points do |e|
+      %li
+        = e.label :value
+        = e.select :op, options_for_select([:lt, :lte, :gt, :gte, :eq, :neq])
+        = e.text_field :value
   %fieldset#ship_type{style: "display: none"}
     = f.fields_for :ship_type do |e|
       = e.label :type

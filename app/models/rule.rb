@@ -18,7 +18,8 @@ class Rule < ApplicationRecord
       ship_size: "ShipSizeCondition",
       ship_type: "ShipTypeCondition",
       ship_cost: "ShipCostCondition",
-      ship_mass: "ShipMassCondition"
+      ship_mass: "ShipMassCondition",
+      ship_points: "ShipPointsCondition"
   }
   def self.strategy_keys
     @@strategy_map.keys

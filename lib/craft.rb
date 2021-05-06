@@ -196,6 +196,11 @@ module Craft
       part_masses = Part.where('name IN (?)', part_names).each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.mass }
       part_names.map { |e| part_masses[e] }.reduce(0, :+)
     end
+    def points
+      part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") } rescue []
+      part_points = Part.where('name IN (?)', part_names).each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.points }
+      part_names.map { |e| part_points[e] }.reduce(0, :+)
+    end
   end
 
   def is_craft_file_valid?(file, strategies=[])

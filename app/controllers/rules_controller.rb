@@ -98,6 +98,11 @@ class RulesController < AuthenticatedController
           op: params[:rule][:ship_mass][:op],
           value: params[:rule][:ship_mass][:value]
       }
+    when :ship_points
+      return {
+          op: params[:rule][:ship_points][:op],
+          value: params[:rule][:ship_points][:value]
+      }
     when :ship_size
       return {
           opx: params[:rule][:ship_size][:opx],

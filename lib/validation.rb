@@ -425,4 +425,14 @@ module Validation
       "craft must have mass #{@op} #{@value}"
     end
   end
+
+  class ShipPointsCondition < ResourcePropertyCondition
+    def apply(craft)
+      points = craft.points
+      [points].any? @comparator
+    end
+    def error_message
+      "craft must have points #{@op} #{@value}"
+    end
+  end
 end

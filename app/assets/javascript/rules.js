@@ -23,6 +23,9 @@ $(document).ready(function() {
         else if(strategy.endsWith("ship_mass")) {
             $('#ship_mass').show();
         }
+        else if(strategy.endsWith("ship_points")) {
+            $('#ship_points').show();
+        }
         else if(strategy.endsWith("ship_size")) {
             $('#ship_size').show();
         }
