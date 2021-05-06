@@ -6,9 +6,10 @@ class PartsController < AuthenticatedController
   before_action :require_session, only: [:index, :edit, :update]
   before_action :assign_part_by_name, only: :show
   before_action :assign_part, only: [:edit, :update]
+  before_action :reject_unauthorized, only: [:edit, :update]
 
   def index
-    @parts = Part.all
+    @parts = Part.order(:name)
   end
 
   def new
@@ -66,5 +67,9 @@ class PartsController < AuthenticatedController
 
   def assign_part_by_name
     @part = Part.where(name: params[:id]).first
+  end
+
+  def reject_unauthorized
+    redirect_to home_path unless current_user.can_write_parts?
   end
 end

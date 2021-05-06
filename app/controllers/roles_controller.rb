@@ -24,10 +24,10 @@ class RolesController < AuthenticatedController
   private
 
   def can_update_roles?
-    redirect_to roles_path unless current_user.has_role? :organizer
+    redirect_to roles_path unless current_user.can_write_roles?
   end
 
   def can_view_roles?
-    redirect_to home_path unless current_user.has_any_role? :organizer, :showrunner
+    redirect_to home_path unless current_user.can_read_roles?
   end
 end

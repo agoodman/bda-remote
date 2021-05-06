@@ -11,6 +11,18 @@ class User < ApplicationRecord
 
   roles :organizer, :showrunner
 
+  def can_read_roles?
+    has_any_role? :organizer, :showrunner
+  end
+
+  def can_write_roles?
+    has_role? :organizer
+  end
+
+  def can_write_parts?
+    has_role? :organizer
+  end
+
   def can_grant_organizer?
     has_role? :organizer
   end

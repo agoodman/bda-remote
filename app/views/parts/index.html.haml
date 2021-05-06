@@ -19,4 +19,5 @@
         %li.list-group-item
           #{part.name}
           (#{part.points})
-          = link_to 'edit', edit_part_path(part)
+          - if current_user.can_write_parts?
+            = link_to 'edit', edit_part_path(part)
