@@ -14,10 +14,15 @@
   - if @parts.empty?
     %p None
   - else
-    %ul.list-unstyled
+    %table.table.sortable.searchable
+      %tr
+        %th Part Name
+        %th Points
+        %th Actions
       - @parts.each do |part|
-        %li.list-group-item
-          #{part.name}
-          (#{part.points})
-          - if current_user.can_write_parts?
-            = link_to 'edit', edit_part_path(part)
+        %tr
+          %td= part.name
+          %td= part.points
+          %td
+            - if current_user.can_write_parts?
+              = link_to 'edit', edit_part_path(part)
