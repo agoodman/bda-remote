@@ -10,4 +10,12 @@ class User < ApplicationRecord
   has_one :player
 
   roles :organizer, :showrunner
+
+  def can_grant_organizer?
+    has_role? :organizer
+  end
+
+  def can_grant_showrunner?
+    has_any_role? :organizer, :showrunner
+  end
 end

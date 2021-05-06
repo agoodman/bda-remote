@@ -31,19 +31,19 @@
           %td
             - if user.has_role? :organizer
               Yes
-              - if user != current_user && current_user.has_role?(:organizer)
+              - if user != current_user && current_user.can_grant_organizer?
                 = link_to 'Demote', demote_role_path(user.id, role: 'organizer')
             - else
               No
-              - if user != current_user && current_user.has_role?(:organizer)
+              - if user != current_user && current_user.can_grant_organizer?
                 = link_to 'Promote to Organizer', promote_role_path(user.id, role: 'organizer')
           %td
             - if user.has_role? :showrunner
               Yes
-              - if user != current_user && current_user.has_role?(:showrunner)
+              - if user != current_user && current_user.can_grant_showrunner?
                 = link_to 'Demote', demote_role_path(user.id, role: 'showrunner')
             - else
               No
-              - if user != current_user && current_user.has_role?(:showrunner)
+              - if user != current_user && current_user.can_grant_showrunner?
                 = link_to 'Promote to Showrunner', promote_role_path(user.id, role: 'showrunner')
 
