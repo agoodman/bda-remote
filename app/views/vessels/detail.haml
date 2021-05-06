@@ -16,8 +16,9 @@
     %li Avg links per part: #{@craft.parts.map { |e| e["link"].nil? ? 0 : (e["link"].kind_of?(String) ? 1 : e["link"].count)}.reduce(0, :+).to_f / @craft.parts.count}
     %li Parts with zero links: #{@craft.parts.map { |e| e["link"].nil? ? 1 : 0}.reduce(0, :+)}
     %li Stackiness: #{@craft.stackiness}
-    %li Cost: #{@craft.cost}
-    %li Mass: #{@craft.mass}
+    %li Cost: #{number_with_precision(@craft.cost, precision: 0)}
+    %li Mass: #{number_with_precision(@craft.mass, precision: 3)}
+    %li Points: #{number_with_precision(@craft.points, precision: 0)}
   %h3 Detail
   %ul
     - @craft.parts.each do |part|
