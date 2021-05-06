@@ -4,7 +4,7 @@ class RolesController < AuthenticatedController
   before_action :can_update_roles?, only: [:promote, :demote]
 
   def index
-    @users = User.all
+    @users = User.includes(:player).order("players.name")
   end
 
   def promote
