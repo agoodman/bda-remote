@@ -26,7 +26,9 @@ class Competition < ApplicationRecord
   after_initialize :assign_initial_max_stages
   after_create :create_default_metric
 
-  scope :open, -> { where(status: 0) }
+  scope :available, -> { where(status: 0) }
+  scope :unpublished, -> { where('published_at is null') }
+  scope :published, -> { where('published_at is not null') }
 
   def status_label
     labels = [

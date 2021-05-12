@@ -1,6 +1,6 @@
 %section
   %h2 Available Competitions
-  - comps = Competition.open-@player.recent_competitions
+  - comps = Competition.available-@player.recent_competitions
   - if comps.empty?
     %ul.list-group
       %li.list-group-item none

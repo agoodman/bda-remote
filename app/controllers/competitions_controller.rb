@@ -10,7 +10,7 @@ class CompetitionsController < AuthenticatedController
 
   def index
     @competitions = Rails.cache.fetch("competitions") do
-      Competition.limit(10).order(updated_at: :desc)
+      Competition.order(updated_at: :desc)
     end
     respond_to do |format|
       format.json { render json: @collection }

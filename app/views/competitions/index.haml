@@ -10,11 +10,20 @@
     %li= link_to 'New Competition', new_competition_path
 
 %section
-  %h1 Competitions
+  %h1 Public Competitions
   %ul.list-group
-  - @competitions.each do |e|
-    - if e.public? || (user_signed_in? && e.user == current_user)
-      %li.list-group-item
-        = link_to e.name, competition_path(e)
-        - if e.private?
-          %span.badge (private)
+  - if @competitions.published.any?
+    - @competitions.published.each do |e|
+      %li.list-group-item= link_to e.name, competition_path(e)
+  - else
+    %li.list-group-item None
+
+%section
+  %h1 Private Competitions
+  %ul.list-group
+  - if @competitions.unpublished.any?
+    - @competitions.unpublished.each do |e|
+      - if user_signed_in? && e.user == current_user
+        %li.list-group-item= link_to e.name, competition_path(e)
+  - else
+    %li.list-group-item None
