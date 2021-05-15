@@ -7,4 +7,4 @@
     - else
       #{competition.stage} of #{competition.max_stages}
   - if competition.rankings.any?
-    %p Stability Factor: #{number_with_precision(competition.stability_factor, 2)}
+    %p Stability Factor: #{number_with_precision(competition.stability_factor, precision: 2)}
