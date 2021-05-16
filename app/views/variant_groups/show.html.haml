@@ -16,12 +16,19 @@
 %section
   %h1 Evolution: #{@variant_group.evolution.name}
   %h2 Vessel: #{@variant_group.evolution.vessel.name}
-  %h2 Generation: #{@variant_group.generation+1} of #{@variant_group.evolution.max_generations}
-  %h2 Keys: #{@variant_group.keys}
-  - if @variant_group.competition.nil?
-    %p No Competition
-  - else
-    %p= link_to 'Competition details', competition_path(@variant_group.competition)
+  %h2 Group Details
+  %ul
+    %li Baseline Values: #{@variant_group.baseline_values}
+    %li Keys: #{@variant_group.keys}
+    %li Generation Strategy: #{@variant_group.generation_strategy}
+    %li Selection Strategy: #{@variant_group.selection_strategy}
+    %li Spread Factor: #{@variant_group.spread_factor}
+    %li
+      Competition:
+      - if @variant_group.competition.nil?
+        None
+      - else
+        = link_to 'Competition details', competition_path(@variant_group.competition)
 
 %section
   %h2 Variants
@@ -34,5 +41,5 @@
   %section
     %h2 Best Variant
     %p Name: #{best_variant_vessel.name}, Values: #{best_variant_vessel.variant.values}
-    %h2 Weighted Variant
+    %h2 Result Variant
     %p Values: #{@variant_group.result_values}
