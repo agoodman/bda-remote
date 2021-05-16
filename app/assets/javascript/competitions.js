@@ -29,7 +29,7 @@ function loadCumulative(records) {
 
 function loadVesselRanks(results) {
     console.log("vesselRanks: "+results.length);
-    var colors = ["#000", "#f00", "#0f0", "#00f", "#fff", "#ff0", "#0ff"];
+    var colors = ["#000", "#f00", "#0f0", "#00f", "#eee", "#ff0", "#0ff"];
     var colorIndex = 0;
     var stages = [];
     var labels = [];
