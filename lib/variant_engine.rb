@@ -195,7 +195,7 @@ module VariantEngine
 
         variant_group.variants.create(values: variant_group.baseline_values)
         axes.each do |axis|
-          offset = rand * mutation_factor
+          offset = (rand + 0.5) * mutation_factor
           generate_dipole(variant_group, axis, offset, variant_group.baseline_values)
         end
       else
@@ -212,7 +212,7 @@ module VariantEngine
         # pick a random mutation axis based on the best variant
         group_keys = variant_group.keys.split(",")
         axis = group_keys[rand*group_keys.count]
-        offset = rand * mutation_factor
+        offset = (rand + 0.5) * mutation_factor
 
         generate_dipole(variant_group, axis, offset, retained_variants.first.values)
       end
