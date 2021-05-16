@@ -20,18 +20,36 @@
     .form-group
       = f.label :keys, 'Parameter set'
       = f.select :keys, options_for_select(@key_options)
+      %p These are groups of parameters available for optimization.
     .form-group
       = f.label :reference_type, 'Reference values'
       = f.select :reference_type, options_for_select(@reference_types)
+      %p These are values used to generate variants.
+      %ul
+        %li baseline - defaults provided by BDA
+        %li best - best variant from previous group
+        %li weighted - weighted variant from previous group
     .form-group
       = f.label :generation_strategy, 'Variant strategy'
       = f.select :generation_strategy, options_for_select(@generation_strategy_options)
+      %p This determines how variants are generated.
+      %ul
+        %li spread - generates a 3x3x3 grid of variants for 3-axis study.
+        %li genetic - generates a set of dipole variants for 3-axis study.
     .form-group
       = f.label :selection_strategy
       = f.select :selection_strategy, options_for_select(@selection_strategy_options)
+      %p This defines how the "best variant" results are displayed on the variant group page.
+      %ul
+        %li best - discrete values from the top scoring variant.
+        %li weighted - weighted centroid of all variants.
     .form-group
       = f.label :spread_factor
-      = f.number_field :spread_factor, value: @spread_factor
+      = f.number_field :spread_factor, value: @spread_factor, min: 0.1, max: 0.5, step: 0.05
+      %p This defines the scale of the variance when using the spread strategy.
+      %ul
+        %li max (0.5) - generate variants for the full clamped range of the parameter.
+        %li min (0.1) - generate variants spanning 10% of the clamped range.
     .form-group
       = f.submit 'Create Variant Group', class: 'form-control'
 
