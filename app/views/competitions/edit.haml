@@ -1,25 +1,28 @@
 - content_for(:html_title) { "Edit Competition" }
-%nav
-  %ul
-    %li= link_to 'Home', home_path
-    %li= link_to 'Competitions', competitions_path
-    %li= link_to 'Back', competition_path(@competition)
 
-%h1 Edit Competition
-%ul
-  %li= link_to 'Edit Scoring', edit_competition_metric_path(@competition)
+= content_for(:nav, render(partial: 'shared/nav'))
 
-- if flash[:error]
-  %p.error= flash[:error]
-= form_for @competition do |f|
-  %ul
-    %li
+- content_for(:sidebar) do
+  %h4 Sections
+  %ul.list-unstyled
+    %li= link_to 'Edit Scoring', edit_competition_metric_path(@competition)
+    %li= link_to 'Cancel', competition_path(@competition)
+
+%section
+  %h1 Edit Competition
+
+  - if flash[:error]
+    %p.error= flash[:error]
+
+  = form_for @competition do |f|
+    .form-group
       = f.label :name
-      = f.text_field :name
-    %li
+      = f.text_field :name, class: "form-control"
+    .form-group
       = f.label :ruleset_id, "Ruleset"
       = f.select :ruleset_id, options_for_select(@rulesets, @competition.ruleset_id), include_blank: true
-    %li
+    .form-group
       = f.label :max_stages, 'Number of ranked stages'
-      = f.number_field :max_stages
-  = f.submit 'Save Competition'
+      = f.number_field :max_stages, class: "form-control"
+    .form-group
+      = f.submit 'Save Competition', class: "form-control"

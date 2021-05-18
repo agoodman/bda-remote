@@ -1,8 +1,6 @@
 - content_for(:html_title) { "New Ruleset" }
 
-- content_for(:nav) do
-  %ul.list-unstyled
-    %li= link_to 'Home', home_path
+= content_for(:nav, render(partial: 'shared/nav'))
 
 - content_for(:sidebar) do
   %h4 Actions

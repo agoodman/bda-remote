@@ -1,6 +1,8 @@
 %section.players
-  %h2 Entries (#{competition.vessels.count})
-  %ul
+  %h2
+    Entries (#{competition.vessels.count})
+    %button.btn.btn-secondary.btn-sm{"data-toggle": "collapse", "data-target": "#player_details", "aria-expanded": false, "aria-controls": "player_details"} Toggle Details
+  %ul#player_details.collapse.list-group
     - vessel_assignments = competition.vessel_assignments.includes(vessel: :player)
     - if vessel_assignments.empty?
       %li None

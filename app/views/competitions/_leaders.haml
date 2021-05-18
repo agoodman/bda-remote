@@ -1,6 +1,8 @@
 %section
-  %h2 Leaderboard
-  %table.table.sortable.searchable
+  %h2
+    Leaderboard
+    %button.btn.btn-secondary.btn-sm{"data-toggle": "collapse", "data-target": "#leader_details", "aria-expanded": false, "aria-controls": "leader_details"} Toggle Details
+  %table#leader_details.collapse.show.list-group.table.sortable.searchable
     %thead
       %tr
         %th Rank

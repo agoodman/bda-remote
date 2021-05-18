@@ -1,58 +1,66 @@
-%nav
-  %ul
-    %li= link_to 'Home', home_path
-    %li= link_to 'Competitions', competitions_path
-    %li= link_to @competition.name, competition_path(@competition)
-    %li= link_to 'Back', edit_competition_path(@competition)
+- content_for(:html_title) { "Edit Competition" }
 
-%h1 Adjust Scoring Metric
-= form_for [@competition, @competition.metric] do |f|
-  %li
-    = f.label :kills
-    = f.text_field :kills
-  %li
-    = f.label :deaths
-    = f.text_field :deaths
-  %li
-    = f.label :assists
-    = f.text_field :assists
-  %li
-    = f.label :hits_out
-    = f.text_field :hits_out
-  %li
-    = f.label :dmg_out
-    = f.text_field :dmg_out
-  %li
-    = f.label :mis_dmg_out
-    = f.text_field :mis_dmg_out
-  %li
-    = f.label :mis_parts_out
-    = f.text_field :mis_parts_out
-  %li
-    = f.label :ram_parts_out
-    = f.text_field :ram_parts_out
-  %li
-    = f.label :hits_in
-    = f.text_field :hits_in
-  %li
-    = f.label :dmg_in
-    = f.text_field :dmg_in
-  %li
-    = f.label :mis_dmg_in
-    = f.text_field :mis_dmg_in
-  %li
-    = f.label :mis_parts_in
-    = f.text_field :mis_parts_in
-  %li
-    = f.label :ram_parts_in
-    = f.text_field :ram_parts_in
-  %li
-    = f.label :death_order
-    = f.text_field :death_order
-  %li
-    = f.label :death_time
-    = f.text_field :death_time
-  %li
-    = f.label :wins
-    = f.text_field :wins
-  %li= f.submit 'Save'
+= content_for(:nav, render(partial: 'shared/nav'))
+
+- content_for(:sidebar) do
+  %h4 Sections
+  %ul.list-unstyled
+    %li= link_to 'Cancel', edit_competition_path(@competition)
+
+%section
+  %h1 Adjust Scoring Metric
+  = form_for [@competition, @competition.metric] do |f|
+    .row
+      .col
+        .form-group
+          = f.label :wins
+          = f.text_field :wins, class: "form-control"
+        .form-group
+          = f.label :kills
+          = f.text_field :kills, class: "form-control"
+        .form-group
+          = f.label :deaths
+          = f.text_field :deaths, class: "form-control"
+        .form-group
+          = f.label :assists
+          = f.text_field :assists, class: "form-control"
+        .form-group
+          = f.label :death_order
+          = f.text_field :death_order, class: "form-control"
+        .form-group
+          = f.label :death_time
+          = f.text_field :death_time, class: "form-control"
+      .col
+        .form-group
+          = f.label :hits_out
+          = f.text_field :hits_out, class: "form-control"
+        .form-group
+          = f.label :dmg_out
+          = f.text_field :dmg_out, class: "form-control"
+        .form-group
+          = f.label :mis_dmg_out
+          = f.text_field :mis_dmg_out, class: "form-control"
+        .form-group
+          = f.label :mis_parts_out
+          = f.text_field :mis_parts_out, class: "form-control"
+        .form-group
+          = f.label :ram_parts_out
+          = f.text_field :ram_parts_out, class: "form-control"
+      .col
+        .form-group
+          = f.label :hits_in
+          = f.text_field :hits_in, class: "form-control"
+        .form-group
+          = f.label :dmg_in
+          = f.text_field :dmg_in, class: "form-control"
+        .form-group
+          = f.label :mis_dmg_in
+          = f.text_field :mis_dmg_in, class: "form-control"
+        .form-group
+          = f.label :mis_parts_in
+          = f.text_field :mis_parts_in, class: "form-control"
+        .form-group
+          = f.label :ram_parts_in
+          = f.text_field :ram_parts_in, class: "form-control"
+    .form-group
+      = f.submit 'Save', class: "form-control"

@@ -1,10 +1,7 @@
 - content_for :html_title do
   Competition: #{@instance.name}
 
-- content_for :nav do
-  %ul.list-unstyled
-    %li= link_to 'Home', home_path
-    %li= link_to 'Competitions', competitions_path
+= content_for(:nav, render(partial: 'shared/nav'))
 
 - content_for :sidebar do
   %h4 Sections

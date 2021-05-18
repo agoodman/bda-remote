@@ -1,10 +1,6 @@
 - content_for(:html_title) { "Vessel Details: #{@vessel.name}" }
 
-- content_for(:nav) do
-  %ul.list-unstyled
-    %li= link_to 'Home', home_path
-    %li= link_to 'Evolutions', evolutions_path
-    %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
+= content_for(:nav, render(partial: 'shared/nav'))
 
 - content_for(:sidebar) do
   %h4 Actions

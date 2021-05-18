@@ -1,9 +1,6 @@
 - content_for(:html_title) { "New Variant Group" }
 
-- content_for(:nav) do
-  %ul.list-unstyled
-    %li= link_to 'Home', home_path
-    %li= link_to 'Evolutions', evolutions_path
+= content_for(:nav, render(partial: 'shared/nav'))
 
 - content_for(:sidebar) do
   %h4 Actions

@@ -11,7 +11,15 @@ class User < ApplicationRecord
 
   roles :organizer, :showrunner
 
+  def can_edit_rulesets?
+    has_any_role? :organizer, :showrunner
+  end
+
   def can_read_roles?
+    has_any_role? :organizer, :showrunner
+  end
+
+  def can_run_evolutions?
     has_any_role? :organizer, :showrunner
   end
 
