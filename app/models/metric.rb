@@ -22,8 +22,9 @@ class Metric < ApplicationRecord
   after_initialize :assign_defaults
 
   def assign_defaults
+    self.wins = 1 if wins.nil?
     self.kills = 3 if kills.nil?
-    self.deaths = -3 if deaths.nil?
+    self.deaths = -1 if deaths.nil?
     self.assists = 1 if assists.nil?
     self.hits_out = 0 if hits_out.nil?
     self.hits_in = 0 if hits_in.nil?
@@ -37,11 +38,11 @@ class Metric < ApplicationRecord
     self.mis_dmg_out = 0 if mis_dmg_out.nil?
     self.death_order = 0 if death_order.nil?
     self.death_time = 0 if death_time.nil?
-    self.wins = 0 if wins.nil?
   end
 
   def score_for_record(record)
     result = 0
+    result += (record.wins*self.wins rescue 0)
     result += (record.kills*self.kills rescue 0)
     result += (record.deaths*self.deaths rescue 0)
     result += (record.assists*self.assists rescue 0)
@@ -57,7 +58,6 @@ class Metric < ApplicationRecord
     result += (record.mis_dmg_out*self.mis_dmg_out rescue 0)
     result += (record.death_order*self.death_order rescue 0)
     result += (record.death_time*self.death_time rescue 0)
-    result += (record.wins*self.wins rescue 0)
     return result
   end
 end
