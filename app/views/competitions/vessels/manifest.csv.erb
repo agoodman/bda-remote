@@ -1,0 +1,5 @@
+<%- headers = ['id','competition_id','name','craft_url'] -%>
+<%= CSV.generate_line headers -%>
+<% @competition.vessels.each do |vessel| -%>
+<%= CSV.generate_line([vessel.id, @competition.id, vessel.name, vessel.craft_url]) -%>
+<%- end -%>

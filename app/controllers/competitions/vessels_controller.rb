@@ -14,6 +14,7 @@ class Competitions::VesselsController < AuthenticatedController
     respond_to do |format|
       format.json { render json: @competition.vessels, status: :ok }
       format.xml { render xml: @competition.vessels, status: :ok }
+      format.csv { headers['Content-type'] ||= 'text/csv' }
     end
   end
 
