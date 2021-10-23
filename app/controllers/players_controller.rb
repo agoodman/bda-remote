@@ -70,8 +70,9 @@ class PlayersController < AuthenticatedController
       end
     end
 
-    day_keys = player_buckets.keys.reverse.map { |e| e.strftime("%d %b") }
-    day_counts = player_buckets.keys.reverse.map { |e| player_buckets[e] }
+    active_keys = player_buckets.keys.sort
+    day_keys = active_keys.map { |e| e.strftime("%d %b") }
+    day_counts = active_keys.map { |e| player_buckets[e] }
     respond_to do |format|
       format.json { render json: { player_buckets: { labels: day_keys, values: day_counts } }, status: :ok }
     end
