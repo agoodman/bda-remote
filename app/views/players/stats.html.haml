@@ -1,0 +1,16 @@
+- content_for(:html_title) { "Player Stats" }
+
+= content_for(:nav, render(partial: 'shared/nav'))
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li.list-group-item None
+
+%section
+  %h2 Players Created
+  %canvas#players_created
+  %script{language: "JavaScript"}
+    $(document).ready(function() {
+    $.getJSON("/players/recent.json", loadRecentPlayers);
+    });

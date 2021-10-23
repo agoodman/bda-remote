@@ -68,6 +68,8 @@ Rails.application.routes.draw do
     end
     collection do
       get :register
+      get :stats
+      get :recent
     end
   end
 

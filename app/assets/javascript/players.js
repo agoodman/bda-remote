@@ -26,3 +26,39 @@ function loadBatch(records) {
         }
     });
 }
+
+function loadRecentPlayers(results) {
+    var stages = [];
+    var datasets = [];
+    var buckets = results["player_buckets"];
+    var day_keys = buckets["labels"];
+    var day_values = buckets["values"];
+    var backgroundColors = [];
+    for(var k=0;k<day_keys.length;k++) {
+        stages.push(day_keys[k]);
+        backgroundColors.push("#00a");
+    }
+    datasets.push({
+        label: 'Players Created',
+        data: day_values,
+        backgroundColor: backgroundColors,
+    });
+    var ctx = document.getElementById('players_created');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: stages,
+            datasets: datasets
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time'
+                },
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+}
