@@ -19,6 +19,10 @@ class PlayersController < AuthenticatedController
   end
 
   def create
+    if Player.exists?(name: params[:player][:name])
+      flash[:error] = "Player name already exists! Please choose a different one."
+      redirect_to register_players_path and return
+    end
     @player = Player.create(user_id: current_user.id, name: params[:player][:name])
     redirect_to competitions_path
   end
