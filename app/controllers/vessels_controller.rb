@@ -14,20 +14,25 @@ class VesselsController < AuthenticatedController
   end
 
   def create
+    if Vessel.exists?(player_id: @player.id, name: params[:vessel][:name])
+      flash[:error] = "Vessel name must be unique"
+      redirect_to new_player_vessel_path(@player) and return
+    end
+
     s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
     bucket = s3.bucket(ENV['S3_BUCKET'])
-    redirect_to new_vessel_path and return if bucket.nil?
+    redirect_to new_player_vessel_path(@player) and return if bucket.nil?
 
     file = params[:file]
 
     unless file.original_filename.ends_with?(".craft")
       flash[:error] = "File must have .craft extension"
-      redirect_to new_vessel_path and return
+      redirect_to new_player_vessel_path(@player) and return
     end
 
     if file.size > 5242880
       flash[:error] = "File too large (max 5MB)"
-      redirect_to new_vessel_path and return
+      redirect_to new_player_vessel_path(@player) and return
     end
 
     filename = "players/#{@player.id}/#{file.original_filename}"
@@ -43,9 +48,9 @@ class VesselsController < AuthenticatedController
 
     if @vessel.errors.any?
       flash[:error] = @vessel.errors
-      redirect_to new_player_vessel_path(current_user.player) and return
+      redirect_to new_player_vessel_path(@player) and return
     else
-      redirect_to player_vessels_path(current_user.player)
+      redirect_to player_vessels_path(@player)
     end
   end
 

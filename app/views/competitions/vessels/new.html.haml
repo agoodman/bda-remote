@@ -5,10 +5,10 @@
 - content_for(:sidebar) do
   %h4 Actions
   %ul.list-unstyled
-    %li= link_to 'Cancel', player_vessels_path(@player)
+    %li= link_to 'Cancel', competition_path(@competition)
 
 %section
-  %h1 Upload Vessel
+  %h1 Upload Vessel for #{@competition.name}
   %h2 Consider the Following
   %ul
     %li Every Vessel must have a unique name
@@ -18,12 +18,12 @@
       (no need to include your name)
   - if flash[:error]
     %ul.errors
-    - if flash[:error].is_a?(Array)
+    - if flash[:errors].is_a?(Array)
       - flash[:error].each do |e|
         %li= e
     - else
       %li= flash[:error]
-  = form_for :vessel, url: player_vessels_path(@player), html: { multipart: true } do |f|
+  = form_for :vessel, url: assign_competition_vessels_path(@competition), html: { multipart: true } do |f|
     .form-group
       = f.label :name
       = f.text_field :name, class: 'form-control'

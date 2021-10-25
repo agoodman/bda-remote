@@ -26,9 +26,10 @@ Rails.application.routes.draw do
       get :chart
     end
     resources :players, only: [:index, :new, :create, :destroy], controller: 'competitions/players'
-    resources :vessels, only: [:index, :create, :destroy], controller: 'competitions/vessels' do
+    resources :vessels, only: [:new, :index, :create, :destroy], controller: 'competitions/vessels' do
       collection do
         get :manifest
+        post :assign
       end
     end
     resources :heats, only: [:index, :show] do
