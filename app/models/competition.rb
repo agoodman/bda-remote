@@ -159,7 +159,7 @@ class Competition < ApplicationRecord
     return false if user.nil?
     return false if user.player.nil?
     return false if vessels.empty?
-    return vessels.where(player_id: user.player.id).empty?
+    return !vessels.where(player_id: user.player.id).empty?
   end
 
   def vessel_for(user)
