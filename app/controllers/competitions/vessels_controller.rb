@@ -23,16 +23,18 @@ class Competitions::VesselsController < AuthenticatedController
 
   # receive an uploaded craft file, create a vessel, and assign it to the competition
   def assign
-    player = current_user.player
-    if Vessel.exists?(player_id: player.id, name: params[:vessel][:name])
-      flash[:error] = "Vessel name must be unique"
-      redirect_to new_competition_vessel_path(@competition) and return
-    end
-
     # shamelessly stolen copypasta from vessels#create
     s3 = Aws::S3::Resource.new(region: ENV['AWS_REGION'])
     bucket = s3.bucket(ENV['S3_BUCKET'])
     redirect_to new_competition_vessel_path(@competition) and return if bucket.nil?
+
+    player = current_user.player
+    forced = params[:vessel][:force].to_i == 1 rescue false
+    @vessel = Vessel.where(player_id: player.id, name: params[:vessel][:name]).first
+    if !@vessel.nil? && !forced
+      flash[:error] = "Vessel name must be unique"
+      redirect_to new_competition_vessel_path(@competition) and return
+    end
 
     file = params[:file]
 
@@ -59,16 +61,21 @@ class Competitions::VesselsController < AuthenticatedController
 
     # craft_url = "url-#{Time.now.to_f}"
     craft_url = s3obj.public_url
-    @vessel = Vessel.create(player_id: player.id, craft_url: craft_url, name: params[:vessel][:name])
+    if @vessel.nil?
+      @vessel = Vessel.create(player_id: player.id, craft_url: craft_url, name: params[:vessel][:name])
+      @vessel_assignment = VesselAssignment.where(
+          competition_id: @competition.id,
+          vessel_id: @vessel.id).first_or_create
+    else
+      @vessel.update(craft_url: craft_url)
+    end
+
 
     if @vessel.errors.any?
       flash[:error] = @vessel.errors
       redirect_to new_player_vessel_path(player) and return
     end
 
-    @vessel_assignment = VesselAssignment.where(
-        competition_id: @competition.id,
-        vessel_id: @vessel.id).first_or_create
     redirect_to competition_path(@competition)
   end
 

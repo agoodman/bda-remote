@@ -30,5 +30,8 @@
     .form-group
       = f.label :file
       = file_field_tag :file, class: 'form-control'
+    .form-group.form-check
+      = f.check_box :force, class: 'form-check-input'
+      = f.label :force, 'Replace existing?', class: 'form-check-label'
     = f.submit 'Submit'
 
