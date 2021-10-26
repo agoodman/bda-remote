@@ -4,8 +4,7 @@
     %li= link_to 'Register to Get Started', register_path
   - elsif competition.status == 0
     %li= link_to 'Manage Vessels', competition_vessels_path(competition)
-    - unless competition.has_vessel_for(current_user)
-      %li= link_to 'Submit Craft', new_competition_vessel_path(competition)
+    %li= link_to 'Submit Craft', new_competition_vessel_path(competition)
   - if user_signed_in? && current_user == competition.user
     %li= link_to 'Edit Competition', edit_competition_path(competition)
     %li= link_to 'Edit NPCs', competition_players_path(competition)
