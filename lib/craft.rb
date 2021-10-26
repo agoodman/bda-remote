@@ -91,13 +91,13 @@ module Craft
           attr_stack.push(active_attrs)
           active_module = {}
           active_attrs = active_module
-          active_part[:modules].push(active_attrs)
+          active_part[:modules].push(active_attrs) rescue
           puts "#{k} init module" if debug
         elsif active_resource.nil? && l == "RESOURCE"
           attr_stack.push(active_attrs)
           active_resource = {}
           active_attrs = active_resource
-          active_part[:resources].push(active_attrs)
+          active_part[:resources].push(active_attrs) rescue
           puts "#{k} init resource" if debug
         elsif !active_module.nil? && l == "{"
           puts "#{k} starting module" if debug
