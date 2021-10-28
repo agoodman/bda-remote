@@ -55,6 +55,10 @@ class Heat < ApplicationRecord
     !started_at.nil? && ended_at.nil?
   end
 
+  def duration
+    ended_at - started_at
+  end
+
   def leaders
     result = records.group_by(&:vessel_id).map { |k, e|
       {
