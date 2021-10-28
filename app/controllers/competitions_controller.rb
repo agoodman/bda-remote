@@ -2,6 +2,8 @@ class CompetitionsController < AuthenticatedController
   before_action :require_session, only: [:new, :create, :edit, :start, :unstart, :extend, :template, :duplicate, :publish, :unpublish]
 
   include Serviceable
+  include ActiveRecordExtensions
+
   skip_before_action :verify_authenticity_token
 #  acts_as_service :competition, only: [:index, :show]
 #  skip_before_action :authenticate_user!, only: [:index, :show, :start]
