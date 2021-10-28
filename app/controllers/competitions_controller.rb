@@ -29,6 +29,23 @@ class CompetitionsController < AuthenticatedController
     end
   end
 
+  def stats
+    @competition = cached_instance
+  end
+
+  def recent_vessels
+    now = Time.now
+    min_date = now - 1.month
+    vessels = Rails.cache.fetch("competition-#{params[:id]}-vessels") do
+      VesselAssignment.where(competition_id: params[:id]).includes(:vessel).order(:updated_at).where('updated_at > ?', min_date).map(&:vessel)
+    end
+
+    day_keys, day_counts = buckets_for(vessels, 30, now)
+    respond_to do |format|
+      format.json { render json: { vessel_buckets: { labels: day_keys, values: day_counts } }, status: :ok }
+    end
+  end
+
   def chart
     respond_to do |format|
       format.html

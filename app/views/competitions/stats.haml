@@ -1,0 +1,38 @@
+- content_for :html_title do
+  Competition Stats: #{@competition.name}
+
+= content_for(:nav, render(partial: 'shared/nav'))
+
+- content_for :sidebar do
+  %h4 Sections
+  %ul.list-unstyled
+    %li= link_to 'Back', competition_path(@competition)
+
+%section
+  %h1 Stats
+  %table.sortable
+    %tr
+      %th
+      %th Value
+    %tr
+      %td Min Heat Duration
+      %td= @competition.heats.sort_by(&:duration).first.duration rescue "-"
+    %tr
+      %td Max Heat Duration
+      %td= @competition.heats.sort_by(&:duration).last.duration rescue "-"
+    %tr
+      %td Median Heat Duration
+      - durations = @competition.heats.sort_by(&:duration).map(&:duration)
+      %td= durations[durations.count/2] || "-"
+
+    %tr
+      %td Mean Heat Duration
+      %td= durations.sum / durations.count rescue "-"
+
+%section
+  %canvas#vessels_created
+  %script{language: "JavaScript"}
+    $(document).ready(function() {
+    $.getJSON("/competitions/#{params[:id]}/recent_vessels.json", loadRecentVessels);
+    });
+

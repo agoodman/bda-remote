@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       get :stop
       get :results
       get :chart
+      get :stats
+      get :recent_vessels
     end
     resources :players, only: [:index, :new, :create, :destroy], controller: 'competitions/players'
     resources :vessels, only: [:new, :index, :create, :destroy], controller: 'competitions/vessels' do

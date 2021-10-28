@@ -58,3 +58,7 @@ function loadVesselRanks(results) {
         }
     });
 }
+
+function loadRecentVessels(results) {
+    renderRecentChart(results, "vessel", "vessels_created", "Vessels Created");
+}

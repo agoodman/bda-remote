@@ -1,5 +1,6 @@
 class PlayersController < AuthenticatedController
 #  include Serviceable
+  include ActiveRecordExtensions
   skip_before_action :verify_authenticity_token
 #  acts_as_service :player, only: :index
 
@@ -65,18 +66,8 @@ class PlayersController < AuthenticatedController
       Player.order(:created_at).where("created_at > ?", min_date)
     end
 
-    player_buckets = players.map(&:created_at).group_by(&:at_end_of_day).map { |k,v| [k,v.count] }.to_h
 
-    (0..30).each do |e|
-      cutoff = (now - e.day).at_end_of_day
-      unless player_buckets[cutoff]
-        player_buckets[cutoff] = 0
-      end
-    end
-
-    active_keys = player_buckets.keys.sort
-    day_keys = active_keys.map { |e| e.strftime("%d %b") }
-    day_counts = active_keys.map { |e| player_buckets[e] }
+    day_keys, day_counts = buckets_for(players, 30)
     respond_to do |format|
       format.json { render json: { player_buckets: { labels: day_keys, values: day_counts } }, status: :ok }
     end
