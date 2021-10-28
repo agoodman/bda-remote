@@ -56,7 +56,7 @@ class Heat < ApplicationRecord
   end
 
   def duration
-    ended_at - started_at
+    ended_at - started_at rescue 0
   end
 
   def leaders
