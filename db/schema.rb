@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_06_000639) do
+ActiveRecord::Schema.define(version: 2021_10_29_020345) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2021_05_06_000639) do
     t.integer "max_stages"
     t.datetime "published_at"
     t.integer "ruleset_id"
+    t.datetime "archived_at"
     t.index ["name"], name: "index_competitions_on_name", unique: true
   end
 
