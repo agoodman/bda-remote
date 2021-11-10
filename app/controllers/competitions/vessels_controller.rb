@@ -70,6 +70,10 @@ class Competitions::VesselsController < AuthenticatedController
       @vessel.update(craft_url: craft_url)
     end
 
+    all_assignments = @competition.vessel_assignments.includes(:vessel).where(vessels: { player_id: player.id }).order(:created_at)
+    if all_assignments.count > @competition.max_vessels_per_player
+      all_assignments.first.destroy
+    end
 
     if @vessel.errors.any?
       flash[:error] = @vessel.errors
