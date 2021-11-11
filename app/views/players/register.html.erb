@@ -7,7 +7,7 @@
 </ul>
 <%= form_for @player do |f| -%>
 <%- if flash[:error] %>
-  <p><%= flash[:error] %></p>
+  <p class="errors"><%= flash[:error] %></p>
 <%- end %>
 <%= f.label :name %>
 <%= f.text_field :name %>

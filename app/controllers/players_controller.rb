@@ -25,7 +25,12 @@ class PlayersController < AuthenticatedController
       redirect_to register_players_path and return
     end
     @player = Player.create(user_id: current_user.id, name: params[:player][:name])
-    redirect_to competitions_path
+    if @player.errors
+      flash[:error] = @player.errors.full_messages.join(", ")
+      redirect_to register_players_path
+    else
+      redirect_to competitions_path
+    end
   end
 
   def index
@@ -40,8 +45,12 @@ class PlayersController < AuthenticatedController
 
   def update
     @player.name = params[:player][:name]
-    @player.save
-    redirect_to player_path(@player)
+    if @player.save
+      redirect_to player_path(@player)
+    else
+      flash[:error] = @player.errors.full_messages.join(", ")
+      redirect_to edit_player_path(@player)
+    end
   end
 
   def chart

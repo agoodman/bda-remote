@@ -9,6 +9,8 @@
 
 %section
   %h1 Edit Player
+  - if flash[:error]
+    %p.errors= flash[:error]
   = form_for @player do |f|
     = f.label :name
     = f.text_field :name
