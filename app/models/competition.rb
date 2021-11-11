@@ -18,6 +18,7 @@ class Competition < ApplicationRecord
   validates :stage, presence: true, numericality: { only_integers: true }
   validates :remaining_heats, presence: true, numericality: { only_integers: true }
   validates :max_stages, presence: true, numericality: { only_integers: true }
+  validates :max_vessels_per_player, presence: true, numericality: { only_integers: true }
   validates :name, presence: true
 
   after_initialize :assign_initial_status
