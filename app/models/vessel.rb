@@ -13,7 +13,7 @@ class Vessel < ApplicationRecord
 
   validates :player_id, presence: true
   validates :craft_url, presence: true
-  validates :name, presence: true
+  validates :name, presence: true, length: { minimum: 4, maximum: 50 }, format: { with: /\A[a-zA-Z0-9_\-+]+\z/, message: "only letters, numbers, underscore (_), hyphen (-), or plus (+) are allowed" }
 
   def score
     rankings.last.score rescue nil
