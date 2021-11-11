@@ -234,6 +234,6 @@ class CompetitionsController < AuthenticatedController
   end
 
   def valid_params
-    params.require(:competition).permit(:name, :duration, :private, :ruleset_id, :max_stages)
+    params.require(:competition).permit(:name, :duration, :private, :ruleset_id, :max_stages, :max_vessels_per_player)
   end
 end
