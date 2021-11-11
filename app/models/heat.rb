@@ -51,6 +51,14 @@ class Heat < ApplicationRecord
     self.save!
   end
 
+  def started?
+    !started_at.nil?
+  end
+
+  def ended?
+    !started_at.nil? && !ended_at.nil?
+  end
+
   def running?
     !started_at.nil? && ended_at.nil?
   end
