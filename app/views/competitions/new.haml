@@ -24,5 +24,8 @@
       = f.label :max_stages, 'Number of ranked stages'
       = f.number_field :max_stages, min: 1, class: 'form-control'
     .form-group
+      = f.label :max_vessels_per_player, 'Max vessels per player'
+      = f.number_field :max_vessels_per_player, min: 1, class: 'form-control'
+    .form-group
       = f.submit 'Create Competition', class: 'form-control'
 
