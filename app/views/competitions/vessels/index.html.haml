@@ -5,6 +5,7 @@
 - content_for(:sidebar) do
   %h4 Actions
   %ul.list-unstyled
+    %li= link_to 'Back to Competition', competition_path(@competition)
     %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
 
 %section
