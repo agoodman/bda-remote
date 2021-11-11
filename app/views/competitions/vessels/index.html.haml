@@ -23,15 +23,17 @@
       %li None
 
   %h2 Select Vessel
-  - available_vessels = @vessels - included_vessels.map(&:vessel)
-  - if available_vessels.any?
-    %ul
-      - available_vessels.each do |v|
-        %li
-          = form_for :vessel_assignment, url: competition_vessels_path(@competition) do |f|
-            = f.label :vessel_id, v.full_name
-            = f.hidden_field :vessel_id, value: v.id
-            = f.submit 'Select'
+  - if included_vessels.count < @competition.max_vessels_per_player
+    - available_vessels = @vessels - included_vessels.map(&:vessel)
+    - if available_vessels.any?
+      %ul
+        - available_vessels.each do |v|
+          %li
+            = form_for :vessel_assignment, url: competition_vessels_path(@competition) do |f|
+              = f.label :vessel_id, v.full_name
+              = f.hidden_field :vessel_id, value: v.id
+              = f.submit 'Select'
+    - else
+      %p You haven't uploaded any vessels yet
   - else
-    %p You haven't uploaded any vessels yet
-
+    %p You already have the maximum allowed submissions!
