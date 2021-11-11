@@ -7,6 +7,17 @@
 
 %section
   %h1 Heat Details, Stage: #{@instance.stage}, Order: #{@instance.order}
+  %ul
+    - if @instance.started?
+      %li Started: #{@instance.started_at}
+    - else
+      %li Not started
+    - if @instance.ended?
+      %li Ended: #{@instance.ended_at}
+      %li Duration: #{@instance.duration}
+    - else
+      %li Ended: -
+      %li Duration: -
   %p= @instance.vessels.map(&:player).map(&:name).join(", ")
   = render partial: 'leaders', locals: { heat: @instance }
 
