@@ -125,9 +125,9 @@ class Competition < ApplicationRecord
     self.save!
   end
 
-  def players_per_heat
+  def players_per_heat(vessel_count)
     possibles = Array(5..8)
-    vessel_count = vessels.includes(:player).where(players: { is_human: true }).count
+    vessel_count = vessels.includes(:player).where(players: { is_human: true }).count unless vessel_count
     mods = possibles.map { |e| vessel_count % e }
     zero_index = mods.reverse.find_index(0)
     if !zero_index.nil?
