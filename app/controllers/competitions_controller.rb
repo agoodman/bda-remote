@@ -195,9 +195,9 @@ class CompetitionsController < AuthenticatedController
   def duplicate
     src = Competition.find(params[:competition][:original_id])
     redirect_to template_competitions_path and return if src.nil?
-    dst = Competition.create(name: params[:competition][:name], user_id: current_user.id)
+    dst = Competition.create(name: params[:competition][:name], user_id: current_user.id, max_vessels_per_player: src.max_vessels_per_player, max_stages: src.max_stages)
     if dst.errors.any?
-      flash[:error] = dst.errors
+      flash[:error] = dst.errors.full_messages.join(", ")
       redirect_to template_competitions_path and return
     end
     # copy vessels
