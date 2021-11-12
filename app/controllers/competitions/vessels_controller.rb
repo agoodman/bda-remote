@@ -5,9 +5,20 @@ class Competitions::VesselsController < AuthenticatedController
 
   before_action :require_session
   before_action :assign_competition
+  before_action :require_ownership, only: [:manage, :reject]
 
   def index
     @vessels = current_user.player.vessels rescue []
+  end
+
+  def manage
+    @vessels = @competition.vessels
+  end
+
+  def reject
+    va = @competition.vessel_assignments.where(vessel_id: params[:id]).first
+    va.destroy unless va.nil?
+    redirect_to manage_competition_vessels_path(@competition)
   end
 
   def manifest
@@ -108,5 +119,9 @@ class Competitions::VesselsController < AuthenticatedController
 
   def assign_competition
     @competition = Competition.find(params[:competition_id])
+  end
+
+  def require_ownership
+    redirect_to competition_path(@competition) unless @competition.user == current_user
   end
 end

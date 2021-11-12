@@ -32,6 +32,10 @@ Rails.application.routes.draw do
       collection do
         get :manifest
         post :assign
+        get :manage
+      end
+      member do
+        delete :reject
       end
     end
     resources :heats, only: [:index, :show] do

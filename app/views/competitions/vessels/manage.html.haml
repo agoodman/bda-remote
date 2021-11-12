@@ -1,0 +1,19 @@
+- content_for(:html_title) { "Manage Vessels" }
+
+= content_for(:nav, render(partial: 'shared/nav'))
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Back to Competition', competition_path(@competition)
+    %li= link_to 'Vessel Hangar', player_vessels_path(current_user.player)
+
+%section
+  %h1 Manage Vessels
+  %p Remove a problematic vessel if needed
+  - vessels = @competition.vessel_assignments.includes(vessel: :player)
+  %ul
+    - vessels.each do |va|
+      %li
+        = va.vessel.full_name
+        = link_to 'remove', reject_competition_vessel_path(@competition, va.vessel_id), method: :delete, data: { confirm: "Are you sure?" }

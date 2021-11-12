@@ -15,6 +15,7 @@
     - if competition.can_start?
       %li= link_to 'Start Competition', start_competition_path(competition)
     - elsif competition.running?
+      %li= link_to 'Reject Vessels', manage_competition_vessels_path(competition)
       %li= link_to 'Un-Start Competition', unstart_competition_path(competition)
       %li= link_to 'Extend Competition', extend_competition_path(competition)
   - elsif user_signed_in? && competition.can_start?
