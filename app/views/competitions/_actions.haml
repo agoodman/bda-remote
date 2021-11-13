@@ -17,7 +17,8 @@
     - elsif competition.running?
       %li= link_to 'Reject Vessels', manage_competition_vessels_path(competition)
       %li= link_to 'Un-Start Competition', unstart_competition_path(competition)
-      %li= link_to 'Extend Competition', extend_competition_path(competition)
+      %li= link_to 'Extend (Random)', extend_competition_path(competition), data: { confirm: "WARNING! This will generate heats. Are you sure?" }
+      %li= link_to 'Extend (Ranked)', extend_competition_path(competition, strategy: "ranked"), data: { confirm: "WARNING! This will generate heats. Are you sure?" }
   - elsif user_signed_in? && competition.can_start?
     %li Waiting for Host to Start
   - else
