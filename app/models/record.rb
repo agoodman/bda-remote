@@ -27,7 +27,7 @@ class Record < ApplicationRecord
   validates :roc_dmg_out, presence: true, numericality: true
   validates :roc_dmg_in, presence: true, numericality: true
 
-  after_initialize :assign_defaults
+  before_validation :assign_defaults
 
   def player
     vessel.player
