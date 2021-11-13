@@ -42,6 +42,10 @@ class RecordsController < ApplicationController
       r.mis_parts_in = rp['mis_parts_in'] rescue 0
       r.ram_parts_out = rp['ram_parts_out'] rescue 0
       r.ram_parts_in = rp['ram_parts_in'] rescue 0
+      r.roc_dmg_out = rp['roc_dmg_out'] rescue 0
+      r.roc_dmg_in = rp['roc_dmg_in'] rescue 0
+      r.roc_parts_out = rp['roc_parts_out'] rescue 0
+      r.roc_parts_in = rp['roc_parts_in'] rescue 0
       r.distance = rp['distance']
       r.weapon = rp['weapon']
       r.death_order = rp['death_order'] rescue 0
@@ -81,6 +85,10 @@ class RecordsController < ApplicationController
                  :mis_parts_out,
                  :ram_parts_in,
                  :ram_parts_out,
+                 :roc_dmg_in,
+                 :roc_dmg_out,
+                 :roc_parts_in,
+                 :roc_parts_out,
                  :death_order,
                  :death_time,
                  :wins)

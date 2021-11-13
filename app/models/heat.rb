@@ -87,6 +87,10 @@ class Heat < ApplicationRecord
           mis_parts_in: e.map(&:mis_parts_in).sum,
           ram_parts_out: e.map(&:ram_parts_out).sum,
           ram_parts_in: e.map(&:ram_parts_in).sum,
+          roc_dmg_out: e.map(&:roc_dmg_out).sum,
+          roc_dmg_in: e.map(&:roc_dmg_in).sum,
+          roc_parts_out: e.map(&:roc_parts_out).sum,
+          roc_parts_in: e.map(&:roc_parts_in).sum,
           name: (e.first.vessel.full_name rescue "-")
       }
     }

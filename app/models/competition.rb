@@ -219,6 +219,10 @@ class Competition < ApplicationRecord
       ranking.mis_parts_in = r.map(&:mis_parts_in).sum
       ranking.ram_parts_out = r.map(&:ram_parts_out).sum
       ranking.ram_parts_in = r.map(&:ram_parts_in).sum
+      ranking.roc_dmg_out = r.map(&:roc_dmg_out).sum
+      ranking.roc_dmg_in = r.map(&:roc_dmg_in).sum
+      ranking.roc_parts_out = r.map(&:roc_parts_out).sum
+      ranking.roc_parts_in = r.map(&:roc_parts_in).sum
       ranking.death_order = r.map(&:death_order).sum
       ranking.death_time = r.map(&:death_time).sum
       ranking.wins = r.map(&:wins).sum
@@ -275,6 +279,10 @@ class Competition < ApplicationRecord
       ranking.mis_parts_in = r.map(&:mis_parts_in).sum
       ranking.ram_parts_out = r.map(&:ram_parts_out).sum
       ranking.ram_parts_in = r.map(&:ram_parts_in).sum
+      ranking.roc_dmg_out = r.map(&:roc_dmg_out).sum
+      ranking.roc_dmg_in = r.map(&:roc_dmg_in).sum
+      ranking.roc_parts_out = r.map(&:roc_parts_out).sum
+      ranking.roc_parts_in = r.map(&:roc_parts_in).sum
       ranking.death_order = r.map(&:death_order).sum
       ranking.death_time = r.map(&:death_time).sum
       ranking.wins = r.map(&:wins).sum rescue 0

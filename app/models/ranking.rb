@@ -19,6 +19,10 @@ class Ranking < ApplicationRecord
   validates :mis_dmg_in, presence: true, numericality: true
   validates :ram_parts_out, presence: true, numericality: { only_integers: true }
   validates :ram_parts_in, presence: true, numericality: { only_integers: true }
+  validates :roc_parts_out, presence: true, numericality: { only_integers: true }
+  validates :roc_parts_in, presence: true, numericality: { only_integers: true }
+  validates :roc_dmg_out, presence: true, numericality: true
+  validates :roc_dmg_in, presence: true, numericality: true
 
   before_save :assign_defaults
 
@@ -36,6 +40,10 @@ class Ranking < ApplicationRecord
     self.mis_parts_in = 0 if mis_parts_in.nil?
     self.ram_parts_out = 0 if ram_parts_out.nil?
     self.ram_parts_in = 0 if ram_parts_in.nil?
+    self.roc_dmg_out = 0 if roc_dmg_out.nil?
+    self.roc_dmg_in = 0 if roc_dmg_in.nil?
+    self.roc_parts_out = 0 if roc_parts_out.nil?
+    self.roc_parts_in = 0 if roc_parts_in.nil?
     self.score = 0 if score.nil?
     self.rank = 0 if rank.nil?
   end

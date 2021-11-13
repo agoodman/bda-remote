@@ -25,6 +25,10 @@ class MetricsController < AuthenticatedController
                       :mis_parts_in,
                       :ram_parts_in,
                       :wins,
+                      :roc_dmg_in,
+                      :roc_parts_in,
+                      :roc_dmg_out,
+                      :roc_parts_out,
                       :death_order,
                       :death_time
                   )

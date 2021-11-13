@@ -15,6 +15,10 @@ class Metric < ApplicationRecord
   validates :mis_parts_out, presence: true, numericality: true
   validates :mis_dmg_in, presence: true, numericality: true
   validates :mis_dmg_out, presence: true, numericality: true
+  validates :roc_parts_in, presence: true, numericality: true
+  validates :roc_parts_out, presence: true, numericality: true
+  validates :roc_dmg_in, presence: true, numericality: true
+  validates :roc_dmg_out, presence: true, numericality: true
   validates :death_order, presence: true, numericality: true
   validates :death_time, presence: true, numericality: true
   validates :wins, presence: true, numericality: true
@@ -36,6 +40,10 @@ class Metric < ApplicationRecord
     self.mis_parts_out = 0 if mis_parts_out.nil?
     self.mis_dmg_in = 0 if mis_dmg_in.nil?
     self.mis_dmg_out = 0 if mis_dmg_out.nil?
+    self.roc_parts_in = 0 if roc_parts_in.nil?
+    self.roc_parts_out = 0 if roc_parts_out.nil?
+    self.roc_dmg_in = 0 if roc_dmg_in.nil?
+    self.roc_dmg_out = 0 if roc_dmg_out.nil?
     self.death_order = 0 if death_order.nil?
     self.death_time = 0 if death_time.nil?
   end
@@ -56,8 +64,35 @@ class Metric < ApplicationRecord
     result += (record.mis_parts_out*self.mis_parts_out rescue 0)
     result += (record.mis_dmg_in*self.mis_dmg_in rescue 0)
     result += (record.mis_dmg_out*self.mis_dmg_out rescue 0)
+    result += (record.roc_parts_in*self.roc_parts_in rescue 0)
+    result += (record.roc_parts_out*self.roc_parts_out rescue 0)
+    result += (record.roc_dmg_in*self.roc_dmg_in rescue 0)
+    result += (record.roc_dmg_out*self.roc_dmg_out rescue 0)
     result += (record.death_order*self.death_order rescue 0)
     result += (record.death_time*self.death_time rescue 0)
     return result
+  end
+
+  def update_from(metric)
+    self.update(kills: metric.kills,
+                deaths: metric.deaths,
+                assists: metric.assists,
+                wins: metric.wins,
+                hits_in: metric.hits_in,
+                hits_out: metric.hits_out,
+                dmg_in: metric.dmg_in,
+                dmg_out: metric.dmg_out,
+                death_order: metric.death_order,
+                death_time: metric.death_time,
+                ram_parts_in: metric.ram_parts_in,
+                ram_parts_out: metric.ram_parts_out,
+                mis_dmg_in: metric.mis_dmg_in,
+                mis_dmg_out: metric.mis_dmg_out,
+                mis_parts_in: metric.mis_parts_in,
+                mis_parts_out: metric.mis_parts_out,
+                roc_parts_in: metric.roc_parts_in,
+                roc_parts_out: metric.roc_parts_out,
+                roc_dmg_in: metric.roc_dmg_in,
+                roc_dmg_out: metric.roc_dmg_out)
   end
 end
