@@ -18,11 +18,15 @@
         %th Dmg Out
         %th Mis Dmg Out
         %th Mis Parts Out
+        %th Roc Dmg Out
+        %th Roc Parts Out
         %th Ram Parts Out
         %th Hits In
         %th Dmg In
         %th Mis Dmg In
         %th Mis Parts In
+        %th Roc Dmg In
+        %th Roc Parts In
         %th Ram Parts In
     %tbody
       - competition.leaders.each_with_index do |p, k|
@@ -40,9 +44,13 @@
           %td= number_with_precision(p[:dmg_out], precision: 0)
           %td= number_with_precision(p[:mis_dmg_out], precision: 0)
           %td= p[:mis_parts_out]
+          %td= number_with_precision(p[:roc_dmg_out], precision: 0)
+          %td= p[:roc_parts_out]
           %td= p[:ram_parts_out]
           %td= p[:hits_in]
           %td= number_with_precision(p[:dmg_in], precision: 0)
           %td= number_with_precision(p[:mis_dmg_in], precision: 0)
           %td= p[:mis_parts_in]
+          %td= number_with_precision(p[:roc_dmg_in], precision: 0)
+          %td= p[:roc_parts_in]
           %td= p[:ram_parts_in]
