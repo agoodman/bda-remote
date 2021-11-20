@@ -3,7 +3,7 @@ class Competitions::VesselsController < AuthenticatedController
   require "open-uri"
   include Craft
 
-  before_action :require_session
+  before_action :require_session, except: [:manifest]
   before_action :assign_competition
   before_action :require_ownership, only: [:manage, :reject]
 
