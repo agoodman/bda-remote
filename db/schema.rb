@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_232935) do
+ActiveRecord::Schema.define(version: 2021_11_21_182908) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -78,9 +78,9 @@ ActiveRecord::Schema.define(version: 2021_11_12_232935) do
     t.float "mis_dmg_out"
     t.float "death_order"
     t.float "death_time"
-    t.integer "wins"
-    t.integer "roc_parts_in"
-    t.integer "roc_parts_out"
+    t.float "wins"
+    t.float "roc_parts_in"
+    t.float "roc_parts_out"
     t.float "roc_dmg_in"
     t.float "roc_dmg_out"
     t.index ["competition_id"], name: "index_metrics_on_competition_id"
