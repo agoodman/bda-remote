@@ -220,6 +220,7 @@ class CompetitionsController < AuthenticatedController
   def cached_instance
     Rails.cache.fetch("competition-#{params[:id]}") do
       Competition.includes(
+          metric: {},
           players: {},
           records: {},
           vessels: :player,
