@@ -204,6 +204,8 @@ class CompetitionsController < AuthenticatedController
       flash[:error] = dst.errors.full_messages.join(", ")
       redirect_to template_competitions_path and return
     end
+    # copy metric values
+    dst.metric.update_from(src.metric)
     # copy vessels
     src.vessel_assignments.each do |e|
       dst.vessel_assignments.create(vessel_id: e.vessel_id)
