@@ -17,6 +17,8 @@ class Competitions::VesselsController < AuthenticatedController
 
   def reject
     va = @competition.vessel_assignments.where(vessel_id: params[:id]).first
+    # remove all heat assignments for this vessel in this competition
+    HeatAssignment.includes(:heat).where(heats: { competition_id: @competition.id }).where(vessel_id: params[:id]).find_each { |e| e.destroy }
     va.destroy unless va.nil?
     redirect_to manage_competition_vessels_path(@competition)
   end
