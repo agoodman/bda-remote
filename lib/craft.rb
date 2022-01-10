@@ -144,6 +144,9 @@ module Craft
       end
       @vessel = vessel
       @part_dict = @vessel[:parts].each_with_object(Hash.new(0)) { |e,h| h[e["part"]] = e }
+      @mod_cost = lines.map { |line| /.*modCost ?= ?(.+)/.match(line)[1].to_f rescue 0 }.sum
+      @mod_mass = lines.map { |line| /.*modMass ?= ?(.+)/.match(line)[1].to_f rescue 0 }.sum
+      puts "mod cost = #{@mod_cost}, mod mass = #{@mod_mass}"
       !@vessel.nil?
     end
     def self.interpret_file(file)
@@ -189,12 +192,12 @@ module Craft
     def cost
       part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") } rescue []
       part_costs = Part.where('name IN (?)', part_names).each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.cost }
-      part_names.map { |e| part_costs[e] }.reduce(0, :+)
+      part_names.map { |e| part_costs[e].to_f }.reduce(0, :+) + @mod_cost
     end
     def mass
       part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") } rescue []
       part_masses = Part.where('name IN (?)', part_names).each_with_object(Hash.new(0)) { |e,h| h[e.name] = e.mass }
-      part_names.map { |e| part_masses[e] }.reduce(0, :+)
+      part_names.map { |e| part_masses[e].to_f }.reduce(0, :+) + @mod_mass
     end
     def points
       part_names = @part_dict.keys.map { |e| e.gsub(/_.+/, "") } rescue []
