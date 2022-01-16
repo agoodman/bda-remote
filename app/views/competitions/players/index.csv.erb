@@ -1,5 +1,5 @@
-<%- headers = ['id','name'] -%>
+<%- headers = ['id','name','is_human'] -%>
 <%= CSV.generate_line headers -%>
 <% @players.each do |p| -%>
-<%= CSV.generate_line([p.id, p.name]) -%>
+<%= CSV.generate_line([p.id, p.name, p.is_human]) -%>
 <%- end -%>
