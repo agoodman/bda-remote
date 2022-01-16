@@ -31,6 +31,15 @@ class Competition < ApplicationRecord
   scope :unpublished, -> { where('published_at is null') }
   scope :published, -> { where('published_at is not null') }
 
+  @@modes = {ffa: "Free For All", path: "Waypoint Path", chase: "Chase"}
+  def self.modes
+    @@modes.keys.map { |k| [@@modes[k], k] }
+  end
+
+  def display_mode
+    @@modes[(mode.to_sym || :ffa)]
+  end
+
   def status_label
     labels = [
       "pending_submissions",
@@ -86,7 +95,8 @@ class Competition < ApplicationRecord
     self.stage = 0
     self.started_at = Date.new
     self.save!
-    generate_heats(self, 0)
+    strategy = select_strategy
+    generate_heats(self, 0, strategy)
     self.remaining_heats = self.heats.for_stage(self.stage).not_started.not_ended.count
   end
 
@@ -101,7 +111,7 @@ class Competition < ApplicationRecord
     self.save!
   end
 
-  def extend!(strategy = RandomDistributionStrategy.new)
+  def extend!(strategy = select_strategy)
     last_stage = heats.map(&:stage).max
     generate_heats(self, last_stage+1, true, strategy)
     self.save!
@@ -148,7 +158,7 @@ class Competition < ApplicationRecord
     self.stage = new_stage
     unfinished_count = heats.for_stage(new_stage).not_started.not_ended.count
     if unfinished_count == 0
-      generate_heats(self, new_stage, true, TournamentRankingStrategy.new)
+      generate_heats(self, new_stage, true, select_strategy)
       self.remaining_heats = heats.for_stage(new_stage).not_started.not_ended.count
     else
       self.remaining_heats = unfinished_count
@@ -296,6 +306,23 @@ class Competition < ApplicationRecord
       e.rank = k + 1
       e.score = e.score - min_score
       e
+    end
+  end
+
+  def select_strategy
+    case mode.to_sym
+    when :path
+      SinglePlayerStrategy.new
+    when :chase
+      SinglePlayerStrategy.new
+    when :ffa
+      if stage > 0
+        TournamentRankingStrategy.new
+      else
+        RandomDistributionStrategy.new
+      end
+    else
+      TournamentRankingStrategy.new
     end
   end
 end

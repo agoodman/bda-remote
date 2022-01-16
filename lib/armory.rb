@@ -1,7 +1,7 @@
 module Armory
   # generate heats for a competition
   # this is idempotent; running it multiple times will produce the same result
-  def generate_heats(competition, stage, force=false, strategy=RandomDistributionStrategy.new)
+  def generate_heats(competition, stage, strategy, force=false)
     return unless force || competition.should_generate_heats?
     # delegate to the strategy to orchestrate the logistics
     strategy.apply!(competition, stage)
@@ -40,5 +40,14 @@ module Armory
     end
   end
 
+  class SinglePlayerStrategy < GroupedStragegy
+    def apply!(competition, stage)
+      npc_vessels = competition.vessels.includes(:player).where(players: { is_human: false })
+      player_vessels = competition.vessels.includes(:player).where(players: { is_human: true })
+      players_per_heat = 1
+      groups = player_vessels.in_groups_of(players_per_heat, false).map { |g| g + npc_vessels }
+      generate_with_groups(competition, stage, groups)
+    end
+  end
 end
 

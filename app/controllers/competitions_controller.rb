@@ -166,6 +166,8 @@ class CompetitionsController < AuthenticatedController
     if @instance.running?
       if params[:strategy] == "ranked"
         @instance.extend!(Armory::TournamentRankingStrategy.new)
+      elsif params[:strategy] == "random"
+        @instance.extend!(Armory::RandomDistributionStrategy.new)
       else
         @instance.extend!
       end
@@ -241,6 +243,6 @@ class CompetitionsController < AuthenticatedController
   end
 
   def valid_params
-    params.require(:competition).permit(:name, :duration, :private, :ruleset_id, :max_stages, :max_vessels_per_player)
+    params.require(:competition).permit(:name, :duration, :private, :ruleset_id, :max_stages, :max_vessels_per_player, :mode)
   end
 end

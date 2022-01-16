@@ -28,4 +28,11 @@
       = f.label :max_vessels_per_player, 'Max vessels per player'
       = f.number_field :max_vessels_per_player, min: 1, class: 'form-control'
     .form-group
+      - if @competition.heats.any?
+        = f.label :mode, 'Mode (locked)'
+        %p.form-control= @competition.display_mode rescue ""
+      - else
+        = f.label :mode, 'Mode'
+        = f.select :mode, options_for_select(Competition.modes, @competition.mode), { include_blank: false }, class: "form-control"
+    .form-group
       = f.submit 'Save Competition', class: "form-control"
