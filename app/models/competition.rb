@@ -25,6 +25,7 @@ class Competition < ApplicationRecord
   after_initialize :assign_initial_stage
   after_initialize :assign_initial_remaining_heats
   after_initialize :assign_initial_max_stages
+  after_initialize :assign_initial_mode
   after_create :create_default_metric
 
   scope :available, -> { where(status: 0) }
@@ -63,6 +64,10 @@ class Competition < ApplicationRecord
 
   def assign_initial_max_stages
     self.max_stages = 1 if max_stages.nil?
+  end
+
+  def assign_initial_mode
+    self.mode = "ffa" if mode.nil?
   end
 
   def create_default_metric
