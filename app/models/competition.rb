@@ -163,7 +163,7 @@ class Competition < ApplicationRecord
     self.stage = new_stage
     unfinished_count = heats.for_stage(new_stage).not_started.not_ended.count
     if unfinished_count == 0
-      generate_heats(self, new_stage, true, select_strategy)
+      generate_heats(self, new_stage, select_strategy, true)
       self.remaining_heats = heats.for_stage(new_stage).not_started.not_ended.count
     else
       self.remaining_heats = unfinished_count
