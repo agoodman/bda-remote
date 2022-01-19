@@ -118,7 +118,7 @@ class Competition < ApplicationRecord
 
   def extend!(strategy = select_strategy)
     last_stage = heats.map(&:stage).max
-    generate_heats(self, last_stage+1, true, strategy)
+    generate_heats(self, last_stage+1, strategy, true)
     self.save!
   end
 
