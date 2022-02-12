@@ -1186,7 +1186,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     newrelic_rpm (6.14.0)
-    nio4r (2.5.4)
+    nio4r (2.5.8)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     oauth2 (1.4.4)
@@ -1210,7 +1210,7 @@ GEM
     pg (1.2.3)
     popper_js (1.16.0)
     public_suffix (4.0.6)
-    puma (4.3.7)
+    puma (4.3.11)
       nio4r (~> 2.0)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -1332,7 +1332,7 @@ DEPENDENCIES
   newrelic_rpm
   omniauth-google-oauth2
   pg
-  puma (~> 4.1)
+  puma (~> 4.3)
   rails (~> 6.0.3, >= 6.0.3.2)
   role_model (= 0.8.2)
   sass-rails (>= 6)
