@@ -30,7 +30,10 @@ class MetricsController < AuthenticatedController
                       :roc_dmg_out,
                       :roc_parts_out,
                       :death_order,
-                      :death_time
+                      :death_time,
+                      :waypoints,
+                      :elapsed_time,
+                      :deviation
                   )
     @competition.metric.update(options)
     @competition.update_rankings!

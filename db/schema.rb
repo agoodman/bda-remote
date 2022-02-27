@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_21_232708) do
+ActiveRecord::Schema.define(version: 2022_02_27_201611) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -84,6 +84,9 @@ ActiveRecord::Schema.define(version: 2021_11_21_232708) do
     t.float "roc_parts_out"
     t.float "roc_dmg_in"
     t.float "roc_dmg_out"
+    t.integer "waypoints"
+    t.float "elapsed_time"
+    t.float "deviation"
     t.index ["competition_id"], name: "index_metrics_on_competition_id"
   end
 
@@ -132,6 +135,9 @@ ActiveRecord::Schema.define(version: 2021_11_21_232708) do
     t.integer "roc_parts_out"
     t.float "roc_dmg_in"
     t.float "roc_dmg_out"
+    t.integer "waypoints"
+    t.float "elapsed_time"
+    t.float "deviation"
     t.index ["competition_id", "vessel_id"], name: "index_rankings_on_competition_id_and_vessel_id"
   end
 
@@ -163,6 +169,9 @@ ActiveRecord::Schema.define(version: 2021_11_21_232708) do
     t.integer "roc_parts_out"
     t.float "roc_dmg_in"
     t.float "roc_dmg_out"
+    t.integer "waypoints"
+    t.float "elapsed_time"
+    t.float "deviation"
     t.index ["competition_id"], name: "index_records_on_competition_id_and_player_id"
     t.index ["distance"], name: "index_records_on_distance"
   end

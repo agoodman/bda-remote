@@ -51,6 +51,9 @@ class RecordsController < ApplicationController
       r.death_order = rp['death_order'] rescue 0
       r.death_time = rp['death_time'] rescue 0
       r.wins = rp['wins'] rescue 0
+      r.waypoints = rp['waypoints'] rescue 0
+      r.elapsed_time = rp['elapsed_time'] rescue 0
+      r.deviation = rp['deviation'] rescue 0
       r.save
 
       if r.errors.any?
@@ -91,7 +94,10 @@ class RecordsController < ApplicationController
                  :roc_parts_out,
                  :death_order,
                  :death_time,
-                 :wins)
+                 :wins,
+                 :waypoints,
+                 :elapsed_time,
+                 :deviation)
   end
 
   def did_assign_collection

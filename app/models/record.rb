@@ -26,6 +26,9 @@ class Record < ApplicationRecord
   validates :roc_parts_in, presence: true, numericality: { only_integers: true }
   validates :roc_dmg_out, presence: true, numericality: true
   validates :roc_dmg_in, presence: true, numericality: true
+  validates :waypoints, presence: true, numericality: { only_integers: true }
+  validates :elapsed_time, presence: true, numericality: true
+  validates :deviation, presence: true, numericality: true
 
   before_validation :assign_defaults
 
@@ -54,5 +57,8 @@ class Record < ApplicationRecord
     self.roc_dmg_in = 0 if roc_dmg_in.nil?
     self.roc_parts_out = 0 if roc_parts_out.nil?
     self.roc_parts_in = 0 if roc_parts_in.nil?
+    self.waypoints = 0 if waypoints.nil?
+    self.elapsed_time = 0 if elapsed_time.nil?
+    self.deviation = 0 if deviation.nil?
   end
 end

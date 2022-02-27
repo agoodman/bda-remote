@@ -91,6 +91,9 @@ class Heat < ApplicationRecord
           roc_dmg_in: e.map(&:roc_dmg_in).sum,
           roc_parts_out: e.map(&:roc_parts_out).sum,
           roc_parts_in: e.map(&:roc_parts_in).sum,
+          waypoints: e.map(&:waypoints).sum,
+          elapsed_time: e.map(&:elapsed_time).sum,
+          deviation: e.map(&:deviation).sum,
           name: (e.first.vessel.full_name rescue "-")
       }
     }

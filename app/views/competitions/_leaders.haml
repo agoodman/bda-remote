@@ -28,6 +28,9 @@
         %th Roc Dmg In
         %th Roc Parts In
         %th Ram Parts In
+        %th Waypoints
+        %th Elapsed Time
+        %th Deviation
     %tbody
       - competition.leaders.each_with_index do |p, k|
         %tr
@@ -54,3 +57,6 @@
           %td= number_with_precision(p[:roc_dmg_in], precision: 0)
           %td= p[:roc_parts_in]
           %td= p[:ram_parts_in]
+          %td= p[:waypoints]
+          %td= number_with_precision(p[:elapsed_time], precision: 2)
+          %td= number_with_precision(p[:deviation], precision: 0)

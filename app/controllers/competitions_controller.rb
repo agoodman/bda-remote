@@ -84,6 +84,9 @@ class CompetitionsController < AuthenticatedController
             ranking.death_order = r.map(&:death_order).sum
             ranking.death_time = r.map(&:death_time).sum
             ranking.wins = r.map(&:wins).sum
+            ranking.waypoints = r.map(&:waypoints).sum
+            ranking.elapsed_time = r.map(&:elapsed_time).sum
+            ranking.deviation = r.map(&:deviation).sum
             ranking.score = @competition.metric.score_for_record(ranking)
             ranking.rank = 0
             ranking
