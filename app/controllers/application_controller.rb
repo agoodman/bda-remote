@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
 
+  rescue_from ActionController::UnknownFormat, with: :sorry_dave
+
   def duplicate_record
     attr = duplicate_record_attribute
     result = { error: attr.to_s.humanize + " must be unique" }
@@ -16,6 +18,10 @@ class ApplicationController < ActionController::Base
       format.xml { render xml: result, status: :bad_request }
       format.csv { head :bad_request }
     end
+  end
+
+  def sorry_dave
+    head :not_found
   end
 
 end
