@@ -27,6 +27,9 @@
       = f.label :max_vessels_per_player, 'Max vessels per player'
       = f.number_field :max_vessels_per_player, min: 1, class: 'form-control'
     .form-group
+      = f.label :max_players_per_heat, 'Max players per heat (up to 20, default 8)'
+      = f.number_field :max_players_per_heat, min: 8, max: 20, class: 'form-control'
+    .form-group
       = f.label :mode, 'Mode'
       = f.select :mode, options_for_select(Competition.modes, :ffa), { include_blank: false }, class: "form-control"
     .form-group

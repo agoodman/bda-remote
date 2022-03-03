@@ -25,6 +25,7 @@ class Competition < ApplicationRecord
   after_initialize :assign_initial_stage
   after_initialize :assign_initial_remaining_heats
   after_initialize :assign_initial_max_stages
+  after_initialize :assign_initial_max_players_per_heat
   after_initialize :assign_initial_mode
   after_create :create_default_metric
 
@@ -64,6 +65,10 @@ class Competition < ApplicationRecord
 
   def assign_initial_max_stages
     self.max_stages = 1 if max_stages.nil?
+  end
+
+  def assign_initial_max_players_per_heat
+    self.max_players_per_heat = 8 if max_players_per_heat.nil?
   end
 
   def assign_initial_mode
@@ -141,7 +146,8 @@ class Competition < ApplicationRecord
   end
 
   def players_per_heat(vessel_count)
-    possibles = Array(5..8)
+    max_players = max(8, min(max_players_per_heat, 20)) rescue 8
+    possibles = Array(5..max_players)
     vessel_count = vessels.includes(:player).where(players: { is_human: true }).count unless vessel_count
     mods = possibles.map { |e| vessel_count % e }
     zero_index = mods.reverse.find_index(0)

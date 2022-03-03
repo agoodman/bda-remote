@@ -8,6 +8,7 @@ class CompetitionsController < AuthenticatedController
 #  acts_as_service :competition, only: [:index, :show]
 #  skip_before_action :authenticate_user!, only: [:index, :show, :start]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :sorry_dave
   # rescue_from ActiveRecord::RecordNotUnique, with: :duplicate_record
 
   def index
@@ -252,6 +253,6 @@ class CompetitionsController < AuthenticatedController
   end
 
   def valid_params
-    params.require(:competition).permit(:name, :duration, :private, :ruleset_id, :max_stages, :max_vessels_per_player, :mode)
+    params.require(:competition).permit(:name, :duration, :private, :ruleset_id, :max_stages, :max_vessels_per_player, :mode, :max_players_per_heat)
   end
 end
