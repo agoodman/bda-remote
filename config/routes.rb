@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get '/register' => 'welcome#register'
   get '/logout' => 'welcome#logout'
+  get '/stats' => 'welcome#stats'
   get '/evaluate' => 'vessels#evaluate'
   post '/detail' => 'vessels#detail'
 

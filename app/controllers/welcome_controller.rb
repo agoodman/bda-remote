@@ -1,9 +1,12 @@
 class WelcomeController < ApplicationController
   def index
-    @longest_hit = Record.order("distance desc").limit(10)
   end
 
   def register
+  end
+
+  def stats
+    @longest_hits = Hash[Record.distinct.pluck(:weapon).map { |e| [e, Record.where(weapon: e).maximum(:distance)] }].compact
   end
 
   def logout

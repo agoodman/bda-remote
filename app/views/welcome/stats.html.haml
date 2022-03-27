@@ -1,0 +1,19 @@
+- content_for(:html_title) { "Home" }
+
+= content_for(:nav, render(partial: 'shared/nav'))
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Home', '/home'
+    - if !user_signed_in?
+      %li= link_to 'Register', '/register'
+
+%h1 Flying Circus Stats
+%section
+  %h2 Longest Hits
+  %ul
+    - @longest_hits.each do |k,v|
+      %li
+        = k
+        = v
