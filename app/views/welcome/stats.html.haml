@@ -12,8 +12,11 @@
 %h1 Flying Circus Stats
 %section
   %h2 Longest Hits
-  %ul
+  %table.table.sortable.searchable
+    %tr
+      %th Weapon Name
+      %th Distance
     - @longest_hits.each do |k,v|
-      %li
-        = k
-        = v
+      %tr
+        %td= k
+        %td= v

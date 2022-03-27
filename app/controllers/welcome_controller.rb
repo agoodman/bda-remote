@@ -6,7 +6,8 @@ class WelcomeController < ApplicationController
   end
 
   def stats
-    @longest_hits = Hash[Record.distinct.pluck(:weapon).map { |e| [e, Record.where(weapon: e).maximum(:distance)] }].compact
+    records = Record.where('distance > 0').where('weapon is not null')
+    @longest_hits = Hash[records.distinct.pluck(:weapon).map { |e| [e, records.where(weapon: e).maximum(:distance)] }].compact
   end
 
   def logout
