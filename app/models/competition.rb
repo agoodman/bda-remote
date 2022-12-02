@@ -20,6 +20,7 @@ class Competition < ApplicationRecord
   validates :max_stages, presence: true, numericality: { only_integers: true }
   validates :max_vessels_per_player, presence: true, numericality: { only_integers: true }
   validates :name, presence: true, length: { minimum: 4, maximum: 150 }
+  validates :secret_key, presence: true, length: { minimum: 10 }
 
   after_initialize :assign_initial_status
   after_initialize :assign_initial_stage
