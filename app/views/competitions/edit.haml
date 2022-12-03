@@ -31,6 +31,9 @@
       = f.label :max_players_per_heat, 'Max players per heat (up to 20, default 8)'
       = f.number_field :max_players_per_heat, min: 8, max: 20, class: 'form-control'
     .form-group
+      = f.label :secret_key, 'Auth Token'
+      = f.text_field :secret_key, min: 1, max: 10, class: 'form-control'
+    .form-group
       - if @competition.heats.any?
         = f.label :mode, 'Mode (locked)'
         %p.form-control= @competition.display_mode rescue ""

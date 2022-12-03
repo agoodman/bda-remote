@@ -34,7 +34,7 @@
       = f.select :mode, options_for_select(Competition.modes, :ffa), { include_blank: false }, class: "form-control"
     .form-group
       = f.label :secret_key, 'Secret Key'
-      = f.text_field  :secret_key, 'form-control'
+      = f.text_field :secret_key, value: SecureRandom.hex(3), class: 'form-control'
     .form-group
       = f.submit 'Create Competition', class: 'form-control'
 
