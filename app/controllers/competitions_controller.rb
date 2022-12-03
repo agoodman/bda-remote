@@ -26,8 +26,8 @@ class CompetitionsController < AuthenticatedController
     @instance = cached_instance
 
     respond_to do |format|
-      format.json { render json: @instance }
-      format.xml { render xml: @instance }
+      format.json { render json: @instance, except: :secret_key }
+      format.xml { render xml: @instance, except: :secret_key }
       format.html
     end
   end
