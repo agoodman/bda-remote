@@ -105,7 +105,8 @@ class RecordsController < ApplicationController
   end
 
   def check_authorization
-    reject_request and return if params[:client_secret].nil? || params[:client_secret] != ENV['CLIENT_SECRET']
+    current_comp = Competition.find(params[:competition_id])
+    reject_request and return if params[:client_secret].nil? || params[:client_secret] != current_comp.secret_key
   end
 
   def reject_request

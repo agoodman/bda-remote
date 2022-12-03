@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_03_003602) do
+ActiveRecord::Schema.define(version: 2022_12_02_192025) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2022_03_03_003602) do
     t.integer "max_vessels_per_player"
     t.string "mode"
     t.integer "max_players_per_heat"
+    t.string "secret_key"
     t.index ["name"], name: "index_competitions_on_name", unique: true
   end
 
