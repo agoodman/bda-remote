@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_02_192025) do
+ActiveRecord::Schema.define(version: 2022_12_03_233004) do
 
   create_table "competitions", force: :cascade do |t|
     t.datetime "started_at"
@@ -90,6 +90,13 @@ ActiveRecord::Schema.define(version: 2022_12_02_192025) do
     t.float "elapsed_time"
     t.float "deviation"
     t.index ["competition_id"], name: "index_metrics_on_competition_id"
+  end
+
+  create_table "organizers", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "competition_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "parts", force: :cascade do |t|

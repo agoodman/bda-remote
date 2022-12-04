@@ -1,0 +1,30 @@
+- content_for(:html_title) { "Competitions" }
+
+= content_for(:nav, render(partial: 'shared/nav'))
+
+- content_for(:sidebar) do
+  %h4 Actions
+  %ul.list-unstyled
+    %li= link_to 'Back to Competition', competition_path(@competition)
+
+%section
+  %h1 Competition: #{@competition.name}
+  = render partial: 'competitions/status', locals: { competition: @competition }
+%section
+  %h1 Organizers (#{@competition.organizers.count})
+  %ul.list-group
+  - if @competition.organizers.any?
+    - @competition.organizers.each do |e|
+      %li.list-group-item
+        = e.user.player.name
+        = link_to 'remove', competition_organizer_path(@competition, e), method: :delete, data: { confirm: 'Are you sure?' }
+  - else
+    %li.list-group-item None
+  %ul.list-group
+    %li.list-group-item= link_to 'Add Organizer', '#', { id: 'add_organizer' }
+    %li.list-group-item#new_organizer{style: 'display:none'}
+      = form_for [@competition, Organizer.new] do |f|
+        = f.label 'Player Name'
+        = f.select :user_id, options_for_select(@players.map { |e| [e.name, e.user_id] }), include_blank: true
+        = f.submit 'Promote Player As Organizer'
+      = link_to 'Cancel', '#', { id: 'cancel_organizer' }

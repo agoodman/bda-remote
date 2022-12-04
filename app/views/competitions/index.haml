@@ -17,6 +17,15 @@
     %li.list-group-item None
 
 %section
+  %h1 Competitions Shared With Me
+  %ul.list-group
+  - if current_user.organizers.map(&:competition).any?
+    - current_user.organizers.map(&:competition).each do |e|
+      %li.list-group-item= link_to e.name, competition_path(e)
+  - else
+    %li.list-group-item None
+
+%section
   %h1 Private Competitions
   %ul.list-group
   - if @competitions.unpublished.any?

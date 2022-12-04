@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_many :competitions
   has_many :evolutions
+  has_many :organizers
   has_one :player
 
   roles :organizer, :showrunner

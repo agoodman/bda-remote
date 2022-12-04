@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :competitions do
+    get 'organizers/index'
+    get 'organizers/update'
+    get 'organizers/create'
+    get 'organizers/destroy'
+  end
   devise_for :users, controllers: {omniauth_callbacks: "omniauth_callbacks"}
 
   get '/home' => 'welcome#index'
@@ -50,6 +56,7 @@ Rails.application.routes.draw do
       post 'records/batch'
     end
     resource :metric, only: [:edit, :update]
+    resources :organizers, controller: 'competitions/organizers'
   end
 
   resources :evolutions do

@@ -12,6 +12,7 @@ class Competition < ApplicationRecord
   has_many :rankings
   has_one :metric
   has_one :variant_group_assignment
+  has_many :organizers
 
   validates :user_id, presence: true
   validates :status, presence: true
@@ -144,6 +145,11 @@ class Competition < ApplicationRecord
     return unless status == 1 && remaining_heats == 0
     self.remaining_heats = 1
     self.save!
+  end
+
+  def user_can_manage?(user)
+    return true if user_id == user.id
+    organizers.where(user_id: user.id).any?
   end
 
   def players_per_heat(vessel_count)
