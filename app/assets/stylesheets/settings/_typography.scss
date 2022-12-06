@@ -1,0 +1,26 @@
+
+@font-face {
+	font-family: Inter;
+	src:
+		url('/fonts/Inter-VariableFont_slnt,wght.woff2') format('woff2-variations'),
+		url('/fonts/Inter-VariableFont_slnt,wght.ttf') format('ttf');
+	font-weight: 125 950;
+	font-style: oblique 0deg 30deg;
+}
+
+html, body {
+	//--font-weight: 400;
+	//--font-slant: 0;
+
+	font: 16px/24px Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-synthesis: none;
+	//font-variation-settings: 'wght' var(--font-weight), 'slnt' var(--font-slant);  
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight: 500;
+}
+
+h1 {
+	font-weight: 800;
+}
