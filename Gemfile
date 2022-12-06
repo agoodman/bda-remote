@@ -11,6 +11,7 @@ gem 'serviceable'
 gem 'activerecord-import'
 gem 'devise'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
 gem 'aws-sdk', '~> 3'
 gem "haml-rails", "~> 2.0"
 gem 'jquery-rails'
