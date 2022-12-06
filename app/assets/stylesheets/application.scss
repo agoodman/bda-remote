@@ -20,6 +20,8 @@
 
 @use './components/c-button';
 @use './components/l-stack';
+@use './components/l-row';
+@use './components/c-leaderboard-table';
 
 
 // Colors and basic settings
@@ -144,4 +146,22 @@ body {
 .list-group-item {
   background: var(--color-panel);
   border: none;
+}
+
+.form-control, .form-control:focus {
+  background: var(--color-bg);
+  color: var(--color-text);
+
+  @media(prefers-color-scheme: dark) {
+    background: var(--color-gray-70);
+  }
+}
+
+.form-control:focus {
+  box-shadow: none;
+  outline: 2px solid var(--color-primary);
+}
+
+.table {
+  color: var(--color-text);
 }

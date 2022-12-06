@@ -7,7 +7,7 @@
   %ul.list-unstyled
     %li= link_to 'Cancel', competition_path(@competition)
 
-%section
+%section.l-row
   %h1 Upload Vessel for #{@competition.name}
   %h2 Consider the Following
   %ul
@@ -33,5 +33,5 @@
     .form-group.form-check
       = f.check_box :force, class: 'form-check-input'
       = f.label :force, 'Replace existing?', class: 'form-check-label'
-    = f.submit 'Submit'
+    = f.submit 'Submit', class: 'c-button'
 
