@@ -6,7 +6,6 @@ ruby '3.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 gem 'puma', '~> 4.1'
-gem 'sass-rails', '>= 6'
 gem 'serviceable'
 gem 'activerecord-import'
 gem 'devise'
@@ -64,3 +63,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "dartsass-rails", "~> 0.4.0"
