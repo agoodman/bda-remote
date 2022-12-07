@@ -16,18 +16,18 @@
       %th Value
     %tr
       %td Min Heat Duration
-      %td= @competition.heats.sort_by(&:duration).first.duration rescue "-"
+      %td= number_with_presicion(@competition.heats.sort_by(&:duration).first.duration, precision: 3) rescue "-"
     %tr
       %td Max Heat Duration
-      %td= @competition.heats.sort_by(&:duration).last.duration rescue "-"
+      %td= number_with_precision(@competition.heats.sort_by(&:duration).last.duration, precision: 3) rescue "-"
     %tr
       %td Median Heat Duration
       - durations = @competition.heats.sort_by(&:duration).map(&:duration)
-      %td= durations[durations.count/2] || "-"
+      %td= number_with_precision(durations[durations.count/2], precision: 3) || "-"
 
     %tr
       %td Mean Heat Duration
-      %td= durations.sum / durations.count rescue "-"
+      %td= number_with_precision(durations.sum / durations.count, precision: 3) rescue "-"
 
 %section
   %canvas#vessels_created
