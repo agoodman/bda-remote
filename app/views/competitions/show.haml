@@ -1,6 +1,9 @@
 - content_for :html_title do
   Competition: #{@instance.name}
 
+- content_for :meta do
+  = render partial: 'layouts/meta_og', locals: as_meta(@instance)
+
 = content_for(:nav, render(partial: 'shared/nav'))
 
 - content_for :sidebar do

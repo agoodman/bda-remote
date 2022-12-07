@@ -4,4 +4,12 @@ module CompetitionsHelper
     competition.vessels.where(player_id: player.id).first.craft_url.split("/").last
   end
 
+  def as_meta(competition)
+    {
+        title: "Competition #{competition.name}",
+        description: competition.ruleset.summary,
+        url: competition_path(competition)
+    }
+  end
+
 end
