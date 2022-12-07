@@ -7,7 +7,7 @@ module CompetitionsHelper
   def as_meta(competition)
     {
         title: "Competition #{competition.name}",
-        description: competition.ruleset.summary,
+        description: (competition.ruleset.summary rescue ""),
         url: competition_path(competition)
     }
   end
