@@ -37,7 +37,7 @@ class CompetitionsController < AuthenticatedController
   end
 
   def recent_vessels
-    now = Time.now
+    now = cached_instance.started_at || Time.now
     min_date = now - 1.month
     vessels = Rails.cache.fetch("competition-#{params[:id]}-vessels") do
       VesselAssignment.where(competition_id: params[:id]).includes(:vessel).order(:updated_at).where('updated_at > ?', min_date).map(&:vessel)
