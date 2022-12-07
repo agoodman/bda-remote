@@ -16,7 +16,7 @@
       %th Value
     %tr
       %td Min Heat Duration
-      %td= number_with_presicion(@competition.heats.sort_by(&:duration).first.duration, precision: 3) rescue "-"
+      %td= number_with_precision(@competition.heats.sort_by(&:duration).first.duration, precision: 3) rescue "-"
     %tr
       %td Max Heat Duration
       %td= number_with_precision(@competition.heats.sort_by(&:duration).last.duration, precision: 3) rescue "-"
