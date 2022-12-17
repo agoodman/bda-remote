@@ -16,22 +16,23 @@
     %li= link_to "Heats", '#heats'
   = render partial: 'actions', locals: { competition: @instance }
 
-%h1 Competition: #{@instance.name}
+%main.l-stack
+  %h1 Competition: #{@instance.name}
 
-%a{name: "status"}
-= render partial: 'status', locals: { competition: @instance }
+  %a{name: "status"}
+  = render partial: 'status', locals: { competition: @instance }
 
-%a{name: "rules"}
-= render partial: 'rules', locals: { competition: @instance }
+  %a{name: "rules"}
+  = render partial: 'rules', locals: { competition: @instance }
 
-%a{name: "scoring"}
-= render partial: 'scoring', locals: { competition: @instance }
+  %a{name: "scoring"}
+  = render partial: 'scoring', locals: { competition: @instance }
 
-%a{name: "leaders"}
-= render partial: 'leaders', locals: { competition: @instance }
+  %a{name: "leaders"}
+  = render partial: 'leaders', locals: { competition: @instance }
 
-%a{name: "entries"}
-= render partial: 'player_list', locals: { competition: @instance }
+  %a{name: "entries"}
+  = render partial: 'player_list', locals: { competition: @instance }
 
-%a{name: "heats"}
-= render(partial: 'heats', locals: { competition: @instance }) if @instance.heats.any?
+  %a{name: "heats"}
+  = render(partial: 'heats', locals: { competition: @instance }) if @instance.heats.any?

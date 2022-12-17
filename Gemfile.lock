@@ -1427,6 +1427,8 @@ GEM
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     dalli (3.2.3)
+    dartsass-rails (0.4.0)
+      railties (>= 6.0.0)
     devise (4.8.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -1645,6 +1647,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   chart-js-rails
   dalli
+  dartsass-rails (~> 0.4.0)
   devise
   discard (~> 1.2)
   faker

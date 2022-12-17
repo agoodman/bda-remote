@@ -23,12 +23,14 @@
   </head>
 
   <body>
-    <div class="container">
+    <header class="g-header">
+      <span class="g-header__logo">Flying Circus API</span>
+      <nav class="g-header__nav"><%= yield(:nav) %></nav>
+    </header>
+    <div class="g-container">
       <%= yield %>
     </div>
-    <div class="sidebar">
-      <header>Flying Circus API</header>
-      <nav><%= yield(:nav) %></nav>
+    <div class="g-sidebar">
       <%= yield(:sidebar) %>
     </div>
   </body>

@@ -1,0 +1,33 @@
+
+.c-leaderboard-table {
+	overflow-x: scroll;
+	font-variant: tabular-nums;
+	
+	thead > tr {
+		position: sticky;
+		top: 0;
+
+		background: var(--color-panel);
+		text-align: center;
+	}
+
+	th, td {
+		padding: 0.5rem 0.25rem;
+		font-size: 0.875rem;
+		line-height: 1rem;
+	}
+
+	tbody > tr:nth-child(even) {
+		background: rgba(0, 11, 54, 0.05);
+	}
+
+	tbody > tr:hover {
+		background: var(--color-panel) !important;
+	}
+
+	@media(prefers-color-scheme: dark) {
+		tbody > tr:nth-child(even) {
+			background: rgba(0, 11, 54, 0.15);
+		}
+	}
+}
