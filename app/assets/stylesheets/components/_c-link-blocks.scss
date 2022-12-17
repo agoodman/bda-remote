@@ -1,0 +1,17 @@
+
+.c-link-blocks {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 1.5rem;
+
+	text-align: center;
+
+	> * {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+
+		background: var(--color-panel);
+		padding: 1rem;
+	}
+}

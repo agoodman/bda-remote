@@ -1,7 +1,7 @@
 %section.rules
   %h2
     Rules
-    %button.btn.btn-secondary.btn-sm{"data-toggle": "collapse", "data-target": "#rule_details", "aria-expanded": false, "aria-controls": "rule_details"} Toggle Details
+    %button.btn.btn-secondary.btn-sm{"data-bs-toggle": "collapse", "data-bs-target": "#rule_details", "aria-expanded": false, "aria-controls": "rule_details"} Toggle Details
   %p= competition.ruleset.summary rescue nil
   %ul#rule_details.collapse.list-group
     - if competition.rules.any?
