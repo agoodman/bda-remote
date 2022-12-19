@@ -210,7 +210,8 @@ class CompetitionsController < AuthenticatedController
         user_id: current_user.id,
         max_vessels_per_player: src.max_vessels_per_player,
         max_stages: src.max_stages,
-        mode: src.mode
+        mode: src.mode,
+        secret_key: src.secret_key
     )
     if dst.errors.any?
       flash[:error] = dst.errors.full_messages.join(", ")
