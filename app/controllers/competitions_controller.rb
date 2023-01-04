@@ -205,6 +205,14 @@ class CompetitionsController < AuthenticatedController
   def duplicate
     src = Competition.find(params[:competition][:original_id])
     redirect_to template_competitions_path and return if src.nil?
+    if Competition.where(name: params[:competition][:name]).any?
+      flash[:error] = "Competition with that name already exists"
+      redirect_to template_competitions_path and return
+    end
+    if src.metric.nil?
+      flash[:error] = "Source competition has no metric"
+      redirect_to template_competitions_path and return
+    end
     dst = Competition.create(
         name: params[:competition][:name],
         user_id: current_user.id,
