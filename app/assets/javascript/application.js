@@ -4,6 +4,7 @@
 //= require Chart.min
 //= require players
 //= require competitions
+//= require organizers
 //= require sorttable
 //= require bootstrap
 

@@ -1,0 +1,2 @@
+module Competitions::OrganizersHelper
+end
