@@ -112,11 +112,12 @@ class CompetitionsController < AuthenticatedController
   def edit
     @competition = Competition.find(params[:id])
     @rulesets = Ruleset.all.map { |e| [e.name, e.id] }
-    redirect_to competition_path(@competition) unless current_user == @competition.user
+    redirect_to competition_path(@competition) unless @competition.user_can_manage?(current_user)
   end
 
   def update
     @competition = Competition.find(params[:id])
+    redirect_to competition_path(@competition) and return unless @competition.user_can_manage?(current_user)
     @competition.update(valid_params)
     @competition.save
     redirect_to competition_path(@competition)

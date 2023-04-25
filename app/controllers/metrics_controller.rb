@@ -2,12 +2,12 @@ class MetricsController < AuthenticatedController
 
   def edit
     @competition = Competition.find(params[:competition_id])
-    redirect_to competition_path(@competition) and return unless current_user == @competition.user
+    redirect_to competition_path(@competition) unless @competition.user_can_manage?(current_user)
   end
 
   def update
     @competition = Competition.find(params[:competition_id])
-    redirect_to competition_path(@competition) and return unless current_user == @competition.user
+    redirect_to competition_path(@competition) and return unless @competition.user_can_manage?(current_user)
     options = params
                   .require(:metric)
                   .permit(
