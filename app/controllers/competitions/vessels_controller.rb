@@ -101,9 +101,13 @@ class Competitions::VesselsController < AuthenticatedController
 
     # fetch and validate craft
     @vessel = Vessel.find(params[:vessel_assignment][:vessel_id])
-    craft = URI::open(@vessel.craft_url).read
-    unless is_craft_valid?(craft, @competition.validation_strategies)
-      redirect_to competition_vessels_path(@competition) and return
+
+    # skip validation for NPCs
+    if @vessel.player.is_human
+      craft = URI::open(@vessel.craft_url).read
+      unless is_craft_valid?(craft, @competition.validation_strategies)
+        redirect_to competition_vessels_path(@competition) and return
+      end
     end
 
     @vessel_assignment = VesselAssignment.where(
