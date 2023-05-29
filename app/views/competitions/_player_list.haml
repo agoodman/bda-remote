@@ -1,11 +1,23 @@
+- vessel_assignments = competition.vessel_assignments.includes(vessel: :player)
 %section.players
+  - players = vessel_assignments.where(vessels: { players: { is_human: true } })
   %h2
-    Entries (#{competition.vessels.count})
+    Entries (#{players.count})
     %button.btn.btn-secondary.btn-sm{"data-bs-toggle": "collapse", "data-bs-target": "#player_details", "aria-expanded": false, "aria-controls": "player_details"} Toggle Details
   %ul#player_details.collapse.list-group
-    - vessel_assignments = competition.vessel_assignments.includes(vessel: :player)
-    - if vessel_assignments.empty?
+    - if players.empty?
       %li None
     - else
-      - vessel_assignments.each do |va|
+      - players.each do |va|
         %li= render partial: 'player', locals: { player: va.vessel.player, vessel: va.vessel }
+  - npcs = vessel_assignments.where(vessels: { players: { is_human: false } })
+  - if npcs.any?
+    %h2
+      NPCs (#{npcs.count})
+      %button.btn.btn-secondary.btn-sm{"data-bs-toggle": "collapse", "data-bs-target": "#npc_details", "aria-expanded": false, "aria-controls": "npc_details"} Toggle Details
+    %ul#npc_details.collapse.list-group
+      - if npcs.empty?
+        %li None
+      - else
+        - npcs.each do |va|
+          %li= render partial: 'player', locals: { player: va.vessel.player, vessel: va.vessel }
