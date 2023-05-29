@@ -24,6 +24,7 @@ class CompetitionsController < AuthenticatedController
 
   def show
     @instance = cached_instance
+    @show_all = params.include?(:all) rescue false
 
     respond_to do |format|
       format.json { render json: @instance, except: :secret_key }

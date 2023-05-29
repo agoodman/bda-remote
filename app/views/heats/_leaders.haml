@@ -25,6 +25,7 @@
       %th Roc Dmg In
       %th Roc Parts In
       %th Ram Parts In
+      %th Ast Parts In
       %th Waypoints
       %th Elapsed Time
       %th Deviation
@@ -53,7 +54,7 @@
         %td= number_with_precision(p[:roc_dmg_in], precision: 0)
         %td= p[:roc_parts_in]
         %td= p[:ram_parts_in]
+        %td= p[:ast_parts_in]
         %td= p[:waypoints]
         %td= number_with_precision(p[:elapsed_time], precision: 2)
         %td= number_with_precision(p[:deviation], precision: 0)
-        %td= p[:ast_parts_in]

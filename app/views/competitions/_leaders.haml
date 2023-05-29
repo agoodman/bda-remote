@@ -12,25 +12,46 @@
         %th Kills
         %th Deaths
         %th Assists
-        %th Death Order
-        %th Death Time
-        %th Hits Out
-        %th Dmg Out
-        %th Mis Dmg Out
-        %th Mis Parts Out
-        %th Roc Dmg Out
-        %th Roc Parts Out
-        %th Ram Parts Out
-        %th Hits In
-        %th Dmg In
-        %th Mis Dmg In
-        %th Mis Parts In
-        %th Roc Dmg In
-        %th Roc Parts In
-        %th Ram Parts In
-        %th Waypoints
-        %th Elapsed Time
-        %th Deviation
+        - if show_all || competition.metric.death_order != 0
+          %th Death Order
+        - if show_all || competition.metric.death_time != 0
+          %th Death Time
+        - if show_all || competition.metric.hits_out != 0
+          %th Hits Out
+        - if show_all || competition.metric.dmg_out != 0
+          %th Dmg Out
+        - if show_all || competition.metric.mis_dmg_out != 0
+          %th Mis Dmg Out
+        - if show_all || competition.metric.mis_parts_out != 0
+          %th Mis Parts Out
+        - if show_all || competition.metric.roc_dmg_out != 0
+          %th Roc Dmg Out
+        - if show_all || competition.metric.roc_parts_out != 0
+          %th Roc Parts Out
+        - if show_all || competition.metric.ram_parts_out != 0
+          %th Ram Parts Out
+        - if show_all || competition.metric.hits_in != 0
+          %th Hits In
+        - if show_all || competition.metric.dmg_in != 0
+          %th Dmg In
+        - if show_all || competition.metric.mis_dmg_in != 0
+          %th Mis Dmg In
+        - if show_all || competition.metric.mis_parts_in != 0
+          %th Mis Parts In
+        - if show_all || competition.metric.roc_dmg_in != 0
+          %th Roc Dmg In
+        - if show_all || competition.metric.roc_parts_in != 0
+          %th Roc Parts In
+        - if show_all || competition.metric.ram_parts_in != 0
+          %th Ram Parts In
+        - if show_all || competition.metric.ast_parts_in != 0
+          %th Ast Parts In
+        - if show_all || competition.metric.waypoints != 0
+          %th Waypoints
+        - if show_all || competition.metric.elapsed_time != 0
+          %th Elapsed Time
+        - if show_all || competition.metric.deviation != 0
+          %th Deviation
     %tbody
       - competition.leaders.each_with_index do |p, k|
         %tr
@@ -41,23 +62,43 @@
           %td= p[:kills]
           %td= p[:deaths]
           %td= p[:assists]
-          %td= number_with_precision(p[:death_order], precision: 3)
-          %td= number_with_precision(p[:death_time], precision: 3)
-          %td= p[:hits_out]
-          %td= number_with_precision(p[:dmg_out], precision: 0)
-          %td= number_with_precision(p[:mis_dmg_out], precision: 0)
-          %td= p[:mis_parts_out]
-          %td= number_with_precision(p[:roc_dmg_out], precision: 0)
-          %td= p[:roc_parts_out]
-          %td= p[:ram_parts_out]
-          %td= p[:hits_in]
-          %td= number_with_precision(p[:dmg_in], precision: 0)
-          %td= number_with_precision(p[:mis_dmg_in], precision: 0)
-          %td= p[:mis_parts_in]
-          %td= number_with_precision(p[:roc_dmg_in], precision: 0)
-          %td= p[:roc_parts_in]
-          %td= p[:ram_parts_in]
-          %td= p[:waypoints]
-          %td= number_with_precision(p[:elapsed_time], precision: 2)
-          %td= number_with_precision(p[:deviation], precision: 0)
-          %td= p[:ast_parts_in]
+          - if show_all || competition.metric.death_order != 0
+            %td= number_with_precision(p[:death_order], precision: 3)
+          - if show_all || competition.metric.death_time != 0
+            %td= number_with_precision(p[:death_time], precision: 3)
+          - if show_all || competition.metric.hits_out != 0
+            %td= p[:hits_out]
+          - if show_all || competition.metric.dmg_out != 0
+            %td= number_with_precision(p[:dmg_out], precision: 0)
+          - if show_all || competition.metric.mis_dmg_out != 0
+            %td= number_with_precision(p[:mis_dmg_out], precision: 0)
+          - if show_all || competition.metric.mis_parts_out != 0
+            %td= p[:mis_parts_out]
+          - if show_all || competition.metric.roc_dmg_out != 0
+            %td= number_with_precision(p[:roc_dmg_out], precision: 0)
+          - if show_all || competition.metric.roc_parts_out != 0
+            %td= p[:roc_parts_out]
+          - if show_all || competition.metric.roc_parts_out != 0
+            %td= p[:ram_parts_out]
+          - if show_all || competition.metric.hits_in != 0
+            %td= p[:hits_in]
+          - if show_all || competition.metric.dmg_in != 0
+            %td= number_with_precision(p[:dmg_in], precision: 0)
+          - if show_all || competition.metric.mis_dmg_in != 0
+            %td= number_with_precision(p[:mis_dmg_in], precision: 0)
+          - if show_all || competition.metric.mis_parts_in != 0
+            %td= p[:mis_parts_in]
+          - if show_all || competition.metric.roc_dmg_in != 0
+            %td= number_with_precision(p[:roc_dmg_in], precision: 0)
+          - if show_all || competition.metric.roc_parts_in != 0
+            %td= p[:roc_parts_in]
+          - if show_all || competition.metric.ram_parts_in != 0
+            %td= p[:ram_parts_in]
+          - if show_all || competition.metric.ast_parts_in != 0
+            %td= p[:ast_parts_in]
+          - if show_all || competition.metric.waypoints != 0
+            %td= p[:waypoints]
+          - if show_all || competition.metric.elapsed_time != 0
+            %td= number_with_precision(p[:elapsed_time], precision: 2)
+          - if show_all || competition.metric.deviation != 0
+            %td= number_with_precision(p[:deviation], precision: 0)
