@@ -30,9 +30,9 @@
           %th Roc Parts Out
         - if show_columns.include?(:ram_parts_out) || competition.metric.ram_parts_out != 0
           %th Ram Parts Out
-        - if show_columns.include?(:dmg_in) || competition.metric.hits_in != 0
+        - if show_columns.include?(:hits_in || competition.metric.hits_in != 0)
           %th Hits In
-        - if show_columns.include?(:hits_in) || competition.metric.dmg_in != 0
+        - if show_columns.include?(:dmg_in) || competition.metric.dmg_in != 0
           %th Dmg In
         - if show_columns.include?(:mis_dmg_in) || competition.metric.mis_dmg_in != 0
           %th Mis Dmg In
