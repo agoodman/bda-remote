@@ -24,7 +24,21 @@ class CompetitionsController < AuthenticatedController
 
   def show
     @instance = cached_instance
-    @show_all = params.include?(:all) rescue false
+    mode = params[:mode].to_sym rescue :default
+
+    # identify columns with non-zero rows to inform the leader partial
+    @all_cols = Ranking.column_names.map(&:to_sym) - [:id, :created_at, :updated_at, :vessel_id, :competition_id]
+    case mode
+    when :all
+      printf "all"
+      @visible_cols = @all_cols
+    when :metric
+      printf "metric"
+      @visible_cols = @all_cols.filter { |n| @instance.metric[n] != 0 }
+    else
+      printf "default"
+      @visible_cols = @all_cols.filter { |n| @instance.leaders.any? { |e| e[n] != 0 }}
+    end
 
     respond_to do |format|
       format.json { render json: @instance, except: :secret_key }

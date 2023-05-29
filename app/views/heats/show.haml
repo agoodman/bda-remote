@@ -1,9 +1,10 @@
 - content_for(:html_title) { "Heat Details, G#{@instance.stage}H#{@instance.order}" }
-%nav
-  %ul
-    %li= link_to 'Home', home_path
-    %li= link_to 'Competitions', competitions_path
-    %li= link_to @instance.competition.name, competition_path(@instance.competition)
+
+= content_for(:nav, render(partial: 'shared/nav'))
+
+- content_for :sidebar do
+  %ul.list-unstyled
+    %li= link_to "Back to #{@instance.competition.name}", competition_path(@instance.competition)
 
 %section
   %h1 Heat Details, Stage: #{@instance.stage}, Order: #{@instance.order}

@@ -29,7 +29,7 @@
   = render partial: 'scoring', locals: { competition: @instance }
 
   %a{name: "leaders"}
-  = render partial: 'leaders', locals: { competition: @instance, show_all: @show_all }
+  = render partial: 'leaders', locals: { competition: @instance, show_columns: @visible_cols }
 
   %a{name: "entries"}
   = render partial: 'player_list', locals: { competition: @instance }
