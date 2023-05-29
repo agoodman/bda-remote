@@ -33,7 +33,8 @@ class MetricsController < AuthenticatedController
                       :death_time,
                       :waypoints,
                       :elapsed_time,
-                      :deviation
+                      :deviation,
+                      :ast_parts_in
                   )
     @competition.metric.update(options)
     @competition.update_rankings!

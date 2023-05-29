@@ -94,6 +94,7 @@ class Heat < ApplicationRecord
           waypoints: e.map(&:waypoints).sum,
           elapsed_time: e.map(&:elapsed_time).sum,
           deviation: e.map(&:deviation).sum,
+          ast_parts_in: e.map(&:ast_parts_in).sum,
           name: (e.first.vessel.full_name rescue "-")
       }
     }

@@ -26,6 +26,7 @@ class Ranking < ApplicationRecord
   validates :waypoints, presence: true, numericality: { only_integers: true }
   validates :elapsed_time, presence: true, numericality: true
   validates :deviation, presence: true, numericality: true
+  validates :ast_parts_in, presence: true, numericality: { only_integers: true }
 
   before_save :assign_defaults
 
@@ -50,6 +51,7 @@ class Ranking < ApplicationRecord
     self.waypoints = 0 if waypoints.nil?
     self.elapsed_time = 0 if elapsed_time.nil?
     self.deviation = 0 if deviation.nil?
+    self.ast_parts_in = 0 if ast_parts_in.nil?
     self.score = 0 if score.nil?
     self.rank = 0 if rank.nil?
   end

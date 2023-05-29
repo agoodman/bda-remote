@@ -1,7 +1,7 @@
 <%- headers = [
   'id', 'vessel_id', 'heat_id', 'player_name', 'stage', 'order', 'kills', 'deaths', 'assists',
   'hits_out', 'hits_in', 'dmg_out', 'dmg_in', 'mis_dmg_out', 'mis_dmg_in', 'mis_parts_out', 'mis_parts_in',
-  'roc_dmg_out', 'roc_dmg_in', 'roc_parts_out', 'roc_parts_in', 'ram_parts_out', 'ram_parts_in',
+  'roc_dmg_out', 'roc_dmg_in', 'roc_parts_out', 'roc_parts_in', 'ast_parts_in', 'ram_parts_out', 'ram_parts_in',
   'wins', 'death_order', 'death_time', 'waypoints', 'elapsed_time', 'deviation', 'distance', 'weapon', 'updated_at'
   ] -%>
 <%= CSV.generate_line headers -%>
@@ -9,6 +9,6 @@
 <%= CSV.generate_line([
   e.id, e.vessel_id, e.heat_id, e.vessel.player.name, e.heat.stage, e.heat.order, e.kills, e.deaths, e.assists,
    e.hits_out, e.hits_in, e.dmg_out, e.dmg_in, e.mis_dmg_out, e.mis_dmg_in, e.mis_parts_out, e.mis_parts_in,
-    e.roc_dmg_out, e.roc_dmg_in, e.roc_parts_out, e.roc_parts_in,
+    e.roc_dmg_out, e.roc_dmg_in, e.roc_parts_out, e.roc_parts_in, e.ast_parts_in,
     e.ram_parts_out, e.ram_parts_in, e.wins, e.death_order, e.death_time, e.waypoints, e.elapsed_time, e.deviation, e.distance, e.weapon, e.updated_at]) -%>
 <%- end -%>

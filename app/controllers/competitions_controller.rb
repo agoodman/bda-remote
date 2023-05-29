@@ -88,6 +88,7 @@ class CompetitionsController < AuthenticatedController
             ranking.waypoints = r.map(&:waypoints).sum
             ranking.elapsed_time = r.map(&:elapsed_time).sum
             ranking.deviation = r.map(&:deviation).sum
+            ranking.ast_parts_in = r.map(&:ast_parts_in).sum
             ranking.score = @competition.metric.score_for_record(ranking)
             ranking.rank = 0
             ranking

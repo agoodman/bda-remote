@@ -25,6 +25,7 @@ class Metric < ApplicationRecord
   validates :waypoints, presence: true, numericality: true
   validates :elapsed_time, presence: true, numericality: true
   validates :deviation, presence: true, numericality: true
+  validates :ast_parts_in, presence: true, numericality: true
 
   after_initialize :assign_defaults
 
@@ -52,6 +53,7 @@ class Metric < ApplicationRecord
     self.waypoints = 0 if waypoints.nil?
     self.elapsed_time = 0 if elapsed_time.nil?
     self.deviation = 0 if deviation.nil?
+    self.ast_parts_in = 0 if ast_parts_in.nil?
   end
 
   def score_for_record(record)
@@ -79,6 +81,7 @@ class Metric < ApplicationRecord
     result += (record.waypoints*self.waypoints rescue 0)
     result += (record.elapsed_time*self.elapsed_time rescue 0)
     result += (record.deviation*self.deviation rescue 0)
+    result += (record.ast_parts_in*self.ast_parts_in rescue 0)
     return result
   end
 
@@ -105,6 +108,7 @@ class Metric < ApplicationRecord
                 roc_dmg_out: metric.roc_dmg_out,
                 waypoints: metric.waypoints,
                 elapsed_time: metric.elapsed_time,
-                deviation: metric.deviation)
+                deviation: metric.deviation,
+                ast_parts_in: metric.ast_parts_in)
   end
 end
