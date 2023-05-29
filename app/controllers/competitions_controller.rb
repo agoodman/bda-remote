@@ -30,13 +30,10 @@ class CompetitionsController < AuthenticatedController
     @all_cols = Ranking.column_names.map(&:to_sym) - [:id, :created_at, :updated_at, :vessel_id, :competition_id]
     case mode
     when :all
-      printf "all"
       @visible_cols = @all_cols
     when :metric
-      printf "metric"
       @visible_cols = @all_cols.filter { |n| @instance.metric[n] != 0 }
     else
-      printf "default"
       @visible_cols = @all_cols.filter { |n| @instance.leaders.any? { |e| e[n] != 0 }}
     end
 

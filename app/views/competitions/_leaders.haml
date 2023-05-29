@@ -78,7 +78,7 @@
             %td= number_with_precision(p[:roc_dmg_out], precision: 0)
           - if show_columns.include?(:roc_parts_out) || competition.metric.roc_parts_out != 0
             %td= p[:roc_parts_out]
-          - if show_columns.include?(:roc_parts_out) || competition.metric.roc_parts_out != 0
+          - if show_columns.include?(:ram_parts_out) || competition.metric.ram_parts_out != 0
             %td= p[:ram_parts_out]
           - if show_columns.include?(:hits_in) || competition.metric.hits_in != 0
             %td= p[:hits_in]
