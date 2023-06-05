@@ -166,6 +166,25 @@ class Competition < ApplicationRecord
     return possibles[mods.find_index(max_mod)]
   end
 
+  # An alternative to players_per_heat that spreads the deficit amongst the other heats (same as the local tournaments)
+  def players_per_heat_v2(vessel_count, limits)
+    possibles = (vessel_count > limits[1] && vessel_count < 2 * limits[0] - 1) ? Array(limits[1]/2..limits[1]) : Array(limits[0]..limits[1])
+    vessel_count = vessels.includes(:player).where(players: { is_human: true }).count unless vessel_count
+    mods = possibles.map { |e| vessel_count % e }
+    zero_index = mods.reverse.find_index(0)
+    if !zero_index.nil?
+      # zero means we can have even heats
+      return possibles.reverse[zero_index], 0
+    end
+    players_per_full_heat, heats_with_one_less = players_per_heat_better(vessel_count + 1, limits)
+    return players_per_full_heat, heats_with_one_less + 1
+  end
+
+  # Get the range of players per heat
+  def get_per_heat_limits()
+    return [6, max(8, max_players_per_heat)] rescue [6, 10]
+  end
+
   def has_remaining_heats?(stage)
     heats.where(stage: stage, ended_at: nil).any?
   end
