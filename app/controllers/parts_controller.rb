@@ -32,6 +32,7 @@ class PartsController < AuthenticatedController
     @part = Part.where(name: options['name']).first_or_create
     @part.cost = options['cost'].to_f rescue 0
     @part.mass = options['mass'].to_f rescue 0
+    @part.lift_area = options['deflectionLiftCoeff'].to_f rescue 0
     @part.save
 
     respond_to do |format|
